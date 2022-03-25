@@ -10,6 +10,10 @@ double Building::GetNeed() const
 {
     return need_;
 };
+bool Building::GetSortingLink() const
+{
+    return sorting_link_;
+};
 double Building::GetEntryPotential() const
 {
 
@@ -26,6 +30,10 @@ void Building::SetNeed(double need)
 void Building::SetType(BuildingType type)
 {
     type_ = type;
+}
+void Building::SetSortingLink(bool Sorting)
+{
+    sorting_link_ = Sorting;
 }
 
 //sus.eseguibile
