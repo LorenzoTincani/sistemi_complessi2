@@ -35,5 +35,9 @@ void Building::SetSortingLink(bool Sorting)
 {
     sorting_link_ = Sorting;
 }
+double Building::OutputPotential()const
+{
+    return (entry_potential_ - need_);
+}
 
-//sus.eseguibile
+// sus.eseguibile
