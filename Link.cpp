@@ -8,7 +8,7 @@
     int Link::GetMaxLoad() const
     {
         return max_load_;
-    };
+    }; 
     int Link::GetLoad() const
     {
 
