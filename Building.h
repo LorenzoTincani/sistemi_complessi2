@@ -27,5 +27,6 @@ public:
     void SetNeed(double need);
     void SetType(BuildingType type);
     void SetSortingLink(bool Sorting);
+    double OutputPotential()const;
 };
 #endif
