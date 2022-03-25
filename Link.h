@@ -4,10 +4,11 @@ enum class LinkType : char //underling type int : 0 per null, 1 per small, etc
 {
 
     N, //null
-    S, //small
+    SH, //small between houses
+    SS,  //small between house and sorting
     M, //medium
     B  //big
-
+ 
 }; //Struttura gerarchica collegamenti
 class Link
 {
