@@ -119,7 +119,7 @@ int main()
                         {
                             adj_matrix[i][j] = 1; // link small
                             adj_matrix[j][i] = 1;
-
+                            nodes[i].SetNofHouseLink();
                             nofSmalllink++;
                         }
                     }
@@ -129,7 +129,7 @@ int main()
                         {
                             adj_matrix[i][j] = 4;
                             adj_matrix[j][i] = 4;
-
+                            nodes[i].SetNofSortingLink();
                             nofHSLink++;
                         }
                     }
@@ -147,6 +147,7 @@ int main()
                         {
                             adj_matrix[i][j] = 4;
                             adj_matrix[j][i] = 4;
+                            nodes[i].SetNofHouseLink();
 
                             nofHSLink++;
                         }
@@ -157,6 +158,7 @@ int main()
                         {
                             adj_matrix[i][j] = 2;
                             adj_matrix[j][i] = 2;
+                            nodes[i].SetNofSortingLink();
 
                             nofMediumlink++;
                         }
@@ -164,7 +166,7 @@ int main()
                     else
                     { // smistamento-centrale
                         int rn = 0;
-                        if (nodes[i].GetSortingLink() == false)
+                        if (nodes[i].GetNofCentralLink() == 0)
                         {
                             // SCELTA DELLA CENTRALE A CUI COLLEGARE LO SMISTAMENTO
                             for (int m = 0; m < nofCentral;)
@@ -195,7 +197,9 @@ int main()
                             {
                                 adj_matrix[i][j] = 3;
                                 adj_matrix[j][i] = 3; // La matrice è simmetrica
-                                nodes[i].SetSortingLink(true);
+                                //nodes[i].SetSortingLink(true);
+                                nodes[i].SetNofCentralLink();
+
                                 nofBiglink++;
                             }
                             else // Se j != rn allora bisogna collegare i ad rn e buttare a zero il link i-j.
@@ -207,7 +211,8 @@ int main()
                                 adj_matrix[i][j] = 0;
                                 adj_matrix[j][i] = 0;
 
-                                nodes[i].SetSortingLink(true);
+                                //nodes[i].SetSortingLink(true);
+                                nodes[i].SetNofCentralLink();
                                 nofBiglink++;
                             }
                         }
@@ -223,7 +228,7 @@ int main()
                     }
                     else if (node_j == BuildingType::S)
                     { // centrale-smistamento
-                        if (nodes[j].GetSortingLink() == false)
+                        if (nodes[j].GetNofSortingLink() == 0)
                         {
 
                             double rn = link_dist(gen);
@@ -231,6 +236,7 @@ int main()
                             {
                                 adj_matrix[i][j] = 3;
                                 adj_matrix[j][i] = 3;
+                                nodes[i].SetNofSortingLink();
 
                                 nofBiglink++;
                                 linkCentral++;
@@ -260,7 +266,7 @@ int main()
     for (int p = 0; p < N;)
     {
         int rn = forCentralchoice(gen);
-        if ((nodes[p].GetType() == BuildingType::S) && (nodes[p].GetSortingLink() == false)) // Per evitare che possa esserci uno smistamento non collegato a ciascuna centrale.
+        if ((nodes[p].GetType() == BuildingType::S) && (nodes[p].GetNofCentralLink() == 0)) // Per evitare che possa esserci uno smistamento non collegato a ciascuna centrale.
         //[Si faccia riferimento al ciclo precedente, ultima condizione Centrale- smistamento]
         {
             for (int m = 0; m < nofCentral;)
@@ -287,15 +293,16 @@ int main()
             adj_matrix[p][rn] = 3;
             adj_matrix[rn][p] = 3; // La matrice è simmetrica
 
-            nodes[p].SetSortingLink(true);
+            //nodes[p].SetSortingLink(true);
+            nodes[p].SetNofCentralLink();
             nofBiglink++;
             linkCentral++;
         }
 
-
-
-        else if ((nodes[p].GetType() == BuildingType::H) && (nodes[p].GetSortingLink() == false))
+        else if ((nodes[p].GetType() == BuildingType::H) && (nodes[p].GetNofSortingLink() == 0))
         {
+            std::cout<<"Da fare"<<std::endl;
+            /*
             if ((nodes[rn] == BuildingType::H))
             {
                 adj_matrix[p][rn] == 1;
@@ -303,12 +310,12 @@ int main()
             else if ((nodes[rn] == BuildingType::S))
             {
                 adj_matrix[p][rn] == 4;
-            }
+            }*/
         }
-    }
-    else
+          else
     {
         p++;
+    }
     }
 
     for (int i = 0; i < N; i++)
@@ -367,7 +374,7 @@ int main()
     adjmatrix.close();
 
     /* ***************DINAMICA MATRICE ****************** */
-    for (int i = 0; i < N; i++)
+   /* for (int i = 0; i < N; i++)
     {
         for (int j = 0; j < N; j++)
         {
@@ -378,5 +385,7 @@ int main()
                 }
             }
         }
-    }
+    }*/
 }
+
+// CASE NON COLLEGATE DA FEREEEEEEEEE: Va in loop il programma in quel putno, in quanto c'è un cout. 
