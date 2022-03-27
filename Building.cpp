@@ -11,10 +11,10 @@ double Building::GetNeed() const
 {
     return need_;
 };
-bool Building::GetSortingLink() const
+/*bool Building::GetSortingLink() const
 {
     return sorting_link_;
-};
+};*/
 double Building::GetEntryPotential() const
 {
 
@@ -32,15 +32,15 @@ void Building::SetType(BuildingType type)
 {
     type_ = type;
 }
-void Building::SetSortingLink(bool Sorting)
+/*void Building::SetSortingLink(bool Sorting)
 {
     sorting_link_ = Sorting;
-}
+}*/
 double Building::OutputPotential() const
 {
     return (entry_potential_ - need_);
 }
-void Bulding::SetPath(int path, int distance)
+void Building::SetPath(int path, int distance)
 {
     path_[path] = distance;
 }
@@ -50,18 +50,48 @@ std::vector<int> Building::GetPath() const
     return path_;
 }
 
-int GetPathNunmber () const{
+int Building::GetPathNunmber() const
+{
 
-   return path_.size();
-
+    return path_.size();
 }
-int Bulding::GetMinPath()const{
-    return path.min();
+int Building::GetMinPath() const
+{
+    auto a = &*min(path_.begin(), path_.end());
+    return *a;
 };
-int Building::GetMaxPath()const{
-    return path.max();
+int Building::GetMaxPath() const
+{
+    auto a = &*max(path_.begin(), path_.end());
+    return *a;
 };
-int GetPathLength(int path)const{
+int Building::GetPathLength(int path) const
+{
     return path_[path];
-s
+}
+
+int Building::GetNofSortingLink() const
+{
+    return NofSortingLink;
+}
+int Building::GetNofHouseLink() const
+{
+    return NofHouseLink;
+}
+int Building::GetNofCentralLink() const
+{
+    return NofCentralLink;
+}
+
+void Building::SetNofSortingLink()
+{
+    NofSortingLink++;
+}
+void Building::SetNofHouseLink()
+{
+    NofHouseLink ++;
+}
+void Building::SetNofCentralLink()
+{
+    NofCentralLink ++;
 }
