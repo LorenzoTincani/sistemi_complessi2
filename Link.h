@@ -20,7 +20,7 @@ private:
     int number_ = 0; // number that identifies the type of link during the print
 
 public:
-    Link(LinkType type, int max_load, int load);
+    Link(LinkType type, int load);
     Link() = default;
     LinkType GetType() const;
     void SetType(LinkType T);
