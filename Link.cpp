@@ -1,5 +1,5 @@
 #include "Link.h"
-Link::Link(LinkType type, int max_load, int load) : type_{type}, max_load_{max_load}, load_{load} {}
+Link::Link(LinkType type, int load) : type_{type}, load_{load} {}
 
 LinkType Link::GetType() const
 {
