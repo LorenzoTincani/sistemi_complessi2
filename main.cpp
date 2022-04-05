@@ -21,7 +21,7 @@ int main()
 {
 
     /* **************** Struttura matrice *************/
-    int const N = 40; // N è numero di nodi, N^2-N il numero di link possibili
+    int const N = 1000; // N è numero di nodi, N^2-N il numero di link possibili
     // std::array<std::array<int, N>, N> adj_matrix{0}; // matrice di adiacenza, con int come pesi
     std::array<std::array<Link, N>, N> adj_matrix{};
     std::array<Building, N> nodes;
