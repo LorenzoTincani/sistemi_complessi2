@@ -19,6 +19,9 @@ private:
     int NofSortingLink=0;
     int NofHouseLink=0;
     std::vector<int> path_ {0}; //array dei path (link di un nodo) e distanza a cui si trovano dalla centrale
+    std::vector<int> Linked_houses{0};
+    std::vector<int> Linked_sortages{0};  //questi 3 vettori per cavare i link di troppo nel controllo
+    std::vector<int> Linked_centrals{0};
 
 public:
     Building(BuildingType type, double need, double entry_potential);
@@ -44,9 +47,17 @@ public:
     int GetNofHouseLink()const;
     int GetNofCentralLink()const;
 
-    void SetNofSortingLink();
-    void SetNofHouseLink();
-    void SetNofCentralLink();
+    void SetNofSortingLink(int i);
+    void SetNofHouseLink(int i);
+    void SetNofCentralLink(int i);
+
+    void SetLinkedHouse(int i);
+    void SetLinkedSorting(int i);
+    void SetLinkedCentral(int i);
+
+    void DeleteLinkedHouse(int i);
+    void DeleteLinkedSorting(int i);
+    void DeleteLinkedCentral(int i);
 
 
 };
