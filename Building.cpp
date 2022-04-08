@@ -83,15 +83,39 @@ int Building::GetNofCentralLink() const
     return NofCentralLink;
 }
 
-void Building::SetNofSortingLink()
+void Building::SetNofSortingLink(int i)
 {
-    NofSortingLink++;
+    NofSortingLink += i;
 }
-void Building::SetNofHouseLink()
+void Building::SetNofHouseLink(int i)
 {
-    NofHouseLink ++;
+    NofHouseLink += i;
 }
-void Building::SetNofCentralLink()
+void Building::SetNofCentralLink(int i)
 {
-    NofCentralLink ++;
+    NofCentralLink += i;
 }
+void Building::SetLinkedHouse(int i)
+{
+    Linked_houses.push_back(i);
+};
+void Building::SetLinkedSorting(int i)
+{
+    Linked_sortages.push_back(i);
+};
+void Building::SetLinkedCentral(int i)
+{
+    Linked_centrals.push_back(i);
+};
+void Building::DeleteLinkedHouse(int i)
+{
+    Linked_houses.erase(Linked_houses.begin() + i);
+};
+void Building::DeleteLinkedSorting(int i)
+{
+    Linked_sortages.erase(Linked_sortages.begin() + i);
+};
+void Building::DeleteLinkedCentral(int i)
+{
+    Linked_centrals.erase(Linked_centrals.begin() + i);
+};
