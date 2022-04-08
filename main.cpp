@@ -21,7 +21,7 @@ int main()
 {
 
     /* **************** Struttura matrice *************/
-    int const N = 300; // N è numero di nodi, N^2-N il numero di link possibili
+    int const N = 200; // N è numero di nodi, N^2-N il numero di link possibili
     // std::array<std::array<int, N>, N> adj_matrix{0}; // matrice di adiacenza, con int come pesi
     std::array<std::array<Link, N>, N> adj_matrix{};
     std::array<Building, N> nodes;
@@ -41,7 +41,7 @@ int main()
     std::default_random_engine gen(rd());
     // std::discrete_distribution<int> link_dist({4, 3, 2, 1}); // parametri tra 0 e 3, per tre link più link non esistente
     // dal link inesistente a quello che collega le centrali //Se non funziona è colpa di Tinca
-    std::discrete_distribution<int> nodeType_dist({200, 3, 1});
+    std::discrete_distribution<int> nodeType_dist({100, 5, 1});
     std::normal_distribution<double> needfluct_dist(0.0, 0.33); // distribuzione guassiana di fluttuazioni nella richiesta di energia delle case
     std::uniform_real_distribution<double> link_dist(0.0, 1.0); // distribuzione uniforme per distribuzione dei link, generato come proporzioni programma arcelli
     std::uniform_int_distribution<int> forCentralchoice(0, N - 1);
@@ -148,7 +148,7 @@ int main()
                     { // casa-smismistamento
                         if (nodes[i].GetNofSortingLink() == 0)
                         {
-                            if (rnd <= 0.20)
+                            if (rnd <= 0.15)
                             {
                                 adj_matrix[i][j].SetType(LinkType::SS);
                                 adj_matrix[j][i].SetType(LinkType::SS);
@@ -186,7 +186,7 @@ int main()
                     { // smistamento casa
                         if (nodes[j].GetNofSortingLink() == 0)
                         {
-                            if (rnd <= 0.20)
+                            if (rnd <= 0.15)
                             {
                                 adj_matrix[i][j].SetType(LinkType::SH);
                                 adj_matrix[j][i].SetType(LinkType::SH);
@@ -407,10 +407,10 @@ int main()
 
             /*----------------casa----------------*/
 
-            if (localLinkH <= 0.04)
+            if (localLinkH <= 0.07)
             {
                 bool full = false;
-                for (int y = 0; localLinkH <= 0.04 && full == false;)
+                for (int y = 0; localLinkH <= 0.07 && full == false;)
                 { // in un for cerco nodo e nell'altro collego
 
                     for (int m = 0; m < nofHouse;)
@@ -458,7 +458,7 @@ int main()
                     }
                     else // Bisogna mettere una condizione per evitare il loop, oppure è anche possibile collegare una casa a più smistamenti.
                     {
-                        if (y < 100) // Se le iterazioni fatte sono minori di 7100, si può procedere, ma una volta superata la soglia, è meglio procedere nel collegamento sistematico, tanto si tratta dei residui.
+                        if (y < 100) // Se le iterazioni fatte sono minori di 100, si può procedere, ma una volta superata la soglia, è meglio procedere nel collegamento sistematico, tanto si tratta dei residui.
                         {
                             y++;
                         }
@@ -466,38 +466,6 @@ int main()
                         
                         {
                             full=true;
-                            /*for (int g = 0; g < N; g++)
-                            {
-                                int NofLinkedH=0;
-                                if ((nodes[g].GetType() == BuildingType::H) && (nodes[g].GetNofSortingLink() == 0))
-                                {
-                                    adj_matrix[p][g].SetType(LinkType::SS);
-                                    adj_matrix[g][p].SetType(LinkType::SS);
-
-                                    adj_matrix[p][g].SetNumber(4);
-                                    adj_matrix[g][p].SetNumber(4); // La matrice è simmetrica
-
-                                    // nodes[p].SetSortingLink(true);
-                                    nodes[p].SetNofHouseLink();
-                                    nodes[g].SetNofSortingLink();
-
-                                    nofSmalllink++;
-                                    localLinkH = localLinkH + increment; 
-                                    NofLinkedH++;
-                                    
-                                }
-                                else
-                                {
-                                    NofLinkedH++;
-                                    double a = static_cast<double>(NofLinkedH)/static_cast<double>(nofHouse);
-
-                                    if (a>=0.70)
-                                    { // Se si è fatto un controllo su tutte le case, ed esse sono tutte collegate: non si ha più niente da fare. Questo era il ccontrollo ultimo
-
-                                       full = true;
-                                    }
-                                }
-                            }*/
                           
                         }
                    
