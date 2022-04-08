@@ -138,8 +138,11 @@ int main()
                             adj_matrix[i][j].SetNumber(1); // link small
                             adj_matrix[j][i].SetNumber(1);
 
-                            nodes[i].SetNofHouseLink();
-                            nodes[j].SetNofHouseLink();
+                            nodes[i].SetNofHouseLink(1);
+                            nodes[j].SetNofHouseLink(1);
+
+                            nodes[i].SetLinkedHouse(j);
+                            nodes[j].SetLinkedHouse(i);
 
                             nofSmalllink++;
                         }
@@ -156,8 +159,11 @@ int main()
                                 adj_matrix[i][j].SetNumber(4);
                                 adj_matrix[j][i].SetNumber(4);
 
-                                nodes[i].SetNofSortingLink();
-                                nodes[j].SetNofHouseLink();
+                                nodes[i].SetNofSortingLink(1);
+                                nodes[j].SetNofHouseLink(1);
+
+                                nodes[i].SetLinkedSorting(j);
+                                nodes[j].SetLinkedHouse(i);
 
                                 nofHSLink++;
                             }
@@ -194,8 +200,13 @@ int main()
                                 adj_matrix[i][j].SetNumber(4);
                                 adj_matrix[j][i].SetNumber(4);
 
-                                nodes[i].SetNofHouseLink();
-                                nodes[j].SetNofSortingLink();
+                                nodes[i].SetNofHouseLink(1);
+                                nodes[j].SetNofSortingLink(1);
+
+                                 
+                                nodes[i].SetLinkedHouse(j);
+                                nodes[j].SetLinkedSorting(i);
+
                                 nofHSLink++;
                             }
                         }
@@ -212,14 +223,18 @@ int main()
                     { // smistamento-smistamento
                         if (rnd <= 0.10)
                         {
+
                             adj_matrix[i][j].SetType(LinkType::SS);
                             adj_matrix[j][i].SetType(LinkType::SS);
 
                             adj_matrix[i][j].SetNumber(2);
                             adj_matrix[j][i].SetNumber(2);
 
-                            nodes[i].SetNofSortingLink();
-                            nodes[j].SetNofSortingLink();
+                            nodes[i].SetNofSortingLink(1);
+                            nodes[j].SetNofSortingLink(1);
+
+                            nodes[i].SetLinkedSorting(j);
+                            nodes[j].SetLinkedSorting(i);
 
                             nofMediumlink++;
                         }
@@ -263,8 +278,11 @@ int main()
                                 adj_matrix[j][i].SetNumber(3); // La matrice è simmetrica
                                 // nodes[i].SetSortingLink(true);
 
-                                nodes[i].SetNofCentralLink();
-                                nodes[j].SetNofSortingLink();
+                                nodes[i].SetNofCentralLink(1);
+                                nodes[j].SetNofSortingLink(1);
+
+                                nodes[i].SetLinkedCentral(j);
+                                nodes[j].SetLinkedSorting(i);
 
                                 nofBiglink++;
                             }
@@ -277,15 +295,22 @@ int main()
                                 adj_matrix[i][rn].SetNumber(3);
                                 adj_matrix[rn][i].SetNumber(3);
 
+                                nodes[i].SetLinkedCentral(rn);
+                                nodes[rn].SetLinkedSorting(i);
+
                                 adj_matrix[i][j].SetType(LinkType::N);
                                 adj_matrix[j][i].SetType(LinkType::N);
 
                                 adj_matrix[i][j].SetNumber(0);
                                 adj_matrix[j][i].SetNumber(0);
 
+                                nodes[i].DeleteLinkedCentral(j);
+                                nodes[j].DeleteLinkedSorting(i);
+
+
                                 // nodes[i].SetSortingLink(true);
-                                nodes[i].SetNofCentralLink();
-                                nodes[rn].SetNofSortingLink();
+                                nodes[i].SetNofCentralLink(1);
+                                nodes[rn].SetNofSortingLink(1);
 
                                 nofBiglink++;
                             }
@@ -316,8 +341,11 @@ int main()
                                 adj_matrix[i][j].SetNumber(3);
                                 adj_matrix[j][i].SetNumber(3);
 
-                                nodes[i].SetNofSortingLink();
-                                nodes[j].SetNofCentralLink();
+                                nodes[i].SetNofSortingLink(1);
+                                nodes[j].SetNofCentralLink(1);
+
+                                nodes[i].SetLinkedSorting(j);
+                                nodes[j].SetLinkedCentral(i);
 
                                 nofBiglink++;
                             }
@@ -394,8 +422,8 @@ int main()
                 adj_matrix[rn][p].SetNumber(3); // La matrice è simmetrica
 
                 // nodes[p].SetSortingLink(true);
-                nodes[p].SetNofCentralLink();
-                nodes[rn].SetNofSortingLink();
+                nodes[p].SetNofCentralLink(1);
+                nodes[rn].SetNofSortingLink(1);
 
                 nofBiglink++;
                 // linkCentral++;
@@ -447,8 +475,8 @@ int main()
                         adj_matrix[rn][p].SetNumber(4); // La matrice è simmetrica
 
                         // nodes[p].SetSortingLink(true);
-                        nodes[p].SetNofHouseLink();
-                        nodes[rn].SetNofSortingLink();
+                        nodes[p].SetNofHouseLink(1);
+                        nodes[rn].SetNofSortingLink(1);
 
                         nofSmalllink++;
                         // linkCentral++;
@@ -463,160 +491,283 @@ int main()
                             y++;
                         }
                         else
-                        
+
                         {
-                            full=true;
-                          
+                            full = true;
                         }
-                   
                     }
                     // }
                 }
             }
+            /*---------------smistamento---------------*/
+            // No controlli per ora
+
             p++;
         }
 
-        /*------------------------CASA--------------------------*/
+        //------------------------CASA--------------------------
 
-        /* else if ((nodes[p].GetType() == BuildingType::H) && (nodes[p].GetNofHouseLink() == 0))
-         {
-             std::cout<<"Da fare"<<std::endl;
-             /*
-             if ((nodes[rn] == BuildingType::H))
-             {
-                 adj_matrix[p][rn] == 1;
-             }
-             else if ((nodes[rn] == BuildingType::S))
-             {
-                 adj_matrix[p][rn] == 4;
-             }
-         }*/
-
-        /*-------------------CENTRALE--------------------------------*/
-
-        else
+        else if (nodes[p].GetType() == BuildingType::H)
         {
-            p++;
-        }
-    }
-    std::cout << std::endl;
+            double localLinkH = static_cast<double>(nodes[p].GetNofHouseLink()) / static_cast<double>(nofHouse);
+            double increment = static_cast<double>(1) / static_cast<double>(nofHouse);
+            //---------------casa--------------
+            if (localLinkH < 0.05)
+            {
+                bool full = false;
+                for (int y = 0; localLinkH <= 0.05 && full == false;)
+                { // in un for cerco nodo e nell'altro collego
 
-    for (int k = 0; k < N; ++k)
-    {
-        if (nodes[k].GetType() == BuildingType::S)
+                    for (int m = 0; m < nofHouse;)
+                    {
+                        rn = forCentralBuilding(gen);
+
+                        if (rn == House[m])
+                        {
+                            // std::cout << m << std::endl;
+                            rn = House[m];
+                            break;
+                            // std::cout << "m" << std::endl;
+                        }
+                        else
+                        {
+                            if (m == (nofHouse - 1))
+                            {
+                                m = 0; // risettato a zero per non uscire dallo "scope"
+                            }
+
+                            else
+                            {
+                                m++;
+                            }
+                        }
+                    }
+                    double localLinkH_1 = static_cast<double>(nodes[rn].GetNofHouseLink()) / static_cast<double>(nofHouse);
+
+                    if (localLinkH_1 <= 0.08)
+                    {
+                        adj_matrix[p][rn].SetType(LinkType::SH);
+                        adj_matrix[rn][p].SetType(LinkType::SH);
+
+                        adj_matrix[p][rn].SetNumber(1);
+                        adj_matrix[rn][p].SetNumber(1); // La matrice è simmetrica
+
+                        // nodes[p].SetSortingLink(true);
+                        nodes[p].SetNofHouseLink(1);
+                        nodes[rn].SetNofHouseLink(1);
+
+                        nofSmalllink++;
+                        // linkCentral++;
+                        localLinkH = localLinkH + increment; // increment aumenta il numeratore di uno perchè è normalizzato
+
+                        y++;
+                    }
+                    else // Bisogna mettere una condizione per evitare il loop, oppure è anche possibile collegare una casa a più smistamenti.
+                    {
+                        if (y < 100) // Se le iterazioni fatte sono minori di 100, si può procedere, ma una volta superata la soglia, è meglio procedere nel collegamento sistematico, tanto si tratta dei residui.
+                        {
+                            y++;
+                        }
+                        else
+                        {
+                            full = true;
+                        }
+                    }
+                }
+                /* if(localLinkH >=0.08){  //tolgo case se ne ho troppe collegate
+                 bool full = false;
+                 for (int y = 0; localLinkH <= 0.06 && full == false;)
+                 { // in un for cerco nodo e nell'altro collego
+
+                     for (int m = 0; m < nofHouse;)
+                     {
+                         rn = forCentralBuilding(gen);
+
+                         if (rn == House[m])
+                         {
+                             // std::cout << m << std::endl;
+                             rn = House[m];
+                             break;
+                             // std::cout << "m" << std::endl;
+                         }
+                         else
+                         {
+                             if (m == (nofHouse - 1))
+                             {
+                                 m = 0; // risettato a zero per non uscire dallo "scope"
+                             }
+
+                             else
+                             {
+                                 m++;
+                             }
+                         }
+                     }
+
+                     if (nodes[rn].GetNofSortingLink() == 0)
+                     {
+                         adj_matrix[p][rn].SetType(LinkType::SS);
+                         adj_matrix[rn][p].SetType(LinkType::SS);
+
+                         adj_matrix[p][rn].SetNumber(4);
+                         adj_matrix[rn][p].SetNumber(4); // La matrice è simmetrica
+
+                         // nodes[p].SetSortingLink(true);
+                         nodes[p].SetNofHouseLink(1);
+                         nodes[rn].SetNofSortingLink(1);
+
+                         nofSmalllink++;
+                         // linkCentral++;
+                         localLinkH = localLinkH + increment;
+
+                         y++;
+                     }
+                     else // Bisogna mettere una condizione per evitare il loop, oppure è anche possibile collegare una casa a più smistamenti.
+                     {
+                         if (y < 100) // Se le iterazioni fatte sono minori di 100, si può procedere, ma una volta superata la soglia, è meglio procedere nel collegamento sistematico, tanto si tratta dei residui.
+                         {
+                             y++;
+                         }
+                         else
+
+                         {
+                             full = true;
+                         }
+                     }
+                     // }
+                 }
+
+
+                 }*/
+                p++;
+            }
+
+            /*-------------------CENTRALE--------------------------------*/
+
+            else
+            {
+                p++;
+            }
+        }
+        std::cout << std::endl;
+
+        for (int k = 0; k < N; ++k)
         {
-            double localLinkH = static_cast<double>(nodes[k].GetNofHouseLink()) / static_cast<double>(nofHouse);
-            std::cout << "Tasso di collegamento sistamento " << k << "-esimo dopo : " << localLinkH << std::endl;
+            if (nodes[k].GetType() == BuildingType::S)
+            {
+                double localLinkH = static_cast<double>(nodes[k].GetNofHouseLink()) / static_cast<double>(nofHouse);
+                std::cout << "Tasso di collegamento sistamento " << k << "-esimo dopo : " << localLinkH << std::endl;
+            }
         }
-    }
-    std::cout << std::endl;
-    std::cout << "*********************************************************" << std::endl;
+        std::cout << std::endl;
+        std::cout << "*********************************************************" << std::endl;
 
-    for (int i = 0; i < N; i++)
-    {
+        for (int i = 0; i < N; i++)
+        {
+            for (int k = 0; k < N; k++)
+            {
+                if (adj_matrix[i][k].GetType() == LinkType::N) // null
+                {
+                    printf("\033[33m0 ");
+                }
+                else if (adj_matrix[i][k].GetType() == LinkType::SH) // hh
+                {
+                    // std::cout << "       ";
+                    printf("\033[31m1 ");
+                }
+                else if (adj_matrix[i][k].GetType() == LinkType::M) // ss
+                {
+                    // std::cout << "       ";
+                    printf("\033[32m2 ");
+                }
+                else if (adj_matrix[i][k].GetType() == LinkType::B) // cs
+                {
+                    // std::cout << "       ";
+                    printf("\033[36m3 ");
+                }
+                else if (adj_matrix[i][k].GetType() == LinkType::SS)
+                { // hs
+                    printf("\033[37m4 ");
+                }
+                else
+                { // E' giusto vedere se viene generato qualche numero che non sia tra quelli contemplati.
+                    printf("\033[35m7 ");
+                }
+                printf("\033[0m");
+            }
+
+            std::cout << std::endl;
+        }
+        int nofHouselinkedS = 0;
+        int nofSNOlinked = 0;
+
         for (int k = 0; k < N; k++)
         {
-            if (adj_matrix[i][k].GetType() == LinkType::N) // null
+            auto nodeType = nodes[k].GetType();
+            char type = ' ';
+            if (nodeType == BuildingType::S)
             {
-                printf("\033[33m0 ");
+                type = 'S';
+                if (nodes[k].GetNofHouseLink() == 0)
+                {
+                    nofSNOlinked++;
+                }
             }
-            else if (adj_matrix[i][k].GetType() == LinkType::SH) // hh
+            else if (nodeType == BuildingType::H)
             {
-                // std::cout << "       ";
-                printf("\033[31m1 ");
-            }
-            else if (adj_matrix[i][k].GetType() == LinkType::M) // ss
-            {
-                // std::cout << "       ";
-                printf("\033[32m2 ");
-            }
-            else if (adj_matrix[i][k].GetType() == LinkType::B) // cs
-            {
-                // std::cout << "       ";
-                printf("\033[36m3 ");
-            }
-            else if (adj_matrix[i][k].GetType() == LinkType::SS)
-            { // hs
-                printf("\033[37m4 ");
+                type = 'H';
+                nofHouselinkedS += nodes[k].GetNofSortingLink();
             }
             else
-            { // E' giusto vedere se viene generato qualche numero che non sia tra quelli contemplati.
-                printf("\033[35m7 ");
+            {
+                type = 'C';
             }
-             printf("\033[0m");
+            std::cout << "Type of node " << k << " " << type << std::endl;
+            std::cout << "Sorting Link of " << nodes[k].GetNofSortingLink() << std::endl;
+            std::cout << "House Link of " << nodes[k].GetNofHouseLink() << std::endl;
+            ;
+            std::cout << "Central Link of " << nodes[k].GetNofCentralLink() << std::endl;
+            std::cout << "------------------------------" << std::endl;
         }
-
+        std::cout << "nofSmalllink :" << nofSmalllink << "\n";
+        std::cout << "nofHouseSortingLink: " << nofHSLink << "\n";
+        std::cout << "nofMediumlink :" << nofMediumlink << "\n";
+        std::cout << "nofBiglink :" << nofBiglink << "\n";
         std::cout << std::endl;
-    }
-    int nofHouselinkedS=0;
-    int nofSNOlinked=0;
+        std::cout << "****************CONTROLLI***************" << std::endl;
+        std::cout << "Su " << nofHouse << " case ce ne sono " << nofHouselinkedS << " collegate ad uno smistamento"
+                  << "\n";
+        std::cout << "Su " << nofSorting << " smistamenti ce ne sono " << nofSNOlinked << "  collegati a zero case"
+                  << "\n";
+        std::cout << "****************************************" << std::endl;
 
-    for (int k = 0; k < N; k++)
-    {
-        auto nodeType = nodes[k].GetType();
-        char type = ' ';
-        if (nodeType == BuildingType::S)
+        // std::cout << "nofCentralLink :" << linkCentral << "\n";
+
+        /* ********************SCRITTURA MATRICE SU FILE****************** */
+        std::ofstream adjmatrix;
+        adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
+        for (int i = 0; i < N; i++)
         {
-            type = 'S';
-            if(nodes[k].GetNofHouseLink()==0){
-                nofSNOlinked++;
+            for (int j = 0; j < N; j++)
+            {
+                adjmatrix << adj_matrix[i][j].GetNumber(); // Vengono scritti i numeri indentati, in modo da avere la visione della matrice
+                adjmatrix << " ";
             }
+            adjmatrix << std::endl;
         }
-        else if (nodeType == BuildingType::H)
-        {
-            type = 'H';
-            nofHouselinkedS+= nodes[k].GetNofSortingLink();
+        adjmatrix.close();
 
-
-        }
-        else
-        {
-            type = 'C';
-        }
-        std::cout << "Type of node " << k << " " << type << std::endl;
-        std::cout << "Sorting Link of " << nodes[k].GetNofSortingLink() << std::endl;
-        std::cout << "House Link of " << nodes[k].GetNofHouseLink() << std::endl;
-        ;
-        std::cout << "Central Link of " << nodes[k].GetNofCentralLink() << std::endl;
-        std::cout << "------------------------------" << std::endl;
-    }
-    std::cout << "nofSmalllink :" << nofSmalllink << "\n";
-    std::cout << "nofHouseSortingLink: " << nofHSLink << "\n";
-    std::cout << "nofMediumlink :" << nofMediumlink << "\n";
-    std::cout << "nofBiglink :" << nofBiglink << "\n";
-    std::cout<<std::endl;
-    std::cout<<"****************CONTROLLI***************"<<std::endl;
-    std::cout <<"Su "<<nofHouse<<" case ce ne sono "<<nofHouselinkedS<<" collegate ad uno smistamento"<< "\n";
-     std::cout <<"Su "<<nofSorting<<" smistamenti ce ne sono "<<nofSNOlinked<<"  collegati a zero case"<< "\n";
-     std::cout<<"****************************************"<<std::endl;
-
-    // std::cout << "nofCentralLink :" << linkCentral << "\n";
-
-    /* ********************SCRITTURA MATRICE SU FILE****************** */
-    std::ofstream adjmatrix;
-    adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
-    for (int i = 0; i < N; i++)
-    {
-        for (int j = 0; j < N; j++)
-        {
-            adjmatrix << adj_matrix[i][j].GetNumber(); // Vengono scritti i numeri indentati, in modo da avere la visione della matrice
-            adjmatrix << " ";
-        }
-        adjmatrix << std::endl;
-    }
-    adjmatrix.close();
-
-    /* ***************DINAMICA MATRICE ****************** */
-    /* for (int i = 0; i < N; i++)
-     {
-         for (int j = 0; j < N; j++)
+        /* ***************DINAMICA MATRICE ****************** */
+        /* for (int i = 0; i < N; i++)
          {
-             if ()
+             for (int j = 0; j < N; j++)
              {
                  if ()
                  {
+                     if ()
+                     {
+                     }
                  }
              }
-         }
-     }*/
-} // Va in loop il programma, è il problema sta nell'ultimo controllo circa numero di case collegate ad uno smistamento.
+         }*/
+    } // Fare i linked e delte vector per i controlli. In più continua i controlli per tutti i nodi
