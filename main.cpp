@@ -822,7 +822,7 @@ int main()
     std::cout<<"H con tasso di collegamento corretto: "<<condition_house<<" su "<<nofHouse<<std::endl;
 
     // std::cout << "nofCentralLink :" << linkCentral << "\n";
-
+    
     /* ********************SCRITTURA MATRICE SU FILE****************** */
     std::ofstream adjmatrix;
     adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
