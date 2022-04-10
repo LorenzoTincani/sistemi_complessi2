@@ -698,7 +698,7 @@ int main()
                 }
             }
            
-           if(localLinkH<0.05&& localLinkH< 0.08)
+           if(localLinkH > 0.05 && localLinkH< 0.08)
             {
                 condition_house++;
 
@@ -822,7 +822,7 @@ int main()
     std::cout<<"H con tasso di collegamento corretto: "<<condition_house<<" su "<<nofHouse<<std::endl;
 
     // std::cout << "nofCentralLink :" << linkCentral << "\n";
-    
+
     /* ********************SCRITTURA MATRICE SU FILE****************** */
     std::ofstream adjmatrix;
     adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
