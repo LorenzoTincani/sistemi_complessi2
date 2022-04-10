@@ -398,6 +398,7 @@ int main()
     }
 
     std::cout << "-------------------------" << std::endl;
+     int condition_house=0;
     /*----------------------CONTROLLI----------------------*/
 
     // Controllo che non vi siano smistamenti non connessi ad una centrale.
@@ -696,7 +697,7 @@ int main()
                     }
                 }
             }
-            int condition_house=0;
+           
            if(localLinkH<0.05&& localLinkH< 0.08)
             {
                 condition_house++;
@@ -818,6 +819,7 @@ int main()
     std::cout << "Su " << nofSorting << " smistamenti ce ne sono " << nofSNOlinked << "  collegati a zero case"
               << "\n";
     std::cout << "****************************************" << std::endl;
+    std::cout<<"H con tasso di collegamento corretto: "<<condition_house<<" su "<<nofHouse<<std::endl;
 
     // std::cout << "nofCentralLink :" << linkCentral << "\n";
 
