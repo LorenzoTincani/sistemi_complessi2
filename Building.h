@@ -19,10 +19,10 @@ private:
    /* int NofCentralLink=0;
     int NofSortingLink=0;
     int NofHouseLink=0;*/
-    std::vector<int> path_ {0}; //array dei path (link di un nodo) e distanza a cui si trovano dalla centrale
-    std::vector<int> Linked_houses{0}; //Sono tre vettori che contengono le posizioni, all'interno dell'array nodes, del nodo a cui sono collegati.
-    std::vector<int> Linked_sortages{0};  //questi 3 vettori per cavare i link di troppo nel controllo
-    std::vector<int> Linked_centrals{0};
+    std::vector<int> path_; //array dei path (link di un nodo) e distanza a cui si trovano dalla centrale
+    std::vector<int> Linked_houses; //Sono tre vettori che contengono le posizioni, all'interno dell'array nodes, del nodo a cui sono collegati.
+    std::vector<int> Linked_sortages;  //questi 3 vettori per cavare i link di troppo nel controllo
+    std::vector<int> Linked_centrals;
 
 public:
     Building(BuildingType type, double need, double entry_potential);
