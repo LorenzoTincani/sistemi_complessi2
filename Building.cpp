@@ -72,18 +72,21 @@ int Building::GetPathLength(int path) const
 
 int Building::GetNofSortingLink() const
 {
-    return NofSortingLink;
+    // return NofSortingLink;
+    return Linked_sortages.size();
 }
 int Building::GetNofHouseLink() const
 {
-    return NofHouseLink;
+    // return NofHouseLink;
+    return Linked_houses.size();
 }
 int Building::GetNofCentralLink() const
 {
-    return NofCentralLink;
+    // return NofCentralLink;
+    return Linked_centrals.size();
 }
 
-void Building::SetNofSortingLink(int i)
+/*void Building::SetNofSortingLink(int i)
 {
     NofSortingLink += i;
 }
@@ -94,7 +97,7 @@ void Building::SetNofHouseLink(int i)
 void Building::SetNofCentralLink(int i)
 {
     NofCentralLink += i;
-}
+}*/
 void Building::SetLinkedHouse(int i)
 {
     Linked_houses.push_back(i);
@@ -119,3 +122,102 @@ void Building::DeleteLinkedCentral(int i)
 {
     Linked_centrals.erase(Linked_centrals.begin() + i);
 };
+void Building::Print(int position, char C, bool EveryP)
+{
+
+    if (EveryP != true)
+    {
+        if (C == 'H')
+        {
+            std::cout << Linked_houses[position]<< std::endl;
+        }
+        else if (C == 'S')
+        {
+            std::cout << Linked_sortages[position] << std::endl;
+        }
+        else
+        {
+            std::cout << Linked_centrals[position]<< std::endl;
+        }
+
+    }
+    else if (EveryP == true)
+    {
+        if (C == 'H')
+        {
+            for (int i = 0; i < Linked_houses.size(); i++)
+            {
+                std::cout << Linked_houses[i] << " ";
+            }
+            std::cout << std::endl;
+        }
+        else if (C == 'S')
+        {
+            for (int i = 0; i < Linked_sortages.size(); i++)
+            {
+                std::cout << Linked_sortages[i]<< " ";
+            }
+            std::cout << std::endl;
+        }
+        else
+        {for (int i = 0; i < Linked_centrals.size(); i++)
+            {
+                std::cout << Linked_centrals[i] << " ";
+            }
+        }
+        std::cout << std::endl;
+        }
+    }
+
+    bool Building::AlreadyLinked(int i, char C) const{
+
+        if(C=='H'){
+            auto ItforFind=std::find(Linked_houses.begin(), Linked_houses.end(), i);
+
+            if(ItforFind!=Linked_houses.end()){
+                return true;
+            }
+            else return false;
+
+
+        }
+        else if(C=='S'){
+            auto ItforFind=std::find(Linked_sortages.begin(), Linked_sortages.end(), i);
+
+            if(ItforFind!=Linked_sortages.end()){
+                return true;
+            }
+            else return false;
+
+        }
+        else{
+             auto ItforFind=std::find(Linked_centrals.begin(), Linked_centrals.end(), i);
+
+            if(ItforFind!=Linked_centrals.end()){
+                return true;
+            }
+            else return false;
+        }
+
+    }
+   /* bool Building::SearchEqualnodes(char C)const{
+         if(C=='H'){
+             for(int i=0; i<GetNofHouseLink; i++){
+                 if(AlreadyLinked(i,'H')==true){
+                     
+                 }
+             }
+
+
+           
+
+
+        }
+        else if(C=='S'){
+            
+        }
+        else{
+        }
+
+
+    }*/
