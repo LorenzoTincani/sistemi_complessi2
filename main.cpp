@@ -391,8 +391,8 @@ int main()
     {
         if (nodes[k].GetType() == BuildingType::H)
         {
-            std::cout << "Case collegate alla " << k << "esima casa:";
-            nodes[k].Print(0, 'H', true);
+            std::cout << "Case collegate alla " << k << "esima casa :"<<nodes[k].GetNofHouseLink();
+            //nodes[k].Print(0, 'H', true);
         }
         std::cout << std::endl;
     }
@@ -726,8 +726,8 @@ int main()
     {
         if (nodes[k].GetType() == BuildingType::H)
         {
-            std::cout << "Case collegate alla casa " << k << "esima: ";
-            nodes[k].Print(0, 'H', true);
+            std::cout << "Case collegate alla casa " << k << "esima: "<<nodes[k].GetNofHouseLink();
+           // nodes[k].Print(0, 'H', true);
         }
         std::cout << std::endl;
     }
