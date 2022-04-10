@@ -850,5 +850,5 @@ int main()
              }
          }
      }*/
-} // Fare i linked e delte vector per i controlli. In più continua i controlli per tutti i nodi
-// FARE I SETNUMBER(0) NELLA MATRICE DI ADIACENZA.
+} 
+// FARE I SETNUMBER(0) NELLA MATRICE DI ADIACENZA.+ non vengono aggiornati i link casa-casa dopo i controlli
