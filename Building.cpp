@@ -125,7 +125,7 @@ void Building::DeleteLinkedCentral(int i)
 void Building::Print(int position, char C, bool EveryP)
 {
 
-    if (EveryP != true)
+    if (EveryP == false)
     {
         if (C == 'H')
         {
