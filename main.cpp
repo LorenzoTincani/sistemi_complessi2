@@ -183,7 +183,7 @@ int main()
                         adj_matrix[j][i].SetType(LinkType::N);
 
                         adj_matrix[i][j].SetNumber(0);
-                        adj_matrix[j][i].SetNumber(0);     
+                        adj_matrix[j][i].SetNumber(0);
                     }
                 }
                 else if (node_i == BuildingType::S)
@@ -208,7 +208,6 @@ int main()
 
                                 nofHSLink++;
                             }
-
                         }
                         else
                         {
@@ -388,7 +387,7 @@ int main()
     std::cout << "---------------Collegamenti casa-casa prima dei controlli" << std::endl;
     std::cout << std::endl;
 
-    for (int k = 0; k <N; k++)
+    for (int k = 0; k < N; k++)
     {
         if (nodes[k].GetType() == BuildingType::H)
         {
@@ -625,19 +624,35 @@ int main()
             }
             if (localLinkH >= 0.08)
             { // tolgo case se ne ho troppe collegate
+
                 bool full = false;
                 for (int y = 0; localLinkH <= 0.06 && full == false;)
                 { // in un for cerco nodo e nell'altro collego
 
-                    for (int m = 0; m < nofHouse && nodes[p].AlreadyLinked(m, 'H') == true;)
+                    for (int m = 0; m < nofHouse;)
                     {
                         rn = forCentralBuilding(gen);
 
                         if (rn == House[m])
                         {
-                            // std::cout << m << std::endl;
-                            rn = House[m];
-                            break;
+                            if (nodes[p].AlreadyLinked(rn, 'H') == true)
+                            {
+                                // std::cout << m << std::endl;
+                                rn = House[m];
+                                break;
+                            }
+                            else
+                            {
+                                if (m == (nofHouse - 1))
+                                {
+                                    m = 0; // risettato a zero per non uscire dallo "scope"
+                                }
+
+                                else
+                                {
+                                    m++;
+                                }
+                            }
                             // std::cout << "m" << std::endl;
                         }
                         else
@@ -668,7 +683,7 @@ int main()
                     nodes[p].DeleteLinkedHouse(rn);
                     nodes[rn].DeleteLinkedHouse(p);
                     localLinkH = localLinkH - increment;
-                    nofSmalllink--;
+                    nofHSLink--;
 
                     if (y < 100) // Se le iterazioni fatte sono minori di 100, si può procedere, ma una volta superata la soglia, è meglio procedere nel collegamento sistematico, tanto si tratta dei residui.
                     {
@@ -684,7 +699,6 @@ int main()
 
             p++;
         }
-
         /*-------------------CENTRALE--------------------------------*/
 
         else
@@ -829,4 +843,4 @@ int main()
          }
      }*/
 } // Fare i linked e delte vector per i controlli. In più continua i controlli per tutti i nodi
-//FARE I SETNUMBER(0) NELLA MATRICE DI ADIACENZA. 
+// FARE I SETNUMBER(0) NELLA MATRICE DI ADIACENZA.
