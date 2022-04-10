@@ -183,7 +183,7 @@ int main()
                         adj_matrix[j][i].SetType(LinkType::N);
 
                         adj_matrix[i][j].SetNumber(0);
-                        adj_matrix[j][i].SetNumber(0);
+                        adj_matrix[j][i].SetNumber(0);     
                     }
                 }
                 else if (node_i == BuildingType::S)
@@ -208,6 +208,7 @@ int main()
 
                                 nofHSLink++;
                             }
+
                         }
                         else
                         {
@@ -380,13 +381,14 @@ int main()
         counter++;
         j = counter;
     }
+
     std::cout << "*********************CONTROLLI COLLEGAMENTI SMISTAMENTI-CASE************************************" << std::endl;
     std::cout << std::endl;
 
     std::cout << "---------------Collegamenti casa-casa prima dei controlli" << std::endl;
     std::cout << std::endl;
 
-    for (int k = 0; k < N; k++)
+    for (int k = 0; k < nofHouse; k++)
     {
         if (nodes[k].GetType() == BuildingType::H)
         {
@@ -827,3 +829,4 @@ int main()
          }
      }*/
 } // Fare i linked e delte vector per i controlli. In più continua i controlli per tutti i nodi
+//FARE I SETNUMBER(0) NELLA MATRICE DI ADIACENZA. 
