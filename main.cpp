@@ -388,12 +388,12 @@ int main()
     std::cout << "---------------Collegamenti casa-casa prima dei controlli" << std::endl;
     std::cout << std::endl;
 
-    for (int k = 0; k < nofHouse; k++)
+    for (int k = 0; k <N; k++)
     {
         if (nodes[k].GetType() == BuildingType::H)
         {
             std::cout << "Case collegate alla " << k << "esima casa:";
-            nodes[k].Print(9, 'H', true);
+            nodes[k].Print(0, 'H', true);
         }
         std::cout << std::endl;
     }
