@@ -1,6 +1,7 @@
 #ifndef BUILDING_H
 #define BUILDING_H
 #include <vector>
+#include <iostream>
 enum class BuildingType : char //underlying type int: 0 per H, 1 per S, 2 per C
 {
     H, //houses
@@ -15,9 +16,9 @@ private:
     double need_ = 0.0; 
     double entry_potential_ = 0.0; //settato a zero, perchè definito dalla dinamica
     bool sorting_link_ = false;
-    int NofCentralLink=0;
+   /* int NofCentralLink=0;
     int NofSortingLink=0;
-    int NofHouseLink=0;
+    int NofHouseLink=0;*/
     std::vector<int> path_ {0}; //array dei path (link di un nodo) e distanza a cui si trovano dalla centrale
     std::vector<int> Linked_houses{0}; //Sono tre vettori che contengono le posizioni, all'interno dell'array nodes, del nodo a cui sono collegati.
     std::vector<int> Linked_sortages{0};  //questi 3 vettori per cavare i link di troppo nel controllo
@@ -47,9 +48,9 @@ public:
     int GetNofHouseLink()const;
     int GetNofCentralLink()const;
 
-    void SetNofSortingLink(int i);
+   /* void SetNofSortingLink(int i);
     void SetNofHouseLink(int i);
-    void SetNofCentralLink(int i);
+    void SetNofCentralLink(int i);*/
 
     void SetLinkedHouse(int i);
     void SetLinkedSorting(int i);
@@ -58,6 +59,12 @@ public:
     void DeleteLinkedHouse(int i);
     void DeleteLinkedSorting(int i);
     void DeleteLinkedCentral(int i);
+
+    void Print(int position, char C, bool EveryP);
+    bool AlreadyLinked(int i, char C) const;
+    bool SearchEqualnodes(char C)const;
+
+   
 
 
 };
