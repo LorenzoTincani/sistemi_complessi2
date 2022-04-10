@@ -124,6 +124,9 @@ void Building::DeleteLinkedCentral(int i)
 };
 void Building::Print(int position, char C, bool EveryP)
 {
+    std::cout<<"ciao\n";
+    
+    /*
 
     if (EveryP == false)
     {
@@ -166,7 +169,7 @@ void Building::Print(int position, char C, bool EveryP)
             }
         }
         std::cout << std::endl;
-        }
+        }*/
     }
 
     bool Building::AlreadyLinked(int i, char C) const{
