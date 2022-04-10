@@ -696,6 +696,12 @@ int main()
                     }
                 }
             }
+            int condition_house=0;
+           if(localLinkH<0.05&& localLinkH< 0.08)
+            {
+                condition_house++;
+
+            }
 
             p++;
         }
