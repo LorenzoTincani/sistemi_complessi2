@@ -25,8 +25,8 @@ int main()
     // std::array<std::array<int, N>, N> adj_matrix{0}; // matrice di adiacenza, con int come pesi
     std::array<std::array<Link, N>, N> adj_matrix{};
     std::array<Building, N> nodes;
-    std::vector<int> Centrall(0); // vettore che tiene gli indici delle centrali di array
-    std::vector<int> House(0);    // vettore che tiene gli indici delle case di array
+    std::vector<int> Centrall; // vettore che tiene gli indici delle centrali di array
+    std::vector<int> House;    // vettore che tiene gli indici delle case di array
 
     double Total_potential = 0.0;
     int nofSorting = 0;
