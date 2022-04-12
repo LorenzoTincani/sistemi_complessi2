@@ -632,18 +632,21 @@ int main()
             if (localLinkH >= 0.08)
             { // tolgo case se ne ho troppe collegate
             condition_house_max++;
-
-                bool full = false;
-                for (int y = 0; full == false;)
+            
+                
+                for (int y = 0; y<100;)
                 { // in un for cerco nodo e nell'altro collego
+                std::cout<<"è uscito perche ha raggiunto un valore giusto line 639\n"<<y<<std::endl;
+
 
                     if( localLinkH <= 0.06){
+                        std::cout<<"è uscito perche ha raggiunto un valore giusto linea 641\n";
                         break;
                     }
 
                     for (int m = 0; m < nofHouse;)
                     {
-                        rn = forCentralBuilding(gen);
+                        rn = forCentralBuilding(gen);  //genera numeri interi tra 0 e N-1
 
                         if (rn == House[m])
                         {
@@ -652,6 +655,7 @@ int main()
                                 // std::cout << m << std::endl;
                                 rn = House[m];
                                 break;
+                                
                                 
                             }
                             else
@@ -697,16 +701,7 @@ int main()
                     nodes[rn].DeleteLinkedHouse(p);
                     localLinkH = localLinkH - increment;
                     nofHSLink--;
-
-                    if (y < 100) // Se le iterazioni fatte sono minori di 100, si può procedere, ma una volta superata la soglia, è meglio procedere nel collegamento sistematico, tanto si tratta dei residui.
-                    {
-                        y++;
-                    }
-                    else
-
-                    {
-                        full = true;
-                    }
+                  y++;
                 }
             }
            
