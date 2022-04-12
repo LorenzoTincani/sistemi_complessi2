@@ -130,7 +130,7 @@ int main()
                 {
                     if (node_j == BuildingType::H)
                     {                    // casa-casa
-                        if (rnd <= 0.30) // si suppone che, su 100 case, una casa sia collegata con altre 10.
+                        if (rnd <= 0.20) // si suppone che, su 100 case, una casa sia collegata con altre 10.
                         {
                             adj_matrix[i][j].SetType(LinkType::SH);
                             adj_matrix[j][i].SetType(LinkType::SH);
@@ -634,7 +634,7 @@ int main()
             condition_house_max++;
 
                 bool full = false;
-                for (int y = 0; localLinkH <= 0.06 && full == false;)
+                for (int y = 0; localLinkH >= 0.08 && full == false;)
                 { // in un for cerco nodo e nell'altro collego
 
                     for (int m = 0; m < nofHouse;)
@@ -643,11 +643,12 @@ int main()
 
                         if (rn == House[m])
                         {
-                            if (nodes[p].AlreadyLinked(rn, 'H') == true)
+                            if (nodes[p].AlreadyLinked(rn, 'H') == true) // condizioni per uscire dal ciclo
                             {
                                 // std::cout << m << std::endl;
                                 rn = House[m];
                                 break;
+                                
                             }
                             else
                             {
