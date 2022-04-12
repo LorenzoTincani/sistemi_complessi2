@@ -398,7 +398,12 @@ int main()
     }
 
     std::cout << "-------------------------" << std::endl;
-     int condition_house=0;
+     int condition_house_max=0;
+     int condition_house_min=0;
+     int condition_house_ok=0;
+
+
+
     /*----------------------CONTROLLI----------------------*/
 
     // Controllo che non vi siano smistamenti non connessi ad una centrale.
@@ -540,8 +545,9 @@ int main()
             double localLinkH = static_cast<double>(nodes[p].GetNofHouseLink()) / static_cast<double>(nofHouse);
             double increment = static_cast<double>(1) / static_cast<double>(nofHouse);
             //---------------casa--------------
-            if (localLinkH < 0.05)
+            if (localLinkH <= 0.05)
             {
+                condition_house_min++;
                 bool full = false;
                 for (int y = 0; localLinkH <= 0.05 && full == false;)
                 { // in un for cerco nodo e nell'altro collego
@@ -625,6 +631,7 @@ int main()
             }
             if (localLinkH >= 0.08)
             { // tolgo case se ne ho troppe collegate
+            condition_house_max++;
 
                 bool full = false;
                 for (int y = 0; localLinkH <= 0.06 && full == false;)
@@ -700,7 +707,7 @@ int main()
            
            if(localLinkH > 0.05 && localLinkH< 0.08)
             {
-                condition_house++;
+                condition_house_ok++;
 
             }
 
@@ -819,7 +826,9 @@ int main()
     std::cout << "Su " << nofSorting << " smistamenti ce ne sono " << nofSNOlinked << "  collegati a zero case"
               << "\n";
     std::cout << "****************************************" << std::endl;
-    std::cout<<"H con tasso di collegamento corretto: "<<condition_house<<" su "<<nofHouse<<std::endl;
+     std::cout<<"H con tasso di collegamento basso: "<<condition_house_min<<" su "<<nofHouse<<std::endl;
+      std::cout<<"H con tasso di collegamento elevato: "<<condition_house_max<<" su "<<nofHouse<<std::endl;
+    std::cout<<"H con tasso di collegamento corretto: "<<condition_house_ok<<" su "<<nofHouse<<std::endl;
 
     // std::cout << "nofCentralLink :" << linkCentral << "\n";
 
