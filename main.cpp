@@ -635,11 +635,11 @@ int main()
             condition_house_max++;    
                 for (int y = 0; y<100;)
                 { // in un for cerco nodo e nell'altro collego
-                std::cout<<"è uscito perche ha raggiunto un valore giusto line 639\n"<<y<<std::endl;
+               // std::cout<<"è uscito perche ha raggiunto un valore giusto line 639\n"<<y<<std::endl;
 
 
                     if( localLinkH <= 0.06){
-                        std::cout<<"è uscito perche ha raggiunto un valore giusto linea 641\n";
+                       // std::cout<<"è uscito perche ha raggiunto un valore giusto linea 641\n";
                         break;
                     }
 
