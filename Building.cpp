@@ -112,15 +112,70 @@ void Building::SetLinkedCentral(int i)
 };
 void Building::DeleteLinkedHouse(int i)
 {
-    Linked_houses.erase(Linked_houses.begin() + i);
+      int star = i;
+      int position_star=0;
+
+        for(int y=0; y<Linked_houses.size();){
+
+            if(Linked_houses[y]==star){
+
+                position_star=y;
+
+                break;
+
+           
+
+            }
+
+            else y++;
+
+        }
+
+    Linked_houses.erase(Linked_houses.begin() + position_star);
 };
 void Building::DeleteLinkedSorting(int i)
 {
-    Linked_sortages.erase(Linked_sortages.begin() + i);
+    int star = i;
+      int position_star=0;
+
+        for(int y=0; y<Linked_sortages.size();){
+
+            if(Linked_sortages[y]==star){
+                position_star=y;
+                break;
+            }
+
+            else y++;
+
+        }
+
+    Linked_sortages.erase(Linked_sortages.begin() + position_star);
+   
 };
 void Building::DeleteLinkedCentral(int i)
 {
     Linked_centrals.erase(Linked_centrals.begin() + i);
+    
+    int star = i;
+      int position_star=0;
+
+        for(int y=0; y<Linked_centrals.size();){
+
+            if(Linked_centrals[y]==star){
+
+                position_star=y;
+
+                break;
+
+           
+
+            }
+
+            else y++;
+
+        }
+
+    Linked_centrals.erase(Linked_centrals.begin() + position_star);
 };
 void Building::Print(int position, char C, bool EveryP)
 {
