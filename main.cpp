@@ -634,7 +634,7 @@ int main()
             condition_house_max++;
 
                 bool full = false;
-                for (int y = 0; localLinkH >= 0.08 && full == false;)
+                for (int y = 0; localLinkH <= 0.06 && full == false;)
                 { // in un for cerco nodo e nell'altro collego
 
                     for (int m = 0; m < nofHouse;)
