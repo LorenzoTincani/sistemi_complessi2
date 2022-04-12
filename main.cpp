@@ -631,9 +631,8 @@ int main()
             }
             if (localLinkH >= 0.08)
             { // tolgo case se ne ho troppe collegate
-            condition_house_max++;
-            
-                
+            int rnd=0;
+            condition_house_max++;    
                 for (int y = 0; y<100;)
                 { // in un for cerco nodo e nell'altro collego
                 std::cout<<"è uscito perche ha raggiunto un valore giusto line 639\n"<<y<<std::endl;
@@ -646,14 +645,14 @@ int main()
 
                     for (int m = 0; m < nofHouse;)
                     {
-                        rn = forCentralBuilding(gen);  //genera numeri interi tra 0 e N-1
+                        rnd = forCentralBuilding(gen);  //genera numeri interi tra 0 e N-1
 
-                        if (rn == House[m])
+                        if (rnd == House[m])
                         {
-                            if (nodes[p].AlreadyLinked(rn, 'H') == true) // condizioni per uscire dal ciclo
+                            if (nodes[p].AlreadyLinked(rnd, 'H') == true) // condizioni per uscire dal ciclo
                             {
                                 // std::cout << m << std::endl;
-                                rn = House[m];
+                                //rn = House[m];
                                 break;
                                 
                                 
@@ -687,18 +686,18 @@ int main()
                     }
                     // Si sta rimuovendo il collegamento in ogni punto del codice: dalla matrice di adiacenza fino al vettore interno.
 
-                    adj_matrix[p][rn].SetType(LinkType::N);
-                    adj_matrix[rn][p].SetType(LinkType::N);
+                    adj_matrix[p][rnd].SetType(LinkType::N);
+                    adj_matrix[rnd][p].SetType(LinkType::N);
 
-                    adj_matrix[p][rn].SetNumber(0);
-                    adj_matrix[rn][p].SetNumber(0); // La matrice è simmetrica
+                    adj_matrix[p][rnd].SetNumber(0);
+                    adj_matrix[rnd][p].SetNumber(0); // La matrice è simmetrica
 
                     // nodes[p].SetSortingLink(true);
                     /*nodes[p].SetNofHouseLink(1);
                     nodes[rn].SetNofSortingLink(1);*/
                     // linkCentral++;
-                    nodes[p].DeleteLinkedHouse(rn);
-                    nodes[rn].DeleteLinkedHouse(p);
+                    nodes[p].DeleteLinkedHouse(rnd);
+                    nodes[rnd].DeleteLinkedHouse(p);
                     localLinkH = localLinkH - increment;
                     nofHSLink--;
                   y++;
