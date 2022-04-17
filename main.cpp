@@ -18,10 +18,12 @@ Nella matrice di adiacenza:
 - 4 = casa -smistamento
  **************************************************************  */
 // namespace matrix {
+
 int main()
 {
     Matrix adjiacency_matrix{};
     adjiacency_matrix.create();
+   // adjiacency_matrix.transient();
     
 
     std::cout << "nofcentral: " << adjiacency_matrix.getNofCentral() << std::endl;
@@ -172,4 +174,11 @@ int main()
     adjmatrix.close();
 
 */
-}
+
+
+
+
+
+
+}// fare path matrix andando a vedere chi è collegato alle centrali, poi chi è collegato a chi è collegto alle centrali ecc ecc 
+// per farlo fare vector di chi è collegato al giro prima e andare a vedere chi è collegato a loro, 
