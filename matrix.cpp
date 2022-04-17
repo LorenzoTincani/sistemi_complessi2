@@ -1,7 +1,7 @@
 #include "matrix.h"
 
-
-void Matrix::create(){
+void Matrix::create()
+{
     std::random_device rd;
     std::default_random_engine gen(rd());
     std::discrete_distribution<int> nodeType_dist({100, 5, 1});
@@ -10,21 +10,25 @@ void Matrix::create(){
     std::uniform_int_distribution<int> forCentralchoice(0, N - 1);
     std::uniform_int_distribution<int> forCentralBuilding(0, N - 1);
 
-     for (int k = 0; k < N; ++k) // settaggio dei nodi
+    for (int k = 0; k < N; ++k) // settaggio dei nodi
     {
         int numtype = nodeType_dist(gen); // numtype = type of node
+        double fluct = needfluct_dist(gen);
         if (numtype == 0)
         {
-            double fluct = needfluct_dist(gen);
+
             nodes[k].SetType(BuildingType::H);
-            nodes[k].SetNeed(7.2 + fluct); // consumo medio giornaliero di una famiglia media in kW/h
+            nodes[k].SetNeed(3 + fluct); // consumo medio giornaliero di una famiglia media in kW
             // std::cout<<"house " <<nodes[k].GetNeed()<<std::endl;
             House.push_back(k);
             nofHouse++;
         }
         else if (numtype == 1)
         {
+
             nodes[k].SetType(BuildingType::S);
+            nodes[k].SetEfficiency(0.98);
+            nodes[k].SetNeed(10 + fluct);
             nofSorting++;
 
             // std::cout<<"sorting "<<nodes[k].GetNeed()<<std::endl;
@@ -46,7 +50,7 @@ void Matrix::create(){
         }
     }
 
-     if (nofCentral == 0)
+    if (nofCentral == 0)
     { // Controllo per non avere un numero nullo di centrali.
         int positionofC = forCentralBuilding(gen);
         nodes[positionofC].SetType(BuildingType::C);
@@ -376,7 +380,7 @@ void Matrix::create(){
         j = counter;
     }
 
-      //----------------------CONTROLLI----------------------
+    //----------------------CONTROLLI----------------------
 
     // Controllo che non vi siano smistamenti non connessi ad una centrale.
     //  Se così fosse, come nelle righe 167-169 ne scelgo una tra le tante e assegno il link 3.
@@ -424,7 +428,6 @@ void Matrix::create(){
                 nodes[p].SetLinkedCentral(rn);
 
                 // nodes[p].SetSortingLink(true);
-                
 
                 nofBiglink++;
                 // linkCentral++;
@@ -477,7 +480,7 @@ void Matrix::create(){
                         adj_matrix[rn][p].SetNumber(4); // La matrice è simmetrica
 
                         // nodes[p].SetSortingLink(true);
-                       
+
                         nodes[p].SetLinkedHouse(rn);
                         nodes[rn].SetLinkedSorting(p);
 
@@ -517,7 +520,7 @@ void Matrix::create(){
             //---------------casa--------------
             if (localLinkH <= 0.05)
             {
-               // condition_house_min++;
+                // condition_house_min++;
                 bool full = false;
                 for (int y = 0; localLinkH <= 0.05 && full == false;)
                 { // in un for cerco nodo e nell'altro collego
@@ -602,7 +605,7 @@ void Matrix::create(){
             if (localLinkH >= 0.08)
             { // tolgo case se ne ho troppe collegate
                 int rnd = 0;
-             //   condition_house_max++;
+                //   condition_house_max++;
                 for (int y = 0; y < 100;)
                 { // in un for cerco nodo e nell'altro collego
                     // std::cout<<"è uscito perche ha raggiunto un valore giusto line 639\n"<<y<<std::endl;
@@ -661,7 +664,7 @@ void Matrix::create(){
                     adj_matrix[rnd][p].SetNumber(0); // La matrice è simmetrica
 
                     // nodes[p].SetSortingLink(true);
-                  
+
                     // linkCentral++;
                     nodes[p].DeleteLinkedHouse(rnd);
                     nodes[rnd].DeleteLinkedHouse(p);
@@ -670,8 +673,6 @@ void Matrix::create(){
                     y++;
                 }
             }
-
-            
 
             p++;
         }
@@ -682,20 +683,44 @@ void Matrix::create(){
             p++;
         }
     }
+}
 
-    
+int Matrix::getNofHouse() const
+{
+    return nofHouse;
+};
+int Matrix::getNofSorting() const
+{
+    return nofSorting;
+};
+int Matrix::getNofCentral() const
+{
+    return nofCentral;
+};
+//CONTRINUA DA QUAAAAAAAAAAAA :)
+int matrix::CalcolatePath(){
+    for(int i=0;i<Centrall.size();i++){
+        int C = Centrall[i]
+        for(int j=0;j<N;j++){
+
+        }
+    }
 
 }
-  
-int Matrix::getNofHouse()const{
-    return nofHouse;
+void matrix::transient(){
+    //while (true)+ if-break+ contatore+ . Break rompe l'evoluzione, arrivati all'eq
+   /* while(true){
+        if(condizione dell'equilibrio){
+            break;
+            
+        }
+        else{
+            if()
+            for(int k=0;k<N;k++){
+                nodes[k].GetB
+            }
 
-};
-    int Matrix::getNofSorting()const{
-        return nofSorting ;
-
-    };
-    int Matrix::getNofCentral()const{
-        return nofCentral;
-
-    };
+        }
+    }*/
+    
+}
