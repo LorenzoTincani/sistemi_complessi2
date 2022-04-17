@@ -30,9 +30,11 @@ class Matrix{
     public:
     Matrix()=default;
     void create();
+    void transient();
     int getNofHouse()const;
     int getNofSorting()const;
     int getNofCentral()const;
+    int CalcolatePath();
     
 
 
