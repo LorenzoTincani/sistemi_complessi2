@@ -44,6 +44,7 @@ void Building::SetPath(int path, int distance)
 {
     path_[path] = distance;
 }
+
 std::vector<int> Building::GetPath() const
 {
 
@@ -122,9 +123,6 @@ void Building::DeleteLinkedHouse(int i)
                 position_star=y;
 
                 break;
-
-           
-
             }
 
             else y++;
@@ -150,6 +148,7 @@ void Building::DeleteLinkedSorting(int i)
         }
 
     Linked_sortages.erase(Linked_sortages.begin() + position_star);
+
    
 };
 void Building::DeleteLinkedCentral(int i)
@@ -254,6 +253,9 @@ void Building::Print(int position, char C, bool EveryP)
         }
 
     }
+     void Building::SetEfficiency(int e){
+         efficiency_=e;
+     };
    /* bool Building::SearchEqualnodes(char C)const{
          if(C=='H'){
              for(int i=0; i<GetNofHouseLink; i++){
