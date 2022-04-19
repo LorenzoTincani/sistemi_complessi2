@@ -113,66 +113,67 @@ void Building::SetLinkedCentral(int i)
 };
 void Building::DeleteLinkedHouse(int i)
 {
-      int star = i;
-      int position_star=0;
+    int star = i;
+    int position_star = 0;
 
-        for(int y=0; y<Linked_houses.size();){
+    for (int y = 0; y < Linked_houses.size();)
+    {
 
-            if(Linked_houses[y]==star){
+        if (Linked_houses[y] == star)
+        {
 
-                position_star=y;
+            position_star = y;
 
-                break;
-            }
-
-            else y++;
-
+            break;
         }
+
+        else
+            y++;
+    }
 
     Linked_houses.erase(Linked_houses.begin() + position_star);
 };
 void Building::DeleteLinkedSorting(int i)
 {
     int star = i;
-      int position_star=0;
+    int position_star = 0;
 
-        for(int y=0; y<Linked_sortages.size();){
+    for (int y = 0; y < Linked_sortages.size();)
+    {
 
-            if(Linked_sortages[y]==star){
-                position_star=y;
-                break;
-            }
-
-            else y++;
-
+        if (Linked_sortages[y] == star)
+        {
+            position_star = y;
+            break;
         }
 
-    Linked_sortages.erase(Linked_sortages.begin() + position_star);
+        else
+            y++;
+    }
 
-   
+    Linked_sortages.erase(Linked_sortages.begin() + position_star);
 };
 void Building::DeleteLinkedCentral(int i)
 {
     Linked_centrals.erase(Linked_centrals.begin() + i);
-    
+
     int star = i;
-      int position_star=0;
+    int position_star = 0;
 
-        for(int y=0; y<Linked_centrals.size();){
+    for (int y = 0; y < Linked_centrals.size();)
+    {
 
-            if(Linked_centrals[y]==star){
+        if (Linked_centrals[y] == star)
+        {
 
-                position_star=y;
+            position_star = y;
 
-                break;
-
-           
-
-            }
-
-            else y++;
-
+            break;
         }
+
+        else
+            y++;
+    }
 
     Linked_centrals.erase(Linked_centrals.begin() + position_star);
 };
@@ -182,7 +183,7 @@ void Building::Print(int position, char C, bool EveryP)
     {
         if (C == 'H')
         {
-            std::cout << Linked_houses[position]<< std::endl;
+            std::cout << Linked_houses[position] << std::endl;
         }
         else if (C == 'S')
         {
@@ -190,9 +191,8 @@ void Building::Print(int position, char C, bool EveryP)
         }
         else
         {
-            std::cout << Linked_centrals[position]<< std::endl;
+            std::cout << Linked_centrals[position] << std::endl;
         }
-
     }
     else if (EveryP == true)
     {
@@ -208,72 +208,114 @@ void Building::Print(int position, char C, bool EveryP)
         {
             for (int i = 0; i < Linked_sortages.size(); i++)
             {
-                std::cout << Linked_sortages[i]<< " ";
+                std::cout << Linked_sortages[i] << " ";
             }
             std::cout << std::endl;
         }
         else
-        {for (int i = 0; i < Linked_centrals.size(); i++)
+        {
+            for (int i = 0; i < Linked_centrals.size(); i++)
             {
                 std::cout << Linked_centrals[i] << " ";
             }
         }
         std::cout << std::endl;
-        }
     }
+}
 
-    bool Building::AlreadyLinked(int i, char C) const{
+bool Building::AlreadyLinked(int i, char C) const
+{
 
-        if(C=='H'){
-            auto ItforFind=std::find(Linked_houses.begin(), Linked_houses.end(), i);
+    if (C == 'H')
+    {
+        auto ItforFind = std::find(Linked_houses.begin(), Linked_houses.end(), i);
 
-            if(ItforFind!=Linked_houses.end()){
-                return true;
-            }
-            else return false;
-
-
+        if (ItforFind != Linked_houses.end())
+        {
+            return true;
         }
-        else if(C=='S'){
-            auto ItforFind=std::find(Linked_sortages.begin(), Linked_sortages.end(), i);
+        else
+            return false;
+    }
+    else if (C == 'S')
+    {
+        auto ItforFind = std::find(Linked_sortages.begin(), Linked_sortages.end(), i);
 
-            if(ItforFind!=Linked_sortages.end()){
-                return true;
-            }
-            else return false;
-
+        if (ItforFind != Linked_sortages.end())
+        {
+            return true;
         }
-        else{
-             auto ItforFind=std::find(Linked_centrals.begin(), Linked_centrals.end(), i);
+        else
+            return false;
+    }
+    else
+    {
+        auto ItforFind = std::find(Linked_centrals.begin(), Linked_centrals.end(), i);
 
-            if(ItforFind!=Linked_centrals.end()){
-                return true;
-            }
-            else return false;
+        if (ItforFind != Linked_centrals.end())
+        {
+            return true;
         }
+        else
+            return false;
+    }
+}
+void Building::SetEfficiency(int e)
+{
+    efficiency_ = e;
+};
+
+void Building::SetPath_matrix(int i, int i_i)
+{
+    path_matrix[i][i_i];
+};
+void Building::SetPath_matrixType(int i, char type)
+{ // i va riempito tassativamente nel modo: i, i+1, i+2, ecc
+    path_matrix_Type[i][type];
+};
+
+/*void Building::PrintPath(int i, bool EveryP)
+{
+    if (EveryP == false)
+    {
+        for (int k = 0; k < path_matrix[i].size(); k++)
+        {
+            std::cout << path_matrix[i][k] << " \n";
+            std::cout << path_matrix_Type[i][k] << " ";
+        }
+        std::cout << std::endl;
+    }
+    else{
+        for(int p=0;p<path_matrix.size();p++){
+        for (int k = 0; k < path_matrix[i].size(); k++)
+        {
+            std::cout << path_matrix[p][k] << " \n";
+            std::cout << path_matrix_Type[p][k] << " ";
+        }
+        std::cout << std::endl;
+        }
+
 
     }
-     void Building::SetEfficiency(int e){
-         efficiency_=e;
-     };
-   /* bool Building::SearchEqualnodes(char C)const{
-         if(C=='H'){
-             for(int i=0; i<GetNofHouseLink; i++){
-                 if(AlreadyLinked(i,'H')==true){
-                     
-                 }
-             }
+};*/
+/* bool Building::SearchEqualnodes(char C)const{
+      if(C=='H'){
+          for(int i=0; i<GetNofHouseLink; i++){
+              if(AlreadyLinked(i,'H')==true){
+
+              }
+          }
 
 
-           
 
 
-        }
-        else if(C=='S'){
-            
-        }
-        else{
-        }
+
+     }
+     else if(C=='S'){
+
+     }
+     else{
+     }
 
 
-    }*/
+ }*/
