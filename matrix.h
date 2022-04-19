@@ -34,7 +34,9 @@ class Matrix{
     int getNofHouse()const;
     int getNofSorting()const;
     int getNofCentral()const;
-    int CalcolatePath();
+    void CalculatePath();
+    Building& operator()(int i);
+    
     
 
 
