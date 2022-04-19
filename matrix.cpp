@@ -2,6 +2,7 @@
 
 void Matrix::create()
 {
+     
     std::random_device rd;
     std::default_random_engine gen(rd());
     std::discrete_distribution<int> nodeType_dist({100, 5, 1});
@@ -70,6 +71,7 @@ void Matrix::create()
 
     for (int i = 0; i < N; ++i)
     {
+        std::cout<<i<<" ";
 
         BuildingType node_i = nodes[i].GetType();
 
@@ -379,6 +381,7 @@ void Matrix::create()
         counter++;
         j = counter;
     }
+   
 
     //----------------------CONTROLLI----------------------
 
@@ -697,30 +700,43 @@ int Matrix::getNofCentral() const
 {
     return nofCentral;
 };
-//CONTRINUA DA QUAAAAAAAAAAAA :)
-int matrix::CalcolatePath(){
-    for(int i=0;i<Centrall.size();i++){
-        int C = Centrall[i]
-        for(int j=0;j<N;j++){
+Building& Matrix::operator()(int i){
+    return nodes[i];
+};
 
-        }
-    }
-
-}
-void matrix::transient(){
-    //while (true)+ if-break+ contatore+ . Break rompe l'evoluzione, arrivati all'eq
-   /* while(true){
-        if(condizione dell'equilibrio){
-            break;
-            
-        }
-        else{
-            if()
-            for(int k=0;k<N;k++){
-                nodes[k].GetB
+/*void Matrix::CalculatePath()
+{
+    for (int i = 0; i < Centrall.size(); i++)
+    {
+        int C = Centrall[i];
+        for (int j = 0; j < N; j++)
+        {
+            // Sono per forza smistamenti in quanto solo questi sono collegati alle centrali.
+            if (nodes[j].AlreadyLinked(i, 'C') == true)
+            {
+                nodes[j].SetPath_matrix(i, C);
+                nodes[j].SetPath_matrix(i, 'C');
             }
-
+ 
         }
-    }*/
+
+    }
     
+}*/
+void Matrix::transient()
+{
+    // while (true)+ if-break+ contatore+ . Break rompe l'evoluzione, arrivati all'eq
+    /* while(true){
+         if(condizione dell'equilibrio){
+             break;
+
+         }
+         else{
+             if()
+             for(int k=0;k<N;k++){
+                 nodes[k].GetB
+             }
+
+         }
+     }*/
 }
