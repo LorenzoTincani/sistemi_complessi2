@@ -20,9 +20,9 @@ private:
    /* int NofCentralLink=0;
     int NofSortingLink=0;
     int NofHouseLink=0;*/
-    std::vector<int> path_; //array dei path (link di un nodo) e distanza a cui si trovano dalla centrale
+    std::vector<int> path_; //array che contiene le lunghezze dei path (colonne) di path_matrix
     std::vector<std::vector<int>> path_matrix{};
-    std::vector<std::vector<BuildingType>> path_matrix_Type{};
+    std::vector<std::vector<char>> path_matrix_Type{};
     std::vector<int> Linked_houses; //Sono tre vettori che contengono le posizioni, all'interno dell'array nodes, del nodo a cui sono collegati.
     std::vector<int> Linked_sortages;  //questi 3 vettori per cavare i link di troppo nel controllo
     std::vector<int> Linked_centrals;
@@ -41,7 +41,7 @@ public:
     double OutputPotential()const;
     //path settings
     void SetPath(int path, int distance);
-    void CalcolatePath();
+    //void CalcolatePath();
     std::vector<int> GetPath() const;
     int GetPathNunmber () const;
     int GetMinPath()const;
@@ -69,6 +69,12 @@ public:
     bool SearchEqualnodes(char C)const;
     
     void SetEfficiency(int e);
+
+    void SetPath_matrix(int i, int i_i);  //nella posizione i c'è il nodo i_i , fissando i indica la colonna
+    void SetPath_matrixType(int i, char type);
+    void PrintPath(int i, bool EveryP);
+    
+
 
 
    
