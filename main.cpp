@@ -23,12 +23,21 @@ int main()
 {
     Matrix adjiacency_matrix{};
     adjiacency_matrix.create();
+   //adjiacency_matrix.CalculatePath();
+
    // adjiacency_matrix.transient();
     
 
     std::cout << "nofcentral: " << adjiacency_matrix.getNofCentral() << std::endl;
     std::cout << "nofHouse: " << adjiacency_matrix.getNofHouse() << std::endl;
     std::cout << "nofSorting: " << adjiacency_matrix.getNofSorting() << std::endl;
+    /*for(int i=0;i<100;i++){
+        if( adjiacency_matrix(i).GetType()==BuildingType::S){
+         adjiacency_matrix(i).PrintPath(0,false);
+        }
+
+    }*/
+   
 
   
 
@@ -37,6 +46,7 @@ int main()
 
     std::cout << "---------------Collegamenti casa-casa prima dei controlli" << std::endl;
     std::cout << std::endl;
+
 
   /*  for (int k = 0; k < N; k++)
     {
@@ -180,5 +190,7 @@ int main()
 
 
 
-}// fare path matrix andando a vedere chi è collegato alle centrali, poi chi è collegato a chi è collegto alle centrali ecc ecc 
-// per farlo fare vector di chi è collegato al giro prima e andare a vedere chi è collegato a loro, 
+
+}
+// fare path matrix andando a vedere chi è collegato alle centrali, poi chi è collegato a chi è collegto alle centrali ecc ecc 
+// per farlo fare vector di chi è collegato al giro prima e andare a vedere chi è collegato a loro+ CI SONO I CORE DUMP IN CREATE 
