@@ -21,13 +21,10 @@ Nella matrice di adiacenza:
 
 int main()
 {
-    Matrix adjiacency_matrix{};
-    adjiacency_matrix.create();
-   //adjiacency_matrix.CalculatePath();
-
-   // adjiacency_matrix.transient();
     
-
+    Matrix adjiacency_matrix{100};
+    adjiacency_matrix.create();
+    
     std::cout << "nofcentral: " << adjiacency_matrix.getNofCentral() << std::endl;
     std::cout << "nofHouse: " << adjiacency_matrix.getNofHouse() << std::endl;
     std::cout << "nofSorting: " << adjiacency_matrix.getNofSorting() << std::endl;
