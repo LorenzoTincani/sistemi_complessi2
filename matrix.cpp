@@ -1,23 +1,35 @@
 #include "matrix.h"
-
+Matrix::Matrix(int n) : N(n), adj_matrix(N, std::vector<Link>(N))
+{
+    std::cout << "Matrice creata correttamente\n";
+    if (N <= 0)
+    {
+        throw std::runtime_error{"N must be bigger than 1"};
+    }
+}
 void Matrix::create()
 {
-     
+    std::cout << "entra nella funzione create\n";
     std::random_device rd;
     std::default_random_engine gen(rd());
+    // std::default_random_engine gen;
     std::discrete_distribution<int> nodeType_dist({100, 5, 1});
     std::normal_distribution<double> needfluct_dist(0.0, 0.33); // distribuzione guassiana di fluttuazioni nella richiesta di energia delle case
     std::uniform_real_distribution<double> link_dist(0.0, 1.0); // distribuzione uniforme per distribuzione dei link, generato come proporzioni programma arcelli
     std::uniform_int_distribution<int> forCentralchoice(0, N - 1);
     std::uniform_int_distribution<int> forCentralBuilding(0, N - 1);
+    Building empty;
 
+    std::cout << "Inizio creazione nodi\n";
     for (int k = 0; k < N; ++k) // settaggio dei nodi
     {
         int numtype = nodeType_dist(gen); // numtype = type of node
+        std::cout << "prob1\n";
         double fluct = needfluct_dist(gen);
+        nodes.push_back(empty);
         if (numtype == 0)
         {
-
+            std::cout << "prob2\n";
             nodes[k].SetType(BuildingType::H);
             nodes[k].SetNeed(3 + fluct); // consumo medio giornaliero di una famiglia media in kW
             // std::cout<<"house " <<nodes[k].GetNeed()<<std::endl;
@@ -26,6 +38,7 @@ void Matrix::create()
         }
         else if (numtype == 1)
         {
+            std::cout << "prob3\n";
 
             nodes[k].SetType(BuildingType::S);
             nodes[k].SetEfficiency(0.98);
@@ -34,9 +47,9 @@ void Matrix::create()
 
             // std::cout<<"sorting "<<nodes[k].GetNeed()<<std::endl;
         }
-
         else if (numtype == 2)
         {
+            std::cout << "riga 49\n";
             double entrypotcentral = 100; // da aggiustare
             nodes[k].SetType(BuildingType::C);
             // std::cout<<"central "<<nodes[k].GetNeed()<<std::endl;
@@ -44,6 +57,7 @@ void Matrix::create()
             Total_potential += entrypotcentral;
             nofCentral++;
             Centrall.push_back(k); // si sta riempiendo il vettore di Cetral con i posti delle Centrali rispettivi all'array nodes
+            std::cout << "prob4\n";
         }
         else
         {
@@ -66,19 +80,33 @@ void Matrix::create()
     {
         std::cout << "Too little houses for each sorting" << std::endl;
     }
+    std::cout << "Fine creazione nodi\n";
 
-    /* --------------GENERAZIONE MATRICE DI ADIACENZA-----------------------*/
-
-    for (int i = 0; i < N; ++i)
+    int o = 100;
+    for (int w = 0; w < o; ++w)
     {
-        std::cout<<i<<" ";
+        std::cout << w << " ";
+    }
+
+    std::cout << nofHouse << " " << nofCentral << " " << nofSorting << "\n";
+
+    //--------------GENERAZIONE MATRICE DI ADIACENZA-----------------------
+    std::cout << "Inizio matrice di Adiacenza\n";
+    std::cout << N << '\n';
+    int p = 100;
+
+    for (int i = 0; i < p; ++i)
+    {
+        std::cout << N << "\n";
+        std::cout << i << " ";
 
         BuildingType node_i = nodes[i].GetType();
 
-        for (j; j < N; ++j)
+        for (j; j < p; ++j)
         {
             double rnd = link_dist(gen); // generazione variabile uniforme della probabilità che avvenga link
             BuildingType node_j = nodes[j].GetType();
+            // adj_matrix[i].push_back(LinkType::N);
 
             if (i == j)
             {
@@ -102,9 +130,6 @@ void Matrix::create()
 
                             adj_matrix[i][j].SetNumber(1); // link small
                             adj_matrix[j][i].SetNumber(1);
-
-                            /*nodes[i].SetNofHouseLink(1);
-                            nodes[j].SetNofHouseLink(1);*/
 
                             nodes[i].SetLinkedHouse(j);
                             nodes[j].SetLinkedHouse(i);
@@ -132,9 +157,6 @@ void Matrix::create()
 
                                 adj_matrix[i][j].SetNumber(4);
                                 adj_matrix[j][i].SetNumber(4);
-
-                                /*nodes[i].SetNofSortingLink(1);
-                                nodes[j].SetNofHouseLink(1);*/
 
                                 nodes[i].SetLinkedSorting(j);
                                 nodes[j].SetLinkedHouse(i);
@@ -183,9 +205,6 @@ void Matrix::create()
                                 adj_matrix[i][j].SetNumber(4);
                                 adj_matrix[j][i].SetNumber(4);
 
-                                /*nodes[i].SetNofHouseLink(1);
-                                nodes[j].SetNofSortingLink(1);*/
-
                                 nodes[i].SetLinkedHouse(j);
                                 nodes[j].SetLinkedSorting(i);
 
@@ -220,9 +239,6 @@ void Matrix::create()
 
                             adj_matrix[i][j].SetNumber(2);
                             adj_matrix[j][i].SetNumber(2);
-
-                            /*nodes[i].SetNofSortingLink(1);
-                            nodes[j].SetNofSortingLink(1);*/
 
                             nodes[i].SetLinkedSorting(j);
                             nodes[j].SetLinkedSorting(i);
@@ -277,9 +293,6 @@ void Matrix::create()
                                 adj_matrix[j][i].SetNumber(3); // La matrice è simmetrica
                                 // nodes[i].SetSortingLink(true);
 
-                                /*nodes[i].SetNofCentralLink(1);
-                                nodes[j].SetNofSortingLink(1);*/
-
                                 nodes[i].SetLinkedCentral(j);
                                 nodes[j].SetLinkedSorting(i);
 
@@ -305,10 +318,6 @@ void Matrix::create()
 
                                 nodes[i].DeleteLinkedCentral(j);
                                 nodes[j].DeleteLinkedSorting(i);
-
-                                // nodes[i].SetSortingLink(true);
-                                /*nodes[i].SetNofCentralLink(1);
-                                nodes[rn].SetNofSortingLink(1);*/
 
                                 nofBiglink++;
                             }
@@ -338,9 +347,6 @@ void Matrix::create()
 
                                 adj_matrix[i][j].SetNumber(3);
                                 adj_matrix[j][i].SetNumber(3);
-
-                                /* nodes[i].SetNofSortingLink(1);
-                                 nodes[j].SetNofCentralLink(1);*/
 
                                 nodes[i].SetLinkedSorting(j);
                                 nodes[j].SetLinkedCentral(i);
@@ -381,7 +387,6 @@ void Matrix::create()
         counter++;
         j = counter;
     }
-   
 
     //----------------------CONTROLLI----------------------
 
@@ -700,7 +705,8 @@ int Matrix::getNofCentral() const
 {
     return nofCentral;
 };
-Building& Matrix::operator()(int i){
+Building &Matrix::operator()(int i)
+{
     return nodes[i];
 };
 
@@ -717,11 +723,11 @@ Building& Matrix::operator()(int i){
                 nodes[j].SetPath_matrix(i, C);
                 nodes[j].SetPath_matrix(i, 'C');
             }
- 
+
         }
 
     }
-    
+
 }*/
 void Matrix::transient()
 {
