@@ -12,11 +12,14 @@
 //std::random_device rd;
 class Matrix{
     private:
-    static const int N =100; // N è numero di nodi, N^2-N il numero di link possibili
-    std::array<std::array<Link, N>, N> adj_matrix{};
-    std::array<Building, N> nodes;
-    std::vector<int> Centrall; // vettore che tiene gli indici delle centrali di array
-    std::vector<int> House;    // vettore che tiene gli indici delle case di array
+  //  static const int N=100; // N è numero di nodi, N^2-N il numero di link possibili
+   // std::array<std::array<Link, N>, N> adj_matrix{}; //cambiato in vector perchè cosi lo si definisce bene nel costruttore
+   int N=0;
+   std::vector<std::vector<Link>> adj_matrix{};
+   // std::array<Building,N> nodes;
+   std::vector<Building> nodes{};
+    std::vector<int> Centrall{}; // vettore che tiene gli indici delle centrali di array
+    std::vector<int> House{};    // vettore che tiene gli indici delle case di array
 
     double Total_potential = 0.0;
     int nofSorting = 0;
@@ -28,7 +31,9 @@ class Matrix{
     int nofMediumlink = 0;
 
     public:
+    Matrix(int n);
     Matrix()=default;
+   
     void create();
     void transient();
     int getNofHouse()const;
