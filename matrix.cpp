@@ -24,17 +24,18 @@ void Matrix::create()
     for (int k = 0; k < N; ++k) // settaggio dei nodi
     {
         int numtype = nodeType_dist(gen); // numtype = type of node
-        std::cout << "prob1\n";
+
         double fluct = needfluct_dist(gen);
         nodes.push_back(empty);
         if (numtype == 0)
         {
-            std::cout << "prob2\n";
+
             nodes[k].SetType(BuildingType::H);
             nodes[k].SetNeed(3 + fluct); // consumo medio giornaliero di una famiglia media in kW
             // std::cout<<"house " <<nodes[k].GetNeed()<<std::endl;
             House.push_back(k);
             nofHouse++;
+            std::cout << "H " << k << "\n";
         }
         else if (numtype == 1)
         {
@@ -44,6 +45,7 @@ void Matrix::create()
             nodes[k].SetEfficiency(0.98);
             nodes[k].SetNeed(10 + fluct);
             nofSorting++;
+            std::cout << "S " << k << "\n";
 
             // std::cout<<"sorting "<<nodes[k].GetNeed()<<std::endl;
         }
@@ -57,7 +59,7 @@ void Matrix::create()
             Total_potential += entrypotcentral;
             nofCentral++;
             Centrall.push_back(k); // si sta riempiendo il vettore di Cetral con i posti delle Centrali rispettivi all'array nodes
-            std::cout << "prob4\n";
+            std::cout << "C " << k << "\n";
         }
         else
         {
@@ -256,6 +258,7 @@ void Matrix::create()
                     }
                     else
                     { // smistamento-centrale
+                    std::cout<<"E' qui il problemone\n";
                         int rn = 0;
                         if (nodes[i].GetNofCentralLink() == 0)
                         {
@@ -315,9 +318,11 @@ void Matrix::create()
 
                                 adj_matrix[i][j].SetNumber(0);
                                 adj_matrix[j][i].SetNumber(0);
+                                std::cout<<"Questo è il vero problema\n";
 
-                                nodes[i].DeleteLinkedCentral(j);
-                                nodes[j].DeleteLinkedSorting(i);
+                                 //nodes[i].DeleteLinkedCentral(j);
+                                 //nodes[j].DeleteLinkedSorting(i);
+
 
                                 nofBiglink++;
                             }
