@@ -118,6 +118,7 @@ void Building::DeleteLinkedHouse(int i)
 
     for (int y = 0; y < Linked_houses.size();)
     {
+        std::cout << "121\n";
 
         if (Linked_houses[y] == star)
         {
@@ -135,6 +136,8 @@ void Building::DeleteLinkedHouse(int i)
 };
 void Building::DeleteLinkedSorting(int i)
 {
+    std::cout << "Questo metodo 1 è il problema INIZIO\n";
+
     int star = i;
     int position_star = 0;
 
@@ -152,11 +155,12 @@ void Building::DeleteLinkedSorting(int i)
     }
 
     Linked_sortages.erase(Linked_sortages.begin() + position_star);
+    std::cout << "Questo metodo 1 è il problema FINE\n";
 };
 void Building::DeleteLinkedCentral(int i)
 {
-    Linked_centrals.erase(Linked_centrals.begin() + i);
 
+    std::cout << "Questo metodo 2 è il problema INIZIO\n";
     int star = i;
     int position_star = 0;
 
@@ -176,6 +180,7 @@ void Building::DeleteLinkedCentral(int i)
     }
 
     Linked_centrals.erase(Linked_centrals.begin() + position_star);
+    std::cout << "Questo metodo 2 è il problema FINE\n";
 };
 void Building::Print(int position, char C, bool EveryP)
 {
