@@ -41,6 +41,7 @@ public:
     double OutputPotential()const;
     //path settings
     void SetPath(int path, int distance);
+    int GetPathsize() const;
     //void CalcolatePath();
     std::vector<int> GetPath() const;
     int GetPathNunmber () const;
