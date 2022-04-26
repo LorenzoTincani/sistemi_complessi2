@@ -74,6 +74,12 @@ void Matrix::create()
         Centrall.push_back(positionofC);
         nofCentral++;
     }
+    if (nofSorting == 0)
+    {
+        int positionofS = forCentralBuilding(gen);
+        nodes[positionofS].SetType(BuildingType::S);
+        nofSorting++;
+    }
 
     int j = 0; // j è fuori per poter calcolare solo il triangolo superiore della matrice dato che è simmetrica
     int counter = 0;
@@ -258,7 +264,7 @@ void Matrix::create()
                     }
                     else
                     { // smistamento-centrale
-                    std::cout<<"E' qui il problemone\n";
+
                         int rn = 0;
                         if (nodes[i].GetNofCentralLink() == 0)
                         {
@@ -318,11 +324,9 @@ void Matrix::create()
 
                                 adj_matrix[i][j].SetNumber(0);
                                 adj_matrix[j][i].SetNumber(0);
-                                std::cout<<"Questo è il vero problema\n";
 
-                                 //nodes[i].DeleteLinkedCentral(j);
-                                 //nodes[j].DeleteLinkedSorting(i);
-
+                                // nodes[i].DeleteLinkedCentral(j);
+                                // nodes[j].DeleteLinkedSorting(i);
 
                                 nofBiglink++;
                             }
@@ -715,25 +719,50 @@ Building &Matrix::operator()(int i)
     return nodes[i];
 };
 
-/*void Matrix::CalculatePath()
+void Matrix::CalculatePath()
 {
-    for (int i = 0; i < Centrall.size(); i++)
+    bool condition = true;
+    int size = 0;
+
+    std::vector<int> previous = Centrall;
+    while (condition)
     {
-        int C = Centrall[i];
-        for (int j = 0; j < N; j++)
+        int pippo;
+        for (p = 0; p < N; p++)
         {
-            // Sono per forza smistamenti in quanto solo questi sono collegati alle centrali.
-            if (nodes[j].AlreadyLinked(i, 'C') == true)
+            if (nodes[p].GetPathsize() != 0)
             {
-                nodes[j].SetPath_matrix(i, C);
-                nodes[j].SetPath_matrix(i, 'C');
+
+                size++;
             }
-
+            if (size >= N)  //esco quando size > N
+            {
+                condition = false;
+            }
         }
-
+        
+        for (int i = 0; i < previous.size(); i++)
+        {
+            int position_in_nodes = previous[i]; 
+            for (int j = 0; j < N; j++)
+            {
+                // Sono per forza smistamenti in quanto solo questi sono collegati alle centrali.
+                if (nodes[j].AlreadyLinked(position_in-nodes, 'C') == true)
+                {
+                    if (nodes[j].GetType() == BuildingType::S)
+                    {
+                        nodes[j].SetPath_matrix(i, position_in_nodes);
+                        nodes[j].SetPath_matrix(i, 'C');
+                    }
+                    else
+                    {
+                        throw std::runtime_error{"N must be bigger than 1"};
+                    }
+                }
+            }
+        }
     }
-
-}*/
+}
 void Matrix::transient()
 {
     // while (true)+ if-break+ contatore+ . Break rompe l'evoluzione, arrivati all'eq
