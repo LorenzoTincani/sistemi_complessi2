@@ -118,7 +118,7 @@ void Building::DeleteLinkedHouse(int i)
 
     for (int y = 0; y < Linked_houses.size();)
     {
-        std::cout << "121\n";
+       
 
         if (Linked_houses[y] == star)
         {
@@ -136,7 +136,7 @@ void Building::DeleteLinkedHouse(int i)
 };
 void Building::DeleteLinkedSorting(int i)
 {
-    std::cout << "Questo metodo 1 è il problema INIZIO\n";
+    
 
     int star = i;
     int position_star = 0;
@@ -155,12 +155,11 @@ void Building::DeleteLinkedSorting(int i)
     }
 
     Linked_sortages.erase(Linked_sortages.begin() + position_star);
-    std::cout << "Questo metodo 1 è il problema FINE\n";
+  
 };
 void Building::DeleteLinkedCentral(int i)
 {
 
-    std::cout << "Questo metodo 2 è il problema INIZIO\n";
     int star = i;
     int position_star = 0;
 
@@ -180,7 +179,7 @@ void Building::DeleteLinkedCentral(int i)
     }
 
     Linked_centrals.erase(Linked_centrals.begin() + position_star);
-    std::cout << "Questo metodo 2 è il problema FINE\n";
+
 };
 void Building::Print(int position, char C, bool EveryP)
 {
@@ -274,6 +273,9 @@ void Building::SetPath_matrix(int i, int i_i)
 {
     path_matrix[i][i_i];
 };
+ int GetPathsize() const{
+     return path_.size();
+ };
 void Building::SetPath_matrixType(int i, char type)
 { // i va riempito tassativamente nel modo: i, i+1, i+2, ecc
     path_matrix_Type[i][type];
