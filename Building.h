@@ -20,8 +20,8 @@ private:
    /* int NofCentralLink=0;
     int NofSortingLink=0;
     int NofHouseLink=0;*/
-    std::vector<int> path_; //array che contiene le lunghezze dei path (colonne) di path_matrix
-    std::vector<std::vector<int>> path_matrix{};
+    std::vector<int> path_; //array la cui dimensione è il numero di percorsi. Int indica i nodi tra centrale e nodo interessato
+    std::vector<std::vector<int>> path_matrix{};// la colonna indica quali sono i nodi che fanno il path interessato
     std::vector<std::vector<char>> path_matrix_Type{};
     std::vector<int> Linked_houses; //Sono tre vettori che contengono le posizioni, all'interno dell'array nodes, del nodo a cui sono collegati.
     std::vector<int> Linked_sortages;  //questi 3 vettori per cavare i link di troppo nel controllo
@@ -41,7 +41,7 @@ public:
     double OutputPotential()const;
     //path settings
     void SetPath(int path, int distance);
-    int GetPathsize() const;
+    int GetPathsize();
     //void CalcolatePath();
     std::vector<int> GetPath() const;
     int GetPathNunmber () const;
