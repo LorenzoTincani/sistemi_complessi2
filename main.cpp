@@ -21,8 +21,10 @@ Nella matrice di adiacenza:
 
 int main()
 {
+    int N =100;
     
     Matrix adjiacency_matrix{100};
+    std::vector<std::vector<int>> ADJmatrix;
     adjiacency_matrix.create();
     
     std::cout << "nofcentral: " << adjiacency_matrix.getNofCentral() << std::endl;
@@ -81,34 +83,40 @@ int main()
     }
     std::cout << "----------------------" << std::endl;
     std::cout << std::endl;
-    std::cout << "*********************************************************" << std::endl;
+    std::cout << "*********************************************************" << std::endl;*/
 
-    for (int i = 0; i < N; i++)
+  /* for (int i = 0; i < N; i++)
     {
         for (int k = 0; k < N; k++)
         {
-            if (adj_matrix[i][k].GetType() == LinkType::N) // null
+            if (adjiacency_matrix(i,k).GetType() == LinkType::N) // null
             {
                 printf("\033[33m0 ");
+               // ADJmatrix[i].push_back(0);
+
             }
-            else if (adj_matrix[i][k].GetType() == LinkType::SH) // hh
+            else if (adjiacency_matrix(i,k).GetType() == LinkType::SH) // hh
             {
                 // std::cout << "       ";
                 printf("\033[31m1 ");
+                // ADJmatrix[i].push_back(1);
             }
-            else if (adj_matrix[i][k].GetType() == LinkType::M) // ss
+            else if (adjiacency_matrix(i,k).GetType() == LinkType::M) // ss
             {
                 // std::cout << "       ";
                 printf("\033[32m2 ");
+              //   ADJmatrix[i].push_back(1);
             }
-            else if (adj_matrix[i][k].GetType() == LinkType::B) // cs
+            else if (adjiacency_matrix(i,k).GetType() == LinkType::B) // cs
             {
                 // std::cout << "       ";
                 printf("\033[36m3 ");
+              //   ADJmatrix[i].push_back(1);
             }
-            else if (adj_matrix[i][k].GetType() == LinkType::SS)
+            else if (adjiacency_matrix(i,k).GetType() == LinkType::SS)
             { // hs
                 printf("\033[37m4 ");
+             //    ADJmatrix[i].push_back(1);
             }
             else
             { // E' giusto vedere se viene generato qualche numero che non sia tra quelli contemplati.
@@ -118,8 +126,8 @@ int main()
         }
 
         std::cout << std::endl;
-    }
-    int nofHouselinkedS = 0;
+    }*/
+ /*   int nofHouselinkedS = 0;
     int nofSNOlinked = 0;
 
     for (int k = 0; k < N; k++)
@@ -188,6 +196,64 @@ int main()
 
 
 
+
+
+
+
+
+
+	/*
+	We will find path matrix for this graph
+
+		     5
+		     ^
+      		     |
+		3 -> 4
+		^    ^
+		|    |
+		1 -> 2
+
+	*/
+
+	// Example Adjacency matrix, row 0 and column 0 doesn't contribute to path matrix
+
+	
+
+	/*auto pathMatrix =  adjiacency_matrix.Calculate( ADJmatrix);
+
+	// Output the path matrix
+	for (int i = 1; i < pathMatrix.size(); i++) {
+		for (int j = 1; j < pathMatrix.size(); j++) {
+			std::cout << pathMatrix[i][j] << " ";
+		}
+		std::cout << std::endl;
+	}*/
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // fare path matrix andando a vedere chi è collegato alle centrali, poi chi è collegato a chi è collegto alle centrali ecc ecc 
 // per farlo fare vector di chi è collegato al giro prima e andare a vedere chi è collegato a loro+ CI SONO I CORE DUMP IN CREATE 
