@@ -274,7 +274,7 @@ void Matrix::create()
                                 rn = forCentralBuilding(gen);
                                 if (rn == Centrall[m])
                                 {
-                                    rn = Centrall[m];
+                                    //rn = Centrall[m];
                                     break;
                                 }
                                 else
@@ -718,15 +718,21 @@ Building &Matrix::operator()(int i)
 {
     return nodes[i];
 };
+    Link&Matrix::operator()(int i, int j){
+        return  adj_matrix[i][j];
+
+    };
+
 
 void Matrix::CalculatePath()
 {
     bool condition = true;
-    int size = 0;
+    
 
     std::vector<int> previous = Centrall;
     while (condition)
     {
+        int size = 0;
         int pippo;
         for (p = 0; p < N; p++)
         {
@@ -741,28 +747,86 @@ void Matrix::CalculatePath()
             }
         }
         
+
+
+
         for (int i = 0; i < previous.size(); i++)
         {
+            std::vector<int> new_previoius;
             int position_in_nodes = previous[i]; 
-            for (int j = 0; j < N; j++)
+            char type;
+            switch(nodes[position_in_nodes].GetType()){
+                case BuildingType::H:
+                 type ='H';
+                break;
+                case BuildingType::S:
+                 type ='S';
+                break;
+                case BuildingType::C:
+                 type ='C';
+                break;
+
+            }
+
+             for (int j = 0; j < N; j++)
             {
                 // Sono per forza smistamenti in quanto solo questi sono collegati alle centrali.
-                if (nodes[j].AlreadyLinked(position_in-nodes, 'C') == true)
+                if (nodes[j].AlreadyLinked(position_in_nodes, type) == true)
                 {
-                    if (nodes[j].GetType() == BuildingType::S)
-                    {
+
                         nodes[j].SetPath_matrix(i, position_in_nodes);
-                        nodes[j].SetPath_matrix(i, 'C');
-                    }
-                    else
-                    {
-                        throw std::runtime_error{"N must be bigger than 1"};
-                    }
+                        nodes[j].SetPath_matrix(i, type);
+                        new_prevous.push_back(nodes[j]);
+                        int size=nodes[i].GetPathsize();
+                        for (int z ;z<size; z++){
+
+                                //decidere se mettere il path del precedente nel successivo o usare il min path
+                                // se si mettono i path di quello precedenta però vengono un botto lunghi 
+                                // poi non andrebbero anche condiderati i path all'indietro? allora diventerebbe praticamente
+                                // infinito il numero di path 
+
+
+                        }
+
+
+
                 }
             }
         }
     }
 }
+
+std::vector<std::vector<int>> Matrix::Calculate(std::vector<std::vector<int>> adjacency){
+
+	
+	std::vector<std::vector<int>> path_matrix2(adjacency.size());
+	
+	// Storing our Path0
+	for (int i = 0; i < adjacency.size(); i++) {
+		for (int j = 0; j < adjacency.size(); j++) {
+			path_matrix2[i].push_back(adjacency[i][j]);
+		}
+	}
+
+	// Main algorithm starts here
+	for (int k = 1; k < adjacency.size(); k++) {
+		
+		for (int i = 1; i < adjacency.size(); i++) {
+		
+			for (int j = 1; j < adjacency.size(); j++) {
+
+				path_matrix2[i][j] = (path_matrix2[i][j] == 1 or
+				                     (path_matrix2[i][k] == 1 and path_matrix2[k][j] == 1)
+				                    );
+			}
+		}
+	}
+
+	return path_matrix2;
+}
+
+ //g++ main.cpp matrix.cpp Building.cpp Link.cpp 
+
 void Matrix::transient()
 {
     // while (true)+ if-break+ contatore+ . Break rompe l'evoluzione, arrivati all'eq
