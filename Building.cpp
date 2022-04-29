@@ -273,8 +273,9 @@ void Building::SetPath_matrix(int i, int i_i)
 {
     path_matrix[i][i_i];
 };
- int GetPathsize() const{
-     return path_.size();
+ int Building::GetPathsize() {
+   int a= path_.size();
+   return a;
  };
 void Building::SetPath_matrixType(int i, char type)
 { // i va riempito tassativamente nel modo: i, i+1, i+2, ecc
