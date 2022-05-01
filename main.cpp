@@ -21,10 +21,9 @@ Nella matrice di adiacenza:
 
 int main()
 {
-    int N =100;
-    
-    Matrix adjiacency_matrix{100};
-    std::vector<std::vector<int>> ADJmatrix;
+    int N =10;
+    Matrix adjiacency_matrix{N};
+    std::vector<std::vector<int>> ADJmatrix(N,std::vector<int>(N,0));
     adjiacency_matrix.create();
     
     std::cout << "nofcentral: " << adjiacency_matrix.getNofCentral() << std::endl;
@@ -36,6 +35,8 @@ int main()
         }
 
     }*/
+
+    adjiacency_matrix.CalculatePath();
    
 
   
@@ -46,8 +47,17 @@ int main()
     std::cout << "---------------Collegamenti casa-casa prima dei controlli" << std::endl;
     std::cout << std::endl;
 
+   /*for(int i=0;i<N;i++){
+        for(int j=0;j<N;j++){
+            //std::cout<<"Inizio problema";
+          //  ADJmatrix[i].push_back(0);
+          std::cout<<ADJmatrix[i][j]<<" ";
+        }
+        std::cout<<std::endl;
+    }*/
 
-  /*  for (int k = 0; k < N; k++)
+
+  /* for (int k = 0; k < N; k++)
     {
         if (nodes[k].GetType() == BuildingType::H)
         {
@@ -85,48 +95,51 @@ int main()
     std::cout << std::endl;
     std::cout << "*********************************************************" << std::endl;*/
 
-  /* for (int i = 0; i < N; i++)
+  for (int i = 0; i < N; i++)
     {
         for (int k = 0; k < N; k++)
         {
             if (adjiacency_matrix(i,k).GetType() == LinkType::N) // null
             {
-                printf("\033[33m0 ");
+                //printf("\033[33m0 ");
                // ADJmatrix[i].push_back(0);
+              
 
             }
             else if (adjiacency_matrix(i,k).GetType() == LinkType::SH) // hh
             {
                 // std::cout << "       ";
-                printf("\033[31m1 ");
+              //  printf("\033[31m1 ");
                 // ADJmatrix[i].push_back(1);
+                ADJmatrix[i][k]=1;
             }
             else if (adjiacency_matrix(i,k).GetType() == LinkType::M) // ss
             {
                 // std::cout << "       ";
-                printf("\033[32m2 ");
+              //  printf("\033[32m2 ");
               //   ADJmatrix[i].push_back(1);
+              ADJmatrix[i][k]=1;
             }
             else if (adjiacency_matrix(i,k).GetType() == LinkType::B) // cs
             {
                 // std::cout << "       ";
-                printf("\033[36m3 ");
-              //   ADJmatrix[i].push_back(1);
+              //  printf("\033[36m3 ");
+                ADJmatrix[i][k]=1;
             }
             else if (adjiacency_matrix(i,k).GetType() == LinkType::SS)
             { // hs
-                printf("\033[37m4 ");
-             //    ADJmatrix[i].push_back(1);
+             //   printf("\033[37m4 ");
+                ADJmatrix[i][k]=1;
             }
             else
             { // E' giusto vedere se viene generato qualche numero che non sia tra quelli contemplati.
-                printf("\033[35m7 ");
+             //   printf("\033[35m7 ");
             }
-            printf("\033[0m");
+            //printf("\033[0m");
         }
 
         std::cout << std::endl;
-    }*/
+    }
  /*   int nofHouselinkedS = 0;
     int nofSNOlinked = 0;
 
@@ -207,7 +220,7 @@ int main()
 
 		     5
 		     ^
-      		     |
+      		|
 		3 -> 4
 		^    ^
 		|    |
@@ -219,7 +232,7 @@ int main()
 
 	
 
-	/*auto pathMatrix =  adjiacency_matrix.Calculate( ADJmatrix);
+	auto pathMatrix =  adjiacency_matrix.Calculate( ADJmatrix);
 
 	// Output the path matrix
 	for (int i = 1; i < pathMatrix.size(); i++) {
@@ -227,7 +240,13 @@ int main()
 			std::cout << pathMatrix[i][j] << " ";
 		}
 		std::cout << std::endl;
-	}*/
+	}
+
+
+
+
+
+
 
 
 }
