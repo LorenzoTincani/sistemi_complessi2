@@ -45,6 +45,11 @@ void Building::SetPath(int path, int distance)
     path_[path] = distance;
 }
 
+void Building::PathPushBack(int path_length)
+{
+    path_.push_back(path_length+1);
+}
+
 std::vector<int> Building::GetPath() const
 {
 
