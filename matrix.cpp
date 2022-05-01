@@ -101,7 +101,8 @@ void Matrix::create()
     //--------------GENERAZIONE MATRICE DI ADIACENZA-----------------------
     std::cout << "Inizio matrice di Adiacenza\n";
     std::cout << N << '\n';
-    int p = 100;
+    //int p = 100;
+    int p=N;
 
     for (int i = 0; i < p; ++i)
     {
@@ -733,7 +734,7 @@ void Matrix::CalculatePath()
     while (condition)
     {
         int size = 0;
-        int pippo;
+        int p;
         for (p = 0; p < N; p++)
         {
             if (nodes[p].GetPathsize() != 0)
@@ -741,6 +742,7 @@ void Matrix::CalculatePath()
 
                 size++;
             }
+            //Da riguardare la condizione.
             if (size >= N)  //esco quando size > N
             {
                 condition = false;
@@ -752,9 +754,10 @@ void Matrix::CalculatePath()
 
         for (int i = 0; i < previous.size(); i++)
         {
-            std::vector<int> new_previoius;
+            std::vector<int> new_previous;
             int position_in_nodes = previous[i]; 
             char type;
+
             switch(nodes[position_in_nodes].GetType()){
                 case BuildingType::H:
                  type ='H';
@@ -770,31 +773,29 @@ void Matrix::CalculatePath()
 
              for (int j = 0; j < N; j++)
             {
-                // Sono per forza smistamenti in quanto solo questi sono collegati alle centrali.
-                if (nodes[j].AlreadyLinked(position_in_nodes, type) == true)
+                
+                if (nodes[j].AlreadyLinked(position_in_nodes, type) == true) //se è collegato procedi
                 {
 
                         nodes[j].SetPath_matrix(i, position_in_nodes);
                         nodes[j].SetPath_matrix(i, type);
-                        new_prevous.push_back(nodes[j]);
+                        new_previous.push_back(j);
                         int size=nodes[i].GetPathsize();
                         for (int z ;z<size; z++){
-
-                                //decidere se mettere il path del precedente nel successivo o usare il min path
-                                // se si mettono i path di quello precedenta però vengono un botto lunghi 
-                                // poi non andrebbero anche condiderati i path all'indietro? allora diventerebbe praticamente
-                                // infinito il numero di path 
-
+                            
+                            int path_length=nodes[i].GetPath()[z];
+                            
+                            nodes[j].PathPushBack(path_length);
 
                         }
-
-
-
                 }
             }
+
+            previous= new_previous;
         }
     }
 }
+// -----------------------METTERE GLI ANTILOOP   SIA CORE DUMP CHE LOOP ----------------------------
 
 std::vector<std::vector<int>> Matrix::Calculate(std::vector<std::vector<int>> adjacency){
 
