@@ -23,7 +23,7 @@ int main()
 {
     int N =10;
     Matrix adjiacency_matrix{N};
-    std::vector<std::vector<int>> ADJmatrix(N,std::vector<int>(N,0));
+  //  std::vector<std::vector<int>> ADJmatrix(N,std::vector<int>(N,0));
     adjiacency_matrix.create();
     
     std::cout << "nofcentral: " << adjiacency_matrix.getNofCentral() << std::endl;
@@ -36,7 +36,7 @@ int main()
 
     }*/
 
-    adjiacency_matrix.CalculatePath();
+   
    
 
   
@@ -95,7 +95,7 @@ int main()
     std::cout << std::endl;
     std::cout << "*********************************************************" << std::endl;*/
 
-  for (int i = 0; i < N; i++)
+  /*for (int i = 0; i < N; i++)
     {
         for (int k = 0; k < N; k++)
         {
@@ -139,7 +139,7 @@ int main()
         }
 
         std::cout << std::endl;
-    }
+    }*/
  /*   int nofHouselinkedS = 0;
     int nofSNOlinked = 0;
 
@@ -232,15 +232,6 @@ int main()
 
 	
 
-	auto pathMatrix =  adjiacency_matrix.Calculate( ADJmatrix);
-
-	// Output the path matrix
-	for (int i = 1; i < pathMatrix.size(); i++) {
-		for (int j = 1; j < pathMatrix.size(); j++) {
-			std::cout << pathMatrix[i][j] << " ";
-		}
-		std::cout << std::endl;
-	}
 
 
 
@@ -252,27 +243,4 @@ int main()
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// fare path matrix andando a vedere chi è collegato alle centrali, poi chi è collegato a chi è collegto alle centrali ecc ecc 
-// per farlo fare vector di chi è collegato al giro prima e andare a vedere chi è collegato a loro+ CI SONO I CORE DUMP IN CREATE 
+//FARE ADD EDGE ALL'INTERNO DI CREATE
