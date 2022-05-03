@@ -1,4 +1,5 @@
 #include "matrix.h"
+
 Matrix::Matrix(int n) : N(n), adj_matrix(N, std::vector<Link>(N))
 {
     std::cout << "Matrice creata correttamente\n";
@@ -7,6 +8,67 @@ Matrix::Matrix(int n) : N(n), adj_matrix(N, std::vector<Link>(N))
         throw std::runtime_error{"N must be bigger than 1"};
     }
 }
+
+
+
+void Matrix::addEdge(int u, int v)
+{
+    adj[u].push_back(v); // Add v to u’s list.
+}
+
+void Matrix::printAllPathsUtil(int u, int d, bool visited[],
+                              int path[], int& path_index)
+{
+    // Mark the current node and store it in path[]
+    visited[u] = true;
+    path[path_index] = u;
+    path_index++;
+ 
+    // If current vertex is same as destination, then print
+    // current path[]
+    if (u == d) {
+        for (int i = 0; i < path_index; i++)
+            std::cout << path[i] << " ";
+        std::cout << std::endl;
+    }
+    else // If current vertex is not destination
+    {
+        // Recur for all the vertices adjacent to current vertex
+        std::list<int>::iterator i;
+        for (i = adj[u].begin(); i != adj[u].end(); ++i)
+            if (!visited[*i])
+                printAllPathsUtil(*i, d, visited, path, path_index);
+    }
+ 
+    // Remove current vertex from path[] and mark it as unvisited
+    path_index--;
+    visited[u] = false;
+}
+
+
+// Prints all paths from 's' to 'd'
+void Matrix::printAllPaths(int s, int d)
+{
+    // Mark all the vertices as not visited
+    bool* visited = new bool[N];
+ 
+    // Create an array to store paths
+    int* path = new int[N];
+    int path_index = 0; // Initialize path[] as empty
+ 
+    // Initialize all vertices as not visited
+    for (int i = 0; i < N; i++)
+        visited[i] = false;
+ 
+    // Call the recursive helper function to print all paths
+    printAllPathsUtil(s, d, visited, path, path_index);
+}
+ 
+// A recursive function to print all paths from 'u' to 'd'.
+// visited[] keeps track of vertices in current path.
+// path[] stores actual vertices and path_index is current
+// index in path[]
+
 void Matrix::create()
 {
     std::cout << "entra nella funzione create\n";
@@ -142,6 +204,9 @@ void Matrix::create()
 
                             nodes[i].SetLinkedHouse(j);
                             nodes[j].SetLinkedHouse(i);
+
+                
+
 
                             nofSmalllink++;
                         }
@@ -725,7 +790,7 @@ Building &Matrix::operator()(int i)
     };
 
 
-void Matrix::CalculatePath()
+/*void Matrix::CalculatePath()
 {
     bool condition = true;
     
@@ -794,8 +859,8 @@ void Matrix::CalculatePath()
             previous= new_previous;
         }
     }
-}
-// -----------------------METTERE GLI ANTILOOP   SIA CORE DUMP CHE LOOP ----------------------------
+}*/
+// -----------------------METTERE GLI ANTILOOP   SIA CORE DUMP CHE LOOP ;)  ----------------------------
 
 std::vector<std::vector<int>> Matrix::Calculate(std::vector<std::vector<int>> adjacency){
 
