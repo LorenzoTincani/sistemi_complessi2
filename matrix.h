@@ -9,6 +9,8 @@
 #include <iomanip>
 #include <vector>
 #include <fstream>
+#include <list>
+
 // std::random_device rd;
 class Matrix
 {
@@ -17,6 +19,10 @@ private:
   // std::array<std::array<Link, N>, N> adj_matrix{}; //cambiato in vector perchè cosi lo si definisce bene nel costruttore
   int N = 0;
   std::vector<std::vector<Link>> adj_matrix{};
+  std::list<int> *adj = new std::list<int>[N];
+  void printAllPathsUtil(int, int, bool[], int[], int &);
+
+
   // std::array<Building,N> nodes;
   std::vector<Building> nodes{};
   std::vector<int> Centrall{}; // vettore che tiene gli indici delle centrali di nodes
@@ -35,12 +41,16 @@ public:
   Matrix(int n);
   Matrix() = default;
 
+  void addEdge(int u, int v);
+    void printAllPaths(int s, int d);
+
+
   void create();
   void transient();
   int getNofHouse() const;
   int getNofSorting() const;
   int getNofCentral() const;
-  void CalculatePath();
+  // void CalculatePath();
   Building &operator()(int i);
   Link &operator()(int i, int j);
   std::vector<std::vector<int>> Calculate(std::vector<std::vector<int>> adjacency);
