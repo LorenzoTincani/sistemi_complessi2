@@ -1,8 +1,50 @@
 #include "Building.h"
-#include "algorithm"
+#include <algorithm>
 Building::Building(BuildingType type, double need, double entry_potential) : type_{type}, need_{need}, entry_potential_{entry_potential}
 {
 }
+
+/*
+
+   BuildingType type_ = BuildingType::H;
+    double need_ = 0.0;
+    double entry_potential_ = 0.0; // settato a zero, perchè definito dalla dinamica
+    bool sorting_link_ = false;
+    double efficiency_ = 0;           // diverso da zero solamente per i sorting, è legato al loro consumo e dipende dinamic dall'energia che hanno
+    std::vector<int> path_;           // array la cui dimensione è il numero di percorsi. Int indica i nodi tra centrale e nodo interessato
+    std::vector<int> Linked_houses;   // Sono tre vettori che contengono le posizioni, all'interno dell'array nodes, del nodo a cui sono collegati.
+    std::vector<int> Linked_sortages; // questi 3 vettori per cavare i link di troppo nel controllo
+    std::vector<int> Linked_centrals;
+*/
+Building &Building::operator=(Building const &other)
+{
+    if (this != &other)
+    {
+        // Copia attributi
+        type_ = other.GetType();
+        entry_potential_ = other.GetEntryPotential();
+        sorting_link_ = other.GetNofSortingLink();
+        efficiency_ = other.GetEfficiency();
+        // Copia vettori
+        Linked_houses.clear();
+        for (int i = 0; i < other.GetNofHouseLink(); i++)
+        {
+            Linked_houses.push_back(other.Linked_houses[i]);
+        }
+        Linked_sortages.clear();
+        for (int i = 0; i < other.GetNofSortingLink(); i++)
+        {
+            Linked_sortages.push_back(other.Linked_sortages[i]);
+        }
+        Linked_centrals.clear();
+        for (int i = 0; i < other.GetNofCentralLink(); i++)
+        {
+            Linked_centrals.push_back(other.Linked_centrals[i]);
+        }
+    }
+
+    return *this;
+};
 BuildingType Building::GetType() const
 {
     return type_;
@@ -19,6 +61,10 @@ double Building::GetEntryPotential() const
 {
 
     return entry_potential_;
+};
+double Building::GetEfficiency() const
+{
+    return efficiency_;
 };
 void Building::SetEntryPotential(double entry_potential)
 {
@@ -47,7 +93,7 @@ void Building::SetPath(int path, int distance)
 
 void Building::PathPushBack(int path_length)
 {
-    path_.push_back(path_length+1);
+    path_.push_back(path_length + 1);
 }
 
 std::vector<int> Building::GetPath() const
@@ -78,17 +124,14 @@ int Building::GetPathLength(int path) const
 
 int Building::GetNofSortingLink() const
 {
-    // return NofSortingLink;
     return Linked_sortages.size();
 }
 int Building::GetNofHouseLink() const
 {
-    // return NofHouseLink;
     return Linked_houses.size();
 }
 int Building::GetNofCentralLink() const
 {
-    // return NofCentralLink;
     return Linked_centrals.size();
 }
 
@@ -116,6 +159,19 @@ void Building::SetLinkedCentral(int i)
 {
     Linked_centrals.push_back(i);
 };
+
+int Building::GetLinked_houses_size() const
+{
+    return Linked_houses.size();
+};
+int Building::GetLinked_sortages_size() const
+{
+    return Linked_sortages.size();
+};
+int Building::GetLinked_centrals_size() const
+{
+    return Linked_centrals.size();
+};
 void Building::DeleteLinkedHouse(int i)
 {
     int star = i;
@@ -123,7 +179,6 @@ void Building::DeleteLinkedHouse(int i)
 
     for (int y = 0; y < Linked_houses.size();)
     {
-       
 
         if (Linked_houses[y] == star)
         {
@@ -141,7 +196,6 @@ void Building::DeleteLinkedHouse(int i)
 };
 void Building::DeleteLinkedSorting(int i)
 {
-    
 
     int star = i;
     int position_star = 0;
@@ -160,7 +214,6 @@ void Building::DeleteLinkedSorting(int i)
     }
 
     Linked_sortages.erase(Linked_sortages.begin() + position_star);
-  
 };
 void Building::DeleteLinkedCentral(int i)
 {
@@ -184,7 +237,6 @@ void Building::DeleteLinkedCentral(int i)
     }
 
     Linked_centrals.erase(Linked_centrals.begin() + position_star);
-
 };
 void Building::Print(int position, char C, bool EveryP)
 {
@@ -274,17 +326,10 @@ void Building::SetEfficiency(int e)
     efficiency_ = e;
 };
 
-void Building::SetPath_matrix(int i, int i_i)
+int Building::GetPathsize()
 {
-    path_matrix[i][i_i];
-};
- int Building::GetPathsize() {
-   int a= path_.size();
-   return a;
- };
-void Building::SetPath_matrixType(int i, char type)
-{ // i va riempito tassativamente nel modo: i, i+1, i+2, ecc
-    path_matrix_Type[i][type];
+    int a = path_.size();
+    return a;
 };
 
 /*void Building::PrintPath(int i, bool EveryP)
