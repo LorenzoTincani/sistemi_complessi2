@@ -1,5 +1,6 @@
 #ifndef BUILDING_H
 #define BUILDING_H
+
 #include <vector>
 #include <iostream>
 enum class BuildingType : char // underlying type int: 0 per H, 1 per S, 2 per C
@@ -13,14 +14,13 @@ class Building
 {
 private:
     BuildingType type_ = BuildingType::H;
-    double need_ = 0.0;
+    double need_ = 0.0; 
     double entry_potential_ = 0.0; // settato a zero, perchè definito dalla dinamica
     bool sorting_link_ = false;
     double efficiency_ = 0;           // diverso da zero solamente per i sorting, è legato al loro consumo e dipende dinamic dall'energia che hanno
-    std::vector<int> path_;           // array la cui dimensione è il numero di percorsi. Int indica i nodi tra centrale e nodo interessato
-    std::vector<int> Linked_houses;   // Sono tre vettori che contengono le posizioni, all'interno dell'array nodes, del nodo a cui sono collegati.
-    std::vector<int> Linked_sortages; // questi 3 vettori per cavare i link di troppo nel controllo
-    std::vector<int> Linked_centrals;
+    std::vector<int> Linked_houses{};   // Sono tre vettori che contengono le posizioni, all'interno dell'array nodes, del nodo a cui sono collegati.
+    std::vector<int> Linked_sortages{}; // questi 3 vettori per cavare i link di troppo nel controllo
+    std::vector<int> Linked_centrals{};
 
 public:
     Building(BuildingType type, double need, double entry_potential);
@@ -38,15 +38,15 @@ public:
     //  void SetSortingLink(bool Sorting);
     double OutputPotential() const;
     // path settings
-    void SetPath(int path, int distance);
-    void PathPushBack(int path_length);
-    int GetPathsize();
+   // void SetPath(int path, int distance);
+   // void PathPushBack(int path_length);
+    //int GetPathsize();
     // void CalcolatePath();
-    std::vector<int> GetPath() const;
-    int GetPathNunmber() const;
-    int GetMinPath() const;
-    int GetMaxPath() const;
-    int GetPathLength(int path) const;
+   // std::vector<int> GetPath() const;
+    //int GetPathNunmber() const;
+   // int GetMinPath() const;
+   // int GetMaxPath() const;
+   // int GetPathLength(int path) const;
 
     int GetNofSortingLink() const;
     int GetNofHouseLink() const;
