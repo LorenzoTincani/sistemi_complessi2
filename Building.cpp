@@ -22,10 +22,14 @@ Building &Building::operator=(Building const &other)
     {
         // Copia attributi
         type_ = other.GetType();
+        need_=other.GetNeed();
         entry_potential_ = other.GetEntryPotential();
         sorting_link_ = other.GetNofSortingLink();
         efficiency_ = other.GetEfficiency();
         // Copia vettori
+    
+       
+
         Linked_houses.clear();
         for (int i = 0; i < other.GetNofHouseLink(); i++)
         {
@@ -86,7 +90,7 @@ double Building::OutputPotential() const
 {
     return (entry_potential_ - need_);
 }
-void Building::SetPath(int path, int distance)
+/*void Building::SetPath(int path, int distance)
 {
     path_[path] = distance;
 }
@@ -120,7 +124,7 @@ int Building::GetMaxPath() const
 int Building::GetPathLength(int path) const
 {
     return path_[path];
-}
+}*/
 
 int Building::GetNofSortingLink() const
 {
@@ -326,11 +330,11 @@ void Building::SetEfficiency(int e)
     efficiency_ = e;
 };
 
-int Building::GetPathsize()
+/*int Building::GetPathsize()
 {
     int a = path_.size();
     return a;
-};
+};*/
 
 /*void Building::PrintPath(int i, bool EveryP)
 {
