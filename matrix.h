@@ -1,5 +1,5 @@
-#ifndef MAIN_H
-#define MAIN_H
+#ifndef MATRIX_H
+#define MATRIX_H
 #include "Building.h"
 #include "Link.h"
 #include <iostream>
@@ -43,14 +43,14 @@ public:
   bool isConnected(int s, int d);
   void create();
   void control_for_matrix();
+  void control_path();
   void transient();
   int getNofHouse() const;
   int getNofSorting() const;
   int getNofCentral() const;
-  void CalculatePath();
+
 
   Building &operator()(int i);
   Link &operator()(int i, int j);
-  std::vector<std::vector<int>> Calculate(std::vector<std::vector<int>> adjacency);
 };
 #endif
