@@ -17,33 +17,53 @@ Nella matrice di adiacenza:
 - 3 = smistamento - centrale
 - 4 = casa -smistamento
  **************************************************************  */
+
 int main()
 {
     int N = 10;
     Matrix adjiacency_matrix{N};
     adjiacency_matrix.create();
     adjiacency_matrix.control_for_matrix();
-
+    adjiacency_matrix.control_path();
     std::cout << "nofcentral: " << adjiacency_matrix.getNofCentral() << std::endl;
     std::cout << "nofHouse: " << adjiacency_matrix.getNofHouse() << std::endl;
     std::cout << "nofSorting: " << adjiacency_matrix.getNofSorting() << std::endl;
 
-
-    for(int i=0;i<N;i++){
-        if(adjiacency_matrix(i).GetType() == BuildingType::H){
-
-        for(int j=0;j<N;j++){
-            if(adjiacency_matrix(j).GetType() == BuildingType::C){
-                 adjiacency_matrix.printAllPaths(i, j);
-
-            }
-
+    for (int i = 0; i < N; i++)
+    {
+        if (adjiacency_matrix(i).GetType() == BuildingType::H)
+        {
+            std::cout << i << " H\n";
         }
+        else if (adjiacency_matrix(i).GetType() == BuildingType::S)
+        {
+            std::cout << i << " S\n";
+        }
+        else if (adjiacency_matrix(i).GetType() == BuildingType::C)
+        {
+            std::cout << i << " C\n";
+        }
+        else
+        {
+            std::cout << "Comportamento indefinito\n";
         }
     }
-    std::cout<<"..........................................\n";
+    for (int i = 0; i < N; i++)
+    {
+        if (adjiacency_matrix(i).GetType() == BuildingType::H)
+        {
 
-  
+            for (int j = 0; j < N; j++)
+            {
+                if (adjiacency_matrix(j).GetType() == BuildingType::C)
+                {
+                    adjiacency_matrix.printAllPaths(i, j);
+                }
+            }
+        }
+    }
+    std::cout << "..........................................\n";
+
     for (int i = 0; i < N; i++)
     {
         if (adjiacency_matrix(i).GetType() == BuildingType::H)
@@ -60,7 +80,7 @@ int main()
                     }
                     else
                     {
-                        std::cout << i << " No collegamenti" << '\n';
+                        std::cout << i << " No collegamenti CASA CENTRALE" << '\n';
                     }
                 }
             }
@@ -108,20 +128,30 @@ int main()
 
         }*/
         }
-        /* else if (adjiacency_matrix(i).GetType() == BuildingType::S)
-         {
-             std::cout << "Smistamento: "<<i<<'\n';
-
-         }
-         else if (adjiacency_matrix(i).GetType() == BuildingType::H)
-         {
-             std::cout << "Casa: "<<i<<"\n";
-         }*/
-      /*  else
+        else if (adjiacency_matrix(i).GetType() == BuildingType::S)
         {
-            std::cout << "non sta stampando :)\n";
-        }*/
-   }
+            for (int j = 0; j < N; j++)
+            {
+                if (adjiacency_matrix(j).GetType() == BuildingType::C)
+                {
+                    if (adjiacency_matrix.isConnected(i, j) == true)
+
+                    {
+                        adjiacency_matrix.printAllPaths(i, j);
+                    }
+                    else
+                    {
+                        std::cout << i << " No collegamenti SMISTAMENTO CENTRALE" << '\n';
+                    }
+                }
+            }
+        }
+
+        /*  else
+          {
+              std::cout << "non sta stampando :)\n";
+          }*/
+    }
 
     /*for(int i=0;i<N;i++){
          for(int j=0;j<N;j++){
@@ -279,9 +309,9 @@ int main()
    */
 }
 
-// problema che vede i sorting come case quando si stampa il number_of, ci sono dei ghetti e dei punti isolati, risolvere
+
 // andando a controllare gli argomenti della list relativi a quel nodo e guardare se nessuno arriva a una centrale, se è cosi
 //  creare un path diretto che lo colleghi con uno smistamento a caso
 // Link casa-smistamento
 
-// update 13/05 riguardare i metodi fatti
+// Inserisci in tutto il codice gli attributi dei Building
