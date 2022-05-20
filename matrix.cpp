@@ -17,8 +17,9 @@ Matrix::Matrix(int n) : N(n), adj_matrix(N, std::vector<Link>(N)), nodes{}
 void Matrix::printAllPathsUtil(int u, int d, bool visited[],
                                int path[], int &path_index)
 {
-    // Mark the current node and store it in path[]
-    // Se il nodo è visitato, il suo indice va aggiunto all'interno dell'array path, incrementato la posizione per il cammino successivo.
+    // std::cout << " 19 matrix.cpp\n";
+    //  Mark the current node and store it in path[]
+    //  Se il nodo è visitato, il suo indice va aggiunto all'interno dell'array path, incrementato la posizione per il cammino successivo.
     visited[u] = true;
     path[path_index] = u;
     path_index++;
@@ -44,11 +45,13 @@ void Matrix::printAllPathsUtil(int u, int d, bool visited[],
     // Remove current vertex from path[] and mark it as unvisited
     path_index--;
     visited[u] = false;
+    // std::cout << "47 matrix.cpp\n";
 }
 
 // Prints all paths from 's' to 'd'
 void Matrix::printAllPaths(int s, int d)
 {
+    // std::cout << "51 matrix.cpp\n";
     // Mark all the vertices as not visited
     bool *visited = new bool[N]; // In modo tale che capisca quali percorsi ha già tracciato, evitando di mandare in loop il programma.
 
@@ -92,6 +95,8 @@ bool Matrix::isConnectedUtil(int u, int d, bool visited[],
         }
     }
     depth_--;
+    path_index--;
+    visited[u] = false;
 
     if (depth_ == 0)
     {
@@ -152,17 +157,16 @@ void Matrix::create()
         {
             nodes[k].SetType(BuildingType::S);
             nodes[k].SetEfficiency(0.98);
-            nodes[k].SetNeed(10 + fluct);
+            nodes[k].SetNeed(entry_potential_ * (1 - efficiency));
             Sorting.push_back(k);
         }
         else if (numtype == 2)
         {
             nodes[k].SetType(BuildingType::C);
-            double entrypotcentral = 100;                // da aggiustare
-            nodes[k].SetEntryPotential(entrypotcentral); // da aggiustare
-            Total_potential += entrypotcentral;
             Centrall.push_back(k); // si sta riempiendo il vettore di Cetral con i posti delle Centrali rispettivi all'array nodes
+            // Le centrali hanno un Need in base a quanto immettono nel network
         }
+
         else
         {
             throw std::runtime_error{"Problem in the number generation"};
@@ -172,29 +176,36 @@ void Matrix::create()
 
     if (Centrall.size() == 0)
     { // Controllo per non avere un numero nullo di centrali.
-        std::cout << "Entrato nel controllo Central\n";
+
         Building newCentral{BuildingType::C, 0, 0};
 
-        int positionofC = choice_position_in_nodes(gen);
+        int positionofC = 0;
         char Vector_of_element = ' ';
-        if (nodes[positionofC].GetType() == BuildingType::H)
+        while (Vector_of_element == ' ')
         {
-            Vector_of_element = 'H';
-        }
-        else
-        {
-            if (Sorting.size() <= 1)
+            positionofC = choice_position_in_nodes(gen);
+            if (nodes[positionofC].GetType() == BuildingType::H)
             {
                 Vector_of_element = 'H';
             }
             else
             {
-                Vector_of_element = 'S';
+                if (Sorting.size() <= 1)
+                {
+                    Vector_of_element = ' ';
+                }
+                else
+                {
+                    Vector_of_element = 'S';
+                }
             }
         }
+
         // Assegnamento del nodo positionofC alla centrale
         nodes[positionofC] = newCentral;
+
         Centrall.push_back(positionofC);
+        std::cout << "Posizione centrale: " << positionofC << "\n";
         int removeposition = 0;
 
         // Rimozione dell'elemento dal nodo corrispondente
@@ -236,23 +247,24 @@ void Matrix::create()
             Sorting.erase(Sorting.begin() + removeposition);
         }
     }
+
     if (Sorting.size() == 0)
     {
-        std::cout << "Entrato nel controllo Sorting\n";
         Building newSorting{BuildingType::S, 0, 0};
         int positionofS = 0;
 
-        bool position_of_House_in_nodes = true;
-        for (int i = 0; position_of_House_in_nodes == false;)
+        bool position_of_House_in_nodes = false;
+
+        while (position_of_House_in_nodes == false)
         {
             positionofS = choice_position_in_nodes(gen);
             if (nodes[positionofS].GetType() == BuildingType::H)
             {
-                position_of_House_in_nodes = false;
+                position_of_House_in_nodes = true;
             }
             else
             {
-                i++;
+                continue;
             }
         }
         nodes[positionofS] = newSorting;
@@ -274,6 +286,7 @@ void Matrix::create()
         }
 
         House.erase(House.begin() + removeposition);
+        // std::cout << "277 matrix.cpp\n";
     }
 
     int j = 0; // j è fuori per poter calcolare solo il triangolo superiore della matrice dato che è simmetrica
@@ -286,7 +299,6 @@ void Matrix::create()
 
     //--------------GENERAZIONE MATRICE DI ADIACENZA-----------------------
 
-    // int p = 100;
     int p = N;
 
     for (int i = 0; i < p; ++i)
@@ -664,7 +676,7 @@ void Matrix::control_for_matrix()
                 nodes[p].SetLinkedCentral(rn);
                 nodes[rn].SetLinkedSorting(p);
 
-                adj[p].push_back(rn); // perchè pushamo qua se adj dovrebbe contenere path?
+                adj[p].push_back(rn);
                 adj[rn].push_back(p);
             }
 
@@ -931,9 +943,155 @@ void Matrix::control_for_matrix()
                  }
              }*/
 
+            // Potrebbe essere che con il metodo "delete" rimangano dei punti isolati.
+            // Lo scopo del passaggio successivo è proprio quello di andare a collegare il povero nodo con il primo smistamento possibile.
+            /* else if ((nodes[p].GetType() == BuildingType::H) && (nodes[p].GetNofSortingLink() == 0) && (nodes[p].GetNofHouseLink() == 0))
+             {
+                 int u=0;
+                   for (int m = 0; m < nofSorting;)
+                                 { // Bisogna assicurarsi che rn assume effettivamente il valore di un k corrispondente ad una centrale.
+                                     u = choice_position_in_nodes(gen);
+                                     if (u == Sorting[m])
+                                     {
+                                         // rn = Centrall[m];
+                                         break;
+                                     }
+                                     else
+                                     {
+                                         if (m== (nofSorting - 1))
+                                         {
+                                             m = 0;
+                                         } // Non voglio che esca dal loop finchè non ha un valore assegnato.
+
+                                         else
+                                         {
+                                             m++;
+                                         }
+                                     }
+                                 }
+
+
+
+                 adj_matrix[p][u].SetType(LinkType::SS);
+                 adj_matrix[u][p].SetType(LinkType::SS);
+
+                 adj_matrix[p][u].SetNumber(4);
+                 adj_matrix[u][p].SetNumber(4);
+
+                 nodes[u].SetLinkedHouse(p);
+                 nodes[p].SetLinkedSorting(u);
+
+                 adj[p].push_back(u);
+                 adj[u].push_back(p);
+
+
+             }*/
+
+            //-------------------CENTRALE--------------------------------
+
+            else
+            {
+                p++;
+            }
+        }
+        // Controlli per evitare che vi siano due network indipendenti all'interno di uno
+
+        int counter = 0;
+        for (int i = 0; i < N; i++)
+        { // casa
+
+            for (int j = 0; j < N; j++)
+            { // Centrale 1
+                for (int k = 0; k < N; k++)
+                { // Centrale 2
+
+                    std::list<int>::iterator find_j = std::find(adj[i].begin(), adj[i].end(), j);
+                    std::list<int>::iterator find_k = std::find(adj[i].begin(), adj[i].end(), k);
+                    if ((find_j != adj[i].end()) && (find_k != adj[i].end()))
+                    {
+                        counter++;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
+        if (counter == 0)
+        {
+            throw std::runtime_error{"Indipendent network"};
+        }
+        p++;
+    }
+}
+
+// Controlli path
+void Matrix::control_path()
+{
+    std::random_device rd;
+    std::default_random_engine gen(rd());
+    std::uniform_int_distribution<int> choice_position_in_nodes(0, N - 1);
+    int counter_for_central_path = 0;
+    // CONTROLLO CASA ISOLATA
+    for (int p = 0; p < N; p++)
+    {
+
+        if (nodes[p].GetType() == BuildingType::S)
+        {
+
+            for (int x = 0; x < N; x++)
+            {
+                if (nodes[x].GetType() == BuildingType::C)
+                {
+                    if (isConnected(p, x) == true)
+                    {
+                        counter_for_central_path++;
+                    }
+                }
+            }
+            if (counter_for_central_path == 0)
+            {
+                int rn = 0;
+                for (int m = 0; m < Centrall.size();)
+                { // Bisogna assicurarsi che rn assume effettivamente il valore di un k corrispondente ad una centrale.
+                    rn = choice_position_in_nodes(gen);
+                    if (rn == Centrall[m])
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if (m == (Centrall.size() - 1))
+                        {
+                            m = 0;
+                        } // Non voglio che esca dal loop finchè non ha un valore assegnato.
+
+                        else
+                        {
+                            m++;
+                        }
+                    }
+                }
+
+                adj_matrix[p][rn].SetType(LinkType::B);
+                adj_matrix[rn][p].SetType(LinkType::B);
+
+                adj_matrix[p][rn].SetNumber(3);
+                adj_matrix[rn][p].SetNumber(3);
+
+                nodes[p].SetLinkedCentral(rn);
+                nodes[rn].SetLinkedSorting(p);
+
+                adj[p].push_back(rn);
+                adj[rn].push_back(p);
+            }
+        }
+        if (nodes[p].GetType() == BuildingType::H)
+        {
+
             if (nodes[p].GetNofHouseLink() == 0)
             {
-                std::cout << "Entrato con " << p << '\n';
                 int lp = 0;
                 for (int i = 0; i < 3; i++)
                 {
@@ -971,90 +1129,59 @@ void Matrix::control_for_matrix()
                     adj[lp].push_back(p);
                     adj[p].push_back(lp);
                 }
-                std::cout << "Uscito con " << p << '\n';
             }
 
-            p++;
-        }
-        // Potrebbe essere che con il metodo "delete" rimangano dei punti isolati.
-        // Lo scopo del passaggio successivo è proprio quello di andare a collegare il povero nodo con il primo smistamento possibile.
-        /* else if ((nodes[p].GetType() == BuildingType::H) && (nodes[p].GetNofSortingLink() == 0) && (nodes[p].GetNofHouseLink() == 0))
-         {
-             int u=0;
-               for (int m = 0; m < nofSorting;)
-                             { // Bisogna assicurarsi che rn assume effettivamente il valore di un k corrispondente ad una centrale.
-                                 u = choice_position_in_nodes(gen);
-                                 if (u == Sorting[m])
-                                 {
-                                     // rn = Centrall[m];
-                                     break;
-                                 }
-                                 else
-                                 {
-                                     if (m== (nofSorting - 1))
-                                     {
-                                         m = 0;
-                                     } // Non voglio che esca dal loop finchè non ha un valore assegnato.
-
-                                     else
-                                     {
-                                         m++;
-                                     }
-                                 }
-                             }
-
-
-
-             adj_matrix[p][u].SetType(LinkType::SS);
-             adj_matrix[u][p].SetType(LinkType::SS);
-
-             adj_matrix[p][u].SetNumber(4);
-             adj_matrix[u][p].SetNumber(4);
-
-             nodes[u].SetLinkedHouse(p);
-             nodes[p].SetLinkedSorting(u);
-
-             adj[p].push_back(u);
-             adj[u].push_back(p);
-
-
-         }*/
-
-        //-------------------CENTRALE--------------------------------
-
-        else
-        {
-            p++;
-        }
-    }
-    // Controlli per evitare che vi siano due network indipendenti all'interno di uno
-    int counter = 0;
-    for (int i = 0; i < N; i++)
-    { // casa
-
-        for (int j = 0; j < N; j++)
-        { // Centrale 1
-            for (int k = 0; k < N; k++)
-            { // Centrale 2
-
-                std::list<int>::iterator find_j = std::find(adj[i].begin(), adj[i].end(), j);
-                std::list<int>::iterator find_k = std::find(adj[i].begin(), adj[i].end(), k);
-                if ((find_j != adj[i].end()) && (find_k != adj[i].end()))
+            // Controllo ghetti case
+            counter_for_central_path = 0;
+            for (int x = 0; x < N; x++)
+            {
+                if (nodes[x].GetType() == BuildingType::C)
                 {
-                    counter++;
+                    if (isConnected(p, x) == true)
+                    {
+                        counter_for_central_path++;
+                    }
                 }
-                else
-                {
-                    continue;
+            }
+            if (counter_for_central_path == 0)
+            {
+                int rn = 0;
+                for (int m = 0; m < Sorting.size();)
+                { // Bisogna assicurarsi che rn assume effettivamente il valore di un k corrispondente ad una centrale.
+                    rn = choice_position_in_nodes(gen);
+                    if (rn == Sorting[m])
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if (m == (Sorting.size() - 1))
+                        {
+                            m = 0;
+                        } // Non voglio che esca dal loop finchè non ha un valore assegnato.
+
+                        else
+                        {
+                            m++;
+                        }
+                    }
                 }
+
+                adj_matrix[p][rn].SetType(LinkType::SS);
+                adj_matrix[rn][p].SetType(LinkType::SS);
+
+                adj_matrix[p][rn].SetNumber(4);
+                adj_matrix[rn][p].SetNumber(4);
+
+                nodes[p].SetLinkedSorting(rn);
+                nodes[rn].SetLinkedHouse(p);
+
+                adj[p].push_back(rn);
+                adj[rn].push_back(p);
             }
         }
     }
-    if (counter == 0)
-    {
-        throw std::runtime_error{"Indipendent network"};
-    }
-}
+};
 
 int Matrix::getNofHouse() const
 {
@@ -1078,59 +1205,9 @@ Link &Matrix::operator()(int i, int j)
     return adj_matrix[i][j];
 };
 
-void Matrix::CalculatePath()
-{
-}
-// -----------------------METTERE GLI ANTILOOP   SIA CORE DUMP CHE LOOP ;)  ----------------------------
-
-std::vector<std::vector<int>> Matrix::Calculate(std::vector<std::vector<int>> adjacency)
-{
-    std::vector<std::vector<int>> path_matrix2(adjacency.size());
-
-    // Storing our Path0
-    for (int i = 0; i < adjacency.size(); i++)
-    {
-        for (int j = 0; j < adjacency.size(); j++)
-        {
-            path_matrix2[i].push_back(adjacency[i][j]);
-        }
-    }
-
-    // Main algorithm starts here
-    for (int k = 1; k < adjacency.size(); k++)
-    {
-
-        for (int i = 1; i < adjacency.size(); i++)
-        {
-
-            for (int j = 1; j < adjacency.size(); j++)
-            {
-
-                path_matrix2[i][j] = (path_matrix2[i][j] == 1 or
-                                      (path_matrix2[i][k] == 1 and path_matrix2[k][j] == 1));
-            }
-        }
-    }
-
-    return path_matrix2;
-}
-
 // g++ main.cpp matrix.cpp Building.cpp Link.cpp
 
 void Matrix::transient()
 {
-    // while (true)+ if-break+ contatore+ . Break rompe l'evoluzione, arrivati all'eq
-    /* while(true){
-         if(condizione dell'equilibrio){
-             break;
-
-         }
-         else{
-             if()
-             for(int k=0;k<N;k++){
-                 nodes[k].GetB
-             }
-
-         }
-     }*/
+    
 }
