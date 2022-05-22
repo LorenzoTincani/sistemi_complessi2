@@ -1,8 +1,8 @@
 #ifndef BUILDING_H
 #define BUILDING_H
-
 #include <vector>
 #include <iostream>
+#include <list>
 enum class BuildingType : char // underlying type int: 0 per H, 1 per S, 2 per C
 {
     H, // houses
@@ -21,6 +21,7 @@ private:
     std::vector<int> Linked_houses{};   // Sono tre vettori che contengono le posizioni, all'interno dell'array nodes, del nodo a cui sono collegati.
     std::vector<int> Linked_sortages{}; // questi 3 vettori per cavare i link di troppo nel controllo
     std::vector<int> Linked_centrals{};
+    std::list<std::list<int>> path_{};
 
 public:
     Building(BuildingType type, double need, double entry_potential);
@@ -36,6 +37,7 @@ public:
     void SetNeed(double need);
     void SetType(BuildingType type);
     //  void SetSortingLink(bool Sorting);
+    void pathSorting()const;
     double OutputPotential() const;
     // path settings
    // void SetPath(int path, int distance);
