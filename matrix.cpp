@@ -157,7 +157,6 @@ void Matrix::create()
         {
             nodes[k].SetType(BuildingType::S);
             nodes[k].SetEfficiency(0.98);
-            nodes[k].SetNeed(entry_potential_ * (1 - efficiency));
             Sorting.push_back(k);
         }
         else if (numtype == 2)
@@ -364,8 +363,8 @@ void Matrix::create()
                                 adj_matrix[i][j].SetType(LinkType::SS); // Link  Small Between House and Sorting
                                 adj_matrix[j][i].SetType(LinkType::SS);
 
-                                adj_matrix[i][j].SetNumber(4);
-                                adj_matrix[j][i].SetNumber(4);
+                                adj_matrix[i][j].SetNumber(2);
+                                adj_matrix[j][i].SetNumber(2);
 
                                 nodes[i].SetLinkedSorting(j);
                                 nodes[j].SetLinkedHouse(i);
@@ -419,8 +418,8 @@ void Matrix::create()
                                 adj_matrix[i][j].SetType(LinkType::SS);
                                 adj_matrix[j][i].SetType(LinkType::SS);
 
-                                adj_matrix[i][j].SetNumber(4);
-                                adj_matrix[j][i].SetNumber(4);
+                                adj_matrix[i][j].SetNumber(2);
+                                adj_matrix[j][i].SetNumber(2);
 
                                 nodes[i].SetLinkedHouse(j);
                                 nodes[j].SetLinkedSorting(i);
@@ -455,8 +454,8 @@ void Matrix::create()
                             adj_matrix[i][j].SetType(LinkType::M); // Link Medium Between Sorting
                             adj_matrix[j][i].SetType(LinkType::M);
 
-                            adj_matrix[i][j].SetNumber(2);
-                            adj_matrix[j][i].SetNumber(2);
+                            adj_matrix[i][j].SetNumber(3);
+                            adj_matrix[j][i].SetNumber(3);
 
                             nodes[i].SetLinkedSorting(j);
                             nodes[j].SetLinkedSorting(i);
@@ -510,8 +509,8 @@ void Matrix::create()
                                 adj_matrix[i][j].SetType(LinkType::B); // Big Link Between Sorting and Central
                                 adj_matrix[j][i].SetType(LinkType::B);
 
-                                adj_matrix[i][j].SetNumber(3);
-                                adj_matrix[j][i].SetNumber(3);
+                                adj_matrix[i][j].SetNumber(4);
+                                adj_matrix[j][i].SetNumber(4);
 
                                 nodes[i].SetLinkedCentral(j);
                                 nodes[j].SetLinkedSorting(i);
@@ -524,8 +523,8 @@ void Matrix::create()
                                 adj_matrix[i][rn].SetType(LinkType::B);
                                 adj_matrix[rn][i].SetType(LinkType::B);
 
-                                adj_matrix[i][rn].SetNumber(3);
-                                adj_matrix[rn][i].SetNumber(3);
+                                adj_matrix[i][rn].SetNumber(4);
+                                adj_matrix[rn][i].SetNumber(4);
 
                                 nodes[i].SetLinkedCentral(rn);
                                 nodes[rn].SetLinkedSorting(i);
@@ -574,8 +573,8 @@ void Matrix::create()
                                 adj_matrix[i][j].SetType(LinkType::B);
                                 adj_matrix[j][i].SetType(LinkType::B);
 
-                                adj_matrix[i][j].SetNumber(3);
-                                adj_matrix[j][i].SetNumber(3);
+                                adj_matrix[i][j].SetNumber(4);
+                                adj_matrix[j][i].SetNumber(4);
 
                                 nodes[i].SetLinkedSorting(j);
                                 nodes[j].SetLinkedCentral(i);
@@ -670,8 +669,8 @@ void Matrix::control_for_matrix()
                 adj_matrix[p][rn].SetType(LinkType::B);
                 adj_matrix[rn][p].SetType(LinkType::B);
 
-                adj_matrix[p][rn].SetNumber(3);
-                adj_matrix[rn][p].SetNumber(3);
+                adj_matrix[p][rn].SetNumber(4);
+                adj_matrix[rn][p].SetNumber(4);
 
                 nodes[p].SetLinkedCentral(rn);
                 nodes[rn].SetLinkedSorting(p);
@@ -734,8 +733,8 @@ void Matrix::control_for_matrix()
                         adj_matrix[p][rn].SetType(LinkType::SS);
                         adj_matrix[rn][p].SetType(LinkType::SS);
 
-                        adj_matrix[p][rn].SetNumber(4);
-                        adj_matrix[rn][p].SetNumber(4); // La matrice è simmetrica
+                        adj_matrix[p][rn].SetNumber(2);
+                        adj_matrix[rn][p].SetNumber(2); // La matrice è simmetrica
 
                         nodes[p].SetLinkedHouse(rn);
                         nodes[rn].SetLinkedSorting(p);
@@ -975,8 +974,8 @@ void Matrix::control_for_matrix()
                  adj_matrix[p][u].SetType(LinkType::SS);
                  adj_matrix[u][p].SetType(LinkType::SS);
 
-                 adj_matrix[p][u].SetNumber(4);
-                 adj_matrix[u][p].SetNumber(4);
+                 adj_matrix[p][u].SetNumber(2);
+                 adj_matrix[u][p].SetNumber(2);
 
                  nodes[u].SetLinkedHouse(p);
                  nodes[p].SetLinkedSorting(u);
@@ -1077,8 +1076,8 @@ void Matrix::control_path()
                 adj_matrix[p][rn].SetType(LinkType::B);
                 adj_matrix[rn][p].SetType(LinkType::B);
 
-                adj_matrix[p][rn].SetNumber(3);
-                adj_matrix[rn][p].SetNumber(3);
+                adj_matrix[p][rn].SetNumber(4);
+                adj_matrix[rn][p].SetNumber(4);
 
                 nodes[p].SetLinkedCentral(rn);
                 nodes[rn].SetLinkedSorting(p);
@@ -1170,8 +1169,8 @@ void Matrix::control_path()
                 adj_matrix[p][rn].SetType(LinkType::SS);
                 adj_matrix[rn][p].SetType(LinkType::SS);
 
-                adj_matrix[p][rn].SetNumber(4);
-                adj_matrix[rn][p].SetNumber(4);
+                adj_matrix[p][rn].SetNumber(2);
+                adj_matrix[rn][p].SetNumber(2);
 
                 nodes[p].SetLinkedSorting(rn);
                 nodes[rn].SetLinkedHouse(p);
@@ -1209,5 +1208,96 @@ Link &Matrix::operator()(int i, int j)
 
 void Matrix::transient()
 {
+     int totalNeed=0;
+
+    for(int i=0;i<N;i++){
+         Building current_node = nodes[i];
+        BuildingType current_node_type = nodes[i].GetType();
+        if(current_node_type==BuildingType::S){
+            double localLinkH = static_cast<double>(current_node.GetNofHouseLink()) / static_cast<double>(House.size());
+            
+            if(localLinkH<=0.40){
+                //max need for each house: 3.33W
+                nodes[i].SetNeed(0.33);
+
+            }
+            else if(localLinkH<=0.80){
+                nodes[i].SetNeed(0.73);
+            }
+            else{
+                 nodes[i].SetNeed(1.0);
+            }
+        }
+     
+
+    }
+
+    //FOR DI CONTROLLO+ TOTAL NEED
+   
+    for (int i = 0; i < N; i++)
+    {
+        Building current_node = nodes[i];
+        BuildingType current_node_type = nodes[i].GetType();
+        if((current_node_type==BuildingType::H)||
+        (current_node_type==BuildingType::S)){
+            totalNeed+=current_node.GetNeed();
+        }
+     
     
+        for (int j = 0; j < N; j++)
+        {
+            Link current_link = adj_matrix[i][j];
+            LinkType current_link_type = current_link.GetType();
+            if ((current_link_type == LinkType::N) ||
+                (current_link_type == LinkType::SH) || (current_link_type == LinkType::SS) ||
+                (current_link_type == LinkType::M) || (current_link_type == LinkType::B))
+            {
+                continue;
+            }
+            else
+            {
+                throw std::runtime_error{"No type for current link"};
+            }
+
+
+        }
+
+    }
+    for(int i=0; i<N i++){
+       
+        BuildingType current_node_type=nodes[i].GetType();
+        duoble current_node_need=nodes[i].GetNeed();
+        if(current_node_type==BuildingType::H){
+            adj[i]
+
+        }
+
+
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
