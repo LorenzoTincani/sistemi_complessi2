@@ -13,9 +13,9 @@
 Nella matrice di adiacenza:
 - 0 =  nullo
 - 1 = casa - casa
-- 2 = smistamento - smistamento
+- 2 = casa - smistamento
 - 3 = smistamento - centrale
-- 4 = casa -smistamento
+- 4 = smistamento-centrale
  **************************************************************  */
 
 int main()
@@ -314,4 +314,6 @@ int main()
 //  creare un path diretto che lo colleghi con uno smistamento a caso
 // Link casa-smistamento
 
-// Inserisci in tutto il codice gli attributi dei Building
+// Inserisci in tutto il codice gli attributi dei Building, 
+// fare pathSorting() in matrix.cpp per ordinare i link in ordine crescente
+// continuare con il transiente, in cui serve proprio questo meotodo per dividere il need del nodo nei vari path.
