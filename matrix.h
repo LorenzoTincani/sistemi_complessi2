@@ -27,8 +27,7 @@ private:
   std::vector<int> Centrall{}; // vettore che tiene gli indici delle centrali di nodes
   std::vector<int> Sorting{}; // vettore che tiene gli indici degli smistamenti di nodes
   std::vector<int> House{};    // vettore che tiene gli indici delle case di nodes
- 
-
+  
   double Total_potential = 0.0;
 
 
