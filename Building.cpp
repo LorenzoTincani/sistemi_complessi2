@@ -22,13 +22,11 @@ Building &Building::operator=(Building const &other)
     {
         // Copia attributi
         type_ = other.GetType();
-        need_=other.GetNeed();
+        need_ = other.GetNeed();
         entry_potential_ = other.GetEntryPotential();
         sorting_link_ = other.GetNofSortingLink();
         efficiency_ = other.GetEfficiency();
         // Copia vettori
-    
-       
 
         Linked_houses.clear();
         for (int i = 0; i < other.GetNofHouseLink(); i++)
