@@ -9,13 +9,8 @@ Matrix::Matrix(int n) : N(n), adj_matrix(N, std::vector<Link>(N)), nodes{}
     }
 }
 
-/*void Matrix::addEdge(int u, int v)
-{
-    adj[u].push_back(v); // Add v to u’s list.
-}*/
-
 void Matrix::printAllPathsUtil(int u, int d, bool visited[],
-                               int path[], int &path_index)
+                               int path[], int &path_index, std::ostream &ADJM_)
 {
     // std::cout << " 19 matrix.cpp\n";
     //  Mark the current node and store it in path[]
@@ -26,12 +21,27 @@ void Matrix::printAllPathsUtil(int u, int d, bool visited[],
 
     // If current vertex is same as destination, then print
     // current path[]
+
+    //  std::ofstream adjmatrix;
+    // adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
     if (u == d)
     {
+
         for (int i = 0; i < path_index; i++)
+        {
+            int index = path[i];
+            ADJM_ << index << " ";
+            //  adjmatrix << " ";
+
             std::cout << path[i] << " ";
+        }
+        std::cout << -1;
         std::cout << std::endl;
+        ADJM_ << -1;
+        ADJM_ << std::endl;
+
     }
+
     else // If current vertex is not destination
     {
         // Recur for all the vertices adjacent to current vertex
@@ -39,18 +49,20 @@ void Matrix::printAllPathsUtil(int u, int d, bool visited[],
         for (i = adj[u].begin(); i != adj[u].end(); ++i)
             if (!visited[*i])
 
-                printAllPathsUtil(*i, d, visited, path, path_index);
+                printAllPathsUtil(*i, d, visited, path, path_index, ADJM_);
     }
 
     // Remove current vertex from path[] and mark it as unvisited
     path_index--;
     visited[u] = false;
     // std::cout << "47 matrix.cpp\n";
+    // adjmatrix.close();
 }
 
 // Prints all paths from 's' to 'd'
-void Matrix::printAllPaths(int s, int d)
+void Matrix::printAllPaths(int s, int d, std::ostream &ADJM)
 {
+
     // std::cout << "51 matrix.cpp\n";
     // Mark all the vertices as not visited
     bool *visited = new bool[N]; // In modo tale che capisca quali percorsi ha già tracciato, evitando di mandare in loop il programma.
@@ -64,7 +76,13 @@ void Matrix::printAllPaths(int s, int d)
         visited[i] = false; // In quanto è necessario esplorarli uno ad uno.
 
     // Call the recursive helper function to print all paths
-    printAllPathsUtil(s, d, visited, path, path_index);
+    printAllPathsUtil(s, d, visited, path, path_index, ADJM);
+
+    
+
+
+
+
 }
 
 bool Matrix::isConnectedUtil(int u, int d, bool visited[],
@@ -1205,45 +1223,90 @@ Link &Matrix::operator()(int i, int j)
 };
 
 // g++ main.cpp matrix.cpp Building.cpp Link.cpp
+void Matrix::fillRecords()
+{
+
+    std::ifstream inFile;
+    inFile.open("adjmatrix.txt");
+    if (!inFile)
+    {
+        std::cout << "Error, unable to open text file \n";
+    }
+    //  record in;
+    int On = 0;
+    int row = 0;
+    int currentnumber=0;
+    // std::cout<<"riga 1231: "<<currentnumber<<" ";
+    
+
+    while (currentnumber != -2)
+    {  // std::cout<<"riga 1233: "<<currentnumber<<" ";
+        inFile >> currentnumber;
+        //std::cout<<"riga 1235: "<<currentnumber<<" ";
+        if (currentnumber != -1)
+        {
+            records[row].push_back(currentnumber); // store row in datastructure at the option number.
+            //std::cout<<"riga 1239: "<<currentnumber<<" ";
+            On++;
+        }
+        else
+        {   //std::cout<<"\n";
+            row++;
+        }
+    }
+}
+void Matrix::PrintforRecords()
+{
+    for (int i = 0; i < records.size(); i++)
+    {
+        for (int j = 0; j < records[i].size(); j++)
+        {
+            std::cout<<records[i][j]<<" ";
+        }
+        std::cout<<"\n";
+    }
+}
 
 void Matrix::transient()
 {
-     int totalNeed=0;
+    int totalNeed = 0;
 
-    for(int i=0;i<N;i++){
-         Building current_node = nodes[i];
-        BuildingType current_node_type = nodes[i].GetType();
-        if(current_node_type==BuildingType::S){
-            double localLinkH = static_cast<double>(current_node.GetNofHouseLink()) / static_cast<double>(House.size());
-            
-            if(localLinkH<=0.40){
-                //max need for each house: 3.33W
-                nodes[i].SetNeed(0.33);
-
-            }
-            else if(localLinkH<=0.80){
-                nodes[i].SetNeed(0.73);
-            }
-            else{
-                 nodes[i].SetNeed(1.0);
-            }
-        }
-     
-
-    }
-
-    //FOR DI CONTROLLO+ TOTAL NEED
-   
     for (int i = 0; i < N; i++)
     {
         Building current_node = nodes[i];
         BuildingType current_node_type = nodes[i].GetType();
-        if((current_node_type==BuildingType::H)||
-        (current_node_type==BuildingType::S)){
-            totalNeed+=current_node.GetNeed();
+        if (current_node_type == BuildingType::S)
+        {
+            double localLinkH = static_cast<double>(current_node.GetNofHouseLink()) / static_cast<double>(House.size());
+
+            if (localLinkH <= 0.40)
+            {
+                // max need for each house: 3.33W
+                nodes[i].SetNeed(0.33);
+            }
+            else if (localLinkH <= 0.80)
+            {
+                nodes[i].SetNeed(0.73);
+            }
+            else
+            {
+                nodes[i].SetNeed(1.0);
+            }
         }
-     
-    
+    }
+
+    // FOR DI CONTROLLO TOTAL NEED
+
+    for (int i = 0; i < N; i++)
+    {
+        Building current_node = nodes[i];
+        BuildingType current_node_type = nodes[i].GetType();
+        if ((current_node_type == BuildingType::H) ||
+            (current_node_type == BuildingType::S))
+        {
+            totalNeed += current_node.GetNeed();
+        }
+
         for (int j = 0; j < N; j++)
         {
             Link current_link = adj_matrix[i][j];
@@ -1258,46 +1321,18 @@ void Matrix::transient()
             {
                 throw std::runtime_error{"No type for current link"};
             }
+        }
+    }
+
+    /*for (int i = 0; i < N; i++)
+    {
+        BuildingType current_node_type = nodes[i].GetType();
+        double current_node_need = nodes[i].GetNeed();
+        if (current_node_type == BuildingType::H)
+        {
+            for(int p=0)
 
 
         }
-
-    }
-    for(int i=0; i<N i++){
-       
-        BuildingType current_node_type=nodes[i].GetType();
-        duoble current_node_need=nodes[i].GetNeed();
-        if(current_node_type==BuildingType::H){
-            adj[i]
-
-        }
-
-
-        
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    }*/
 }
