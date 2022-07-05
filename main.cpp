@@ -20,11 +20,13 @@ Nella matrice di adiacenza:
 
 int main()
 {
-    int N = 10;
+    int N = 30;
     Matrix adjiacency_matrix{N};
     adjiacency_matrix.create();
     adjiacency_matrix.control_for_matrix();
     adjiacency_matrix.control_path();
+    std::ofstream adjmatrix;
+    adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
     std::cout << "nofcentral: " << adjiacency_matrix.getNofCentral() << std::endl;
     std::cout << "nofHouse: " << adjiacency_matrix.getNofHouse() << std::endl;
     std::cout << "nofSorting: " << adjiacency_matrix.getNofSorting() << std::endl;
@@ -57,101 +59,32 @@ int main()
             {
                 if (adjiacency_matrix(j).GetType() == BuildingType::C)
                 {
-                    adjiacency_matrix.printAllPaths(i, j);
+                    adjiacency_matrix.printAllPaths(i, j, adjmatrix);       
                 }
             }
         }
     }
+
+
+   adjmatrix<< -2 << std::endl;
+
+
+    adjmatrix.close();
+    //Ripaertura del file per la scrittura di un "-2" alla fine. (Usato nel metodo privato di matrix FillRecord())
+   /* std::fstream file("adjmatrix.txt", std::ios::out | std::ios::app);
+    file << -2 << std::endl;
+    file.close();*/
+
+    
+
+   
     std::cout << "..........................................\n";
+    
+   adjiacency_matrix.fillRecords();
 
-    for (int i = 0; i < N; i++)
-    {
-        if (adjiacency_matrix(i).GetType() == BuildingType::H)
-        {
-            // std::cout<<"entrato nell'if casa del main\n";
-            for (int j = 0; j < N; j++)
-            {
-                if (adjiacency_matrix(j).GetType() == BuildingType::C)
-                {
-                    if (adjiacency_matrix.isConnected(i, j) == true)
-
-                    {
-                        adjiacency_matrix.printAllPaths(i, j);
-                    }
-                    else
-                    {
-                        std::cout << i << " No collegamenti CASA CENTRALE" << '\n';
-                    }
-                }
-            }
-
-            /* if ((adjiacency_matrix(i).GetNofSortingLink() == 0) && (adjiacency_matrix(i).GetNofHouseLink()==0))
-             {
-                 std::cout<<"(PUNTO ISOLATO) "<<i<<"\n";
-                   for (int j = 0; j < N; j++)
-             {
-
-                 if (adjiacency_matrix(j).GetType() == BuildingType::C)
-                 {
-                     adjiacency_matrix.printAllPaths(i, j);
-                 }
-
-             }
-
-             }
-             else if (adjiacency_matrix(i).GetNofSortingLink() == 0){
-                 std::cout<<"(CASA NO COLLEGATA A Smistamento) "<<i<<"\n";
-
-             }
-             else if(adjiacency_matrix(i).GetNofHouseLink()==0)
-
-
-             {
-                 std::cout<<"(CASA NO COLLEGATA A CASA) "<<i<<"\n";
-             }*/
-            /*else{
-                std::cout<<"casa "<<i<<std::endl;
-
-
-
-            for (int j = 0; j < N; j++)
-            {
-
-                if (adjiacency_matrix(j).GetType() == BuildingType::C)
-                {
-                    adjiacency_matrix.printAllPaths(i, j);
-                }
-
-
-            }
-            }
-
-        }*/
-        }
-        else if (adjiacency_matrix(i).GetType() == BuildingType::S)
-        {
-            for (int j = 0; j < N; j++)
-            {
-                if (adjiacency_matrix(j).GetType() == BuildingType::C)
-                {
-                    if (adjiacency_matrix.isConnected(i, j) == true)
-
-                    {
-                        adjiacency_matrix.printAllPaths(i, j);
-                    }
-                    else
-                    {
-                        std::cout << i << " No collegamenti SMISTAMENTO CENTRALE" << '\n';
-                    }
-                }
-            }
-        }
-
-        /*  else
-          {
-              std::cout << "non sta stampando :)\n";
-          }*/
-    }
+    adjiacency_matrix.PrintforRecords();
+    std::cout<<"80main\n";
+    
 
     /*for(int i=0;i<N;i++){
          for(int j=0;j<N;j++){
@@ -309,11 +242,15 @@ int main()
    */
 }
 
-
 // andando a controllare gli argomenti della list relativi a quel nodo e guardare se nessuno arriva a una centrale, se è cosi
 //  creare un path diretto che lo colleghi con uno smistamento a caso
 // Link casa-smistamento
 
-// Inserisci in tutto il codice gli attributi dei Building, 
-// fare pathSorting() in matrix.cpp per ordinare i link in ordine crescente
+// Inserisci in tutto il codice gli attributi dei Building,
+
+// fare pathSorting() in matrix.cpp per ordinare i link in ordine crescente//ILARIA: PER ME NON SERVE, BOH FUSTIGATEMI PURE SONO MASOCHISTA
 // continuare con il transiente, in cui serve proprio questo meotodo per dividere il need del nodo nei vari path.
+// per fare il path sorting andare a leggere le liste dal file e guardare la dimensione o usare l'algoritmo .
+
+//01/07/2022- la lettura da file non da errori, c'è da mettere a posto print for record con dei cicli (print for record serve
+//per vedere se funziona il metodo di lettura), dopo bisogna continuare con il transiente.
