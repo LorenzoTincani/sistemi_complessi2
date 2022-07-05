@@ -6,7 +6,7 @@ Building::Building(BuildingType type, double need, double entry_potential) : typ
 
 /*
 
-   BuildingType type_ = BuildingType::H;
+    BuildingType type_ = BuildingType::H;
     double need_ = 0.0;
     double entry_potential_ = 0.0; // settato a zero, perchè definito dalla dinamica
     bool sorting_link_ = false;
@@ -327,6 +327,8 @@ void Building::SetEfficiency(int e)
 {
     efficiency_ = e;
 };
+
+
 
 /*int Building::GetPathsize()
 {
