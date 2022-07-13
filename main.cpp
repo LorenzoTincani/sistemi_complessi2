@@ -18,14 +18,17 @@ Nella matrice di adiacenza:
 - 4 = smistamento-centrale
  **************************************************************  */
 
+
+
+
 int main()
 {
-    int N = 30;
+    int N = 28;
     Matrix adjiacency_matrix{N};
     adjiacency_matrix.create();
     adjiacency_matrix.control_for_matrix();
     adjiacency_matrix.control_path();
-    std::ofstream adjmatrix;
+    /*std::ofstream adjmatrix;
     adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
     std::cout << "nofcentral: " << adjiacency_matrix.getNofCentral() << std::endl;
     std::cout << "nofHouse: " << adjiacency_matrix.getNofHouse() << std::endl;
@@ -69,20 +72,18 @@ int main()
    adjmatrix<< -2 << std::endl;
 
 
-    adjmatrix.close();
+    adjmatrix.close();*/
     //Ripaertura del file per la scrittura di un "-2" alla fine. (Usato nel metodo privato di matrix FillRecord())
-   /* std::fstream file("adjmatrix.txt", std::ios::out | std::ios::app);
-    file << -2 << std::endl;
-    file.close();*/
+   
 
     
 
    
     std::cout << "..........................................\n";
     
-   adjiacency_matrix.fillRecords();
+   //adjiacency_matrix.fillRecords();
 
-    adjiacency_matrix.PrintforRecords();
+   // adjiacency_matrix.PrintforRecords();
     std::cout<<"80main\n";
     
 
@@ -254,3 +255,8 @@ int main()
 
 //01/07/2022- la lettura da file non da errori, c'è da mettere a posto print for record con dei cicli (print for record serve
 //per vedere se funziona il metodo di lettura), dopo bisogna continuare con il transiente.
+//05.07.2022: va in loop Ricontrolla tutto. partendo da quello fatto oggi(metodi con records)
+//13.07.2022: diobono: non va in loop, semplicemente i tempi di esecuzione sono dimensionalmente confrontabili con le meteoriti condritiche. (MEB ti amo). 
+//il tutto è dovuto al metodo indiano isConnected(), il quale lavora in profondità, manco fosse una trivella, e per ogni nodo ricrea tutta la mappa del network
+//Il tutto si può risolvere, secondo mastro Tinca, usando dei for partendo dalle centrali e creando una singola volta tutta la mappa del network;
+//le case che rimangono fuori sono giustamente ghetti. 
