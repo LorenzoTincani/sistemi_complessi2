@@ -8,7 +8,6 @@
 #include <iomanip>
 #include <vector>
 #include <fstream>
-
 /* *************************************************************
 Nella matrice di adiacenza:
 - 0 =  nullo
@@ -17,168 +16,63 @@ Nella matrice di adiacenza:
 - 3 = smistamento - centrale
 - 4 = smistamento-centrale
  **************************************************************  */
-
-
-
-
 int main()
 {
-    int N = 28;
+    int N = 50;
     Matrix adjiacency_matrix{N};
     adjiacency_matrix.create();
-    adjiacency_matrix.control_for_matrix();
-    adjiacency_matrix.control_path();
-    /*std::ofstream adjmatrix;
-    adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
-    std::cout << "nofcentral: " << adjiacency_matrix.getNofCentral() << std::endl;
-    std::cout << "nofHouse: " << adjiacency_matrix.getNofHouse() << std::endl;
-    std::cout << "nofSorting: " << adjiacency_matrix.getNofSorting() << std::endl;
+    adjiacency_matrix.PrintNodes();
 
+    adjiacency_matrix.control_for_matrix();
+    std::ofstream adjmatrix;
+    adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
+    std::cout << "--------------PRIMA---------------\n";
     for (int i = 0; i < N; i++)
     {
-        if (adjiacency_matrix(i).GetType() == BuildingType::H)
-        {
-            std::cout << i << " H\n";
-        }
-        else if (adjiacency_matrix(i).GetType() == BuildingType::S)
-        {
-            std::cout << i << " S\n";
-        }
-        else if (adjiacency_matrix(i).GetType() == BuildingType::C)
-        {
-            std::cout << i << " C\n";
-        }
-        else
-        {
-            std::cout << "Comportamento indefinito\n";
-        }
-    }
-    for (int i = 0; i < N; i++)
-    {
-        if (adjiacency_matrix(i).GetType() == BuildingType::H)
+        if (adjiacency_matrix(i).GetType() != BuildingType::C)
         {
 
             for (int j = 0; j < N; j++)
             {
                 if (adjiacency_matrix(j).GetType() == BuildingType::C)
                 {
-                    adjiacency_matrix.printAllPaths(i, j, adjmatrix);       
+                    adjiacency_matrix.printAllPaths(i, j, adjmatrix);
                 }
             }
         }
     }
 
+    adjiacency_matrix.control_for_matrix2();
+   // adjiacency_matrix.control_path();
+   std::cout<<"\n";
+   std::cout<<"\n";
+   std::cout<<"\n";
+   std::cout<<"\n";
 
-   adjmatrix<< -2 << std::endl;
+    std::cout << "--------------DOPO---------------\n";
+    for (int i = 0; i < N; i++)
+    {
+        if (adjiacency_matrix(i).GetType() != BuildingType::C)
+        {
 
+            for (int j = 0; j < N; j++)
+            {
+                if (adjiacency_matrix(j).GetType() == BuildingType::C)
+                {
+                    adjiacency_matrix.printAllPaths(i, j, adjmatrix);
+                }
+            }
+        }
+    }
 
-    adjmatrix.close();*/
-    //Ripaertura del file per la scrittura di un "-2" alla fine. (Usato nel metodo privato di matrix FillRecord())
-   
+    /*std::cout << "---------------------Linked Building FINALE-----------:\n";
+    adjiacency_matrix.PrintLinkedBuilding();
+    adjiacency_matrix.PrintADJmatrix();
+    adjiacency_matrix.transient();
+    adjiacency_matrix.PrintADJLoad();*/
 
-    
+    // adjiacency_matrix.evolve();
 
-   
-    std::cout << "..........................................\n";
-    
-   //adjiacency_matrix.fillRecords();
-
-   // adjiacency_matrix.PrintforRecords();
-    std::cout<<"80main\n";
-    
-
-    /*for(int i=0;i<N;i++){
-         for(int j=0;j<N;j++){
-             //std::cout<<"Inizio problema";
-           //  ADJmatrix[i].push_back(0);
-           std::cout<<ADJmatrix[i][j]<<" ";
-         }
-         std::cout<<std::endl;
-     }*/
-
-    /* for (int k = 0; k < N; k++)
-      {
-          if (nodes[k].GetType() == BuildingType::H)
-          {
-              std::cout << "Case collegate alla " << k << "esima casa :" << nodes[k].GetNofHouseLink();
-              // nodes[k].Print(0, 'H', true);
-          }
-          std::cout << std::endl;
-      }*/
-
-    // std::cout << std::endl;
-
-    /* for (int k = 0; k < N; ++k)
-     {
-         if (nodes[k].GetType() == BuildingType::S)
-         {
-             double localLinkH = static_cast<double>(nodes[k].GetNofHouseLink()) / static_cast<double>(nofHouse);
-             std::cout << "Tasso di collegamento sistamento " << k << "-esimo dopo : " << localLinkH << std::endl;
-         }
-     }
-     std::cout << std::endl;
-
-     std::cout << "---------------Collegamenti casa-casa dopo i controlli" << std::endl;
-     std::cout << std::endl;
-
-     for (int k = 0; k < N; k++)
-     {
-         if (nodes[k].GetType() == BuildingType::H)
-         {
-             std::cout << "Case collegate alla casa " << k << "esima: " << nodes[k].GetNofHouseLink();
-             // nodes[k].Print(0, 'H', true);
-         }
-         std::cout << std::endl;
-     }
-     std::cout << "----------------------" << std::endl;
-     std::cout << std::endl;
-     std::cout << "*********************************************************" << std::endl;*/
-
-    /*for (int i = 0; i < N; i++)
-      {
-          for (int k = 0; k < N; k++)
-          {
-              if (adjiacency_matrix(i,k).GetType() == LinkType::N) // null
-              {
-                  //printf("\033[33m0 ");
-                 // ADJmatrix[i].push_back(0);
-
-
-              }
-              else if (adjiacency_matrix(i,k).GetType() == LinkType::SH) // hh
-              {
-                  // std::cout << "       ";
-                //  printf("\033[31m1 ");
-                  // ADJmatrix[i].push_back(1);
-                  ADJmatrix[i][k]=1;
-              }
-              else if (adjiacency_matrix(i,k).GetType() == LinkType::M) // ss
-              {
-                  // std::cout << "       ";
-                //  printf("\033[32m2 ");
-                //   ADJmatrix[i].push_back(1);
-                ADJmatrix[i][k]=1;
-              }
-              else if (adjiacency_matrix(i,k).GetType() == LinkType::B) // cs
-              {
-                  // std::cout << "       ";
-                //  printf("\033[36m3 ");
-                  ADJmatrix[i][k]=1;
-              }
-              else if (adjiacency_matrix(i,k).GetType() == LinkType::SS)
-              { // hs
-               //   printf("\033[37m4 ");
-                  ADJmatrix[i][k]=1;
-              }
-              else
-              { // E' giusto vedere se viene generato qualche numero che non sia tra quelli contemplati.
-               //   printf("\033[35m7 ");
-              }
-              //printf("\033[0m");
-          }
-
-          std::cout << std::endl;
-      }*/
     /*   int nofHouselinkedS = 0;
        int nofSNOlinked = 0;
 
@@ -227,20 +121,21 @@ int main()
        // std::cout << "nofCentralLink :" << linkCentral << "\n";
 
        // ********************SCRITTURA MATRICE SU FILE******************
-       std::ofstream adjmatrix;
-       adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
-       for (int i = 0; i < N; i++)
-       {
-           for (int j = 0; j < N; j++)
-           {
-               adjmatrix << adj_matrix[i][j].GetNumber(); // Vengono scritti i numeri indentati, in modo da avere la visione della matrice
-               adjmatrix << " ";
-           }
-           adjmatrix << std::endl;
-       }
-       adjmatrix.close();
 
-   */
+
+       */
+    // std::ofstream adjmatrix;
+    // adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
+    /*for (int i = 0; i < N; i++)
+    {
+        for (int j = 0; j < N; j++)
+        {
+            adjmatrix << adj_matrix[i][j].GetNumber(); // Vengono scritti i numeri indentati, in modo da avere la visione della matrice
+            adjmatrix << " ";
+        }
+        adjmatrix << std::endl;
+    }
+    adjmatrix.close();*/
 }
 
 // andando a controllare gli argomenti della list relativi a quel nodo e guardare se nessuno arriva a una centrale, se è cosi
@@ -253,10 +148,55 @@ int main()
 // continuare con il transiente, in cui serve proprio questo meotodo per dividere il need del nodo nei vari path.
 // per fare il path sorting andare a leggere le liste dal file e guardare la dimensione o usare l'algoritmo .
 
-//01/07/2022- la lettura da file non da errori, c'è da mettere a posto print for record con dei cicli (print for record serve
-//per vedere se funziona il metodo di lettura), dopo bisogna continuare con il transiente.
-//05.07.2022: va in loop Ricontrolla tutto. partendo da quello fatto oggi(metodi con records)
-//13.07.2022: diobono: non va in loop, semplicemente i tempi di esecuzione sono dimensionalmente confrontabili con le meteoriti condritiche. (MEB ti amo). 
-//il tutto è dovuto al metodo indiano isConnected(), il quale lavora in profondità, manco fosse una trivella, e per ogni nodo ricrea tutta la mappa del network
-//Il tutto si può risolvere, secondo mastro Tinca, usando dei for partendo dalle centrali e creando una singola volta tutta la mappa del network;
-//le case che rimangono fuori sono giustamente ghetti. 
+// 01/07/2022- la lettura da file non da errori, c'è da mettere a posto print for record con dei cicli (print for record serve
+// per vedere se funziona il metodo di lettura), dopo bisogna continuare con il transiente.
+// 05.07.2022: va in loop Ricontrolla tutto. partendo da quello fatto oggi(metodi con records)
+// 17.07.2022: vedi riga 161 matrix.cpp
+
+// 31.07.2022: alla riga 1143, in matrix.cpp, mettere find_isolated per il controllo sulla casa.
+// 02.08.2022: togliere la parte che scrive su file in fill records, in quanto a noi serve map, ma non il file.
+// se i path sono già ordinati su map allora trovare tutti i path di ciascuna casa e dividere la corrente in modo inversamente
+// proporzionale alla lunghezza di ciascuno, poi dopo ciò, guardare che link contiene che path e sommare le correnti dei path
+// sui link e in teoria il TRANSiente è finito.
+// 05.08.2022 i rapporti di linkaggio erano sballati e si formavano troppi link, li abbiamo abbassati e sembra decente ora
+// parametri, notare che quando ricolleghiamo le case le ricolleghiamo tutte, non solo una per ghetto.
+// c'è da guardare dove riconnettiamo i ghetti di case (~1305 matrix.cpp) e effettivamente quante case rimangono scollegate con questi nuovi
+//+ guarda il commento del giorno precedente.
+// 08.08.2022 nella parte da ~1330 c'è da fare il vector e le altre cose commentate (funzione, creare il vector per i building
+// non collegati ce ne devono essere due ) e fare il while . In find isolated c'è da mettere la condizione nel for. poi c'è da fare
+// quello che dicono icommenti sopra, ovvero collegare la prima casa di ogni sottoghetto dato da ogni iterazione di
+// non linked building
+// 10.08.2022 non funziona come dovrebbe ci gli unici path che stampa sono quelli delle case collegate all'inizio, secondo me
+// non collega come dovrebbe, fare dei cout per vedere il problema. DAI CHE ORMAI è QUASI FINITO!
+// 11.08.2022 linked building non ha niente dentro alla fine, riguardare perchè fa cosi, trova tutte le case però,
+// stampare linked building in vari posti per vedere come si comporta all'evolversi della funzione.
+// 12.08.2022 l'ila è incazzata, risolto problema con linked building, adesso c'è da fare finalmente il transiente, guarda tutti
+// i path, dividi la corrente ecc ecc ormai lo sai cosa c'è da fare nel transiente.
+// 13.08.2022 guardare perchè collega direttamente alcune case a centrali, continuare il transiente, dividere la corrente e
+// sommare i path sui link dentro il for per far si che siano di ciascuna casa.Forse ci sarebbe da fare un clear ogni ciclo
+// del for.
+// 14.08.2022 guardare perchè collega direttamente alcune case a centrali,
+// in base alla lunghezza del primo path rispetto all' ultimo e al numero di path si calcola la porzione di need che scorre sul primo path,
+// poi in base alla lunghezza relativa del secondo rispetto al primo si calcola la porzione del need che scorre sul secondo
+// e così via fino a che arrivo ad un punto dove la porzione del need calcolato è minore del need rimasto disponiobile a essere
+// distribuito ,
+// 17.08.2022 guardare perchè collega direttamente alcune case a centrali, non mette in ordine crescente i path.
+// Guarda altre distribuzioni di probabilità per la corrente da attribuire ad ogni path. (guarda foto).
+// 20.08.2022 guardare perchè collega direttamente alcune case a centrali, non mette in ordine crescente i path.
+// Guarda altre distribuzioni di probabilità per la corrente da attribuire ad ogni path. (guarda foto).
+// continuare con il transiente.
+// 21.08.2022 la resistenza dei link può essere trascurata quando andiamo a considerare cosa devono produrre le centrali,
+// fare una funzione per settare il max load di ciascun tipo di link, guardare il perchè ci sono delle case collegate
+// direttamente con delle centrali, ridistribuire la corrente del link che salta, controllare se saltano latri lik dopo aver
+// ridistribuito la corrente e se saltano ridistribuire a loro volta la loro corrente su altri link finchè non si raggiunge
+// uno stato stazionario. Guarda bene l'ultima stampa per quanto riguarda il tasso di collegamento (natura link.)
+// 22.08.2022 guardare perchè connette direttamente case e centrali, conta sbagliato il numero di collegamenti tra le case
+// 23.08.2022 riguardare output conta-collegamenti, perchè danno collegamenti smistamento smistamento anche se non gli diamo il
+// comando di contarli; far funzionare la parte dove scolleghiamo la casa dalla centrale e la colleghiamo allo smistamento.
+// 25.08.2022 non si è trovato il problema; porca troia: continuare. c'è anche da riguardare anche i tassi di collegamento e balle
+// varie che con più di 400 nodi da problemi. Se entro fine serata non si troverà nulla fare il controllo accessorio e bona lì. Oggi male, la vedo nera.
+// 26.08.2022 collegare la casa scollegata e poi finalmente continuare con il transiente alleluja
+// 27.08.2022 problemi problemi problemi, stampa più volte lo stesso path, una casa veniva senza nessun collegamento però con il
+// panino sembra funzionare anche se esplode il numero di path
+// 28.08.2022 fare il controllo in cui si tolgono i link riguardare in generale i controlli e la generazione
+//1.09.2022 Fare il confronto tra file corrente e quello del 20.08
