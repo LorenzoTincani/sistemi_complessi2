@@ -14,15 +14,15 @@ class Building
 {
 private:
     BuildingType type_ = BuildingType::H;
-    double need_ = 0.0; 
+    double need_ = 0.0;
     double entry_potential_ = 0.0; // settato a zero, perchè definito dalla dinamica
     bool sorting_link_ = false;
-    double efficiency_ = 0;           // diverso da zero solamente per i sorting, è legato al loro consumo e dipende dinamic dall'energia che hanno
+    double efficiency_ = 0;             // diverso da zero solamente per i sorting, è legato al loro consumo e dipende dinamic dall'energia che hanno
     std::vector<int> Linked_houses{};   // Sono tre vettori che contengono le posizioni, all'interno dell'array nodes, del nodo a cui sono collegati.
     std::vector<int> Linked_sortages{}; // questi 3 vettori per cavare i link di troppo nel controllo
     std::vector<int> Linked_centrals{};
-  //  std::list<std::list<int>> path_{};
-
+    std::vector<std::vector<int>> path_{};
+    
 public:
     Building(BuildingType type, double need, double entry_potential);
     Building() = default; // costruttore di default insieme alle condizioni uguali nel private
@@ -31,24 +31,24 @@ public:
     BuildingType GetType() const;
     double GetNeed() const;
     double GetEntryPotential() const;
-    double GetEfficiency()const;
+    double GetEfficiency() const;
     // bool GetSortingLink() const;
     void SetEntryPotential(double entry_potential);
     void SetNeed(double need);
     void SetType(BuildingType type);
     //  void SetSortingLink(bool Sorting);
-    void pathSorting()const;
+    void pathSorting() const;
     double OutputPotential() const;
     // path settings
-   // void SetPath(int path, int distance);
-   // void PathPushBack(int path_length);
+    void SetPath(std::vector<std::vector<int>>local_path);
     //int GetPathsize();
-    // void CalcolatePath();
-   // std::vector<int> GetPath() const;
-    //int GetPathNunmber() const;
-   // int GetMinPath() const;
-   // int GetMaxPath() const;
-   // int GetPathLength(int path) const;
+    //void CalcolatePath();
+   
+    int GetPathNunmber() const;
+    std::vector<int> GetMinPath() const;
+    std::vector<int> GetPath_i(int i) const;
+    std::vector<int> GetMaxPath() const;
+    //int GetPathLength(int path) const;
 
     int GetNofSortingLink() const;
     int GetNofHouseLink() const;
@@ -76,6 +76,8 @@ public:
 
     void SetEfficiency(int e);
 
-    void PrintPath(int i, bool EveryP);
+    void PrintPath();
+
+    void DeleteAllPaths();
 };
 #endif
