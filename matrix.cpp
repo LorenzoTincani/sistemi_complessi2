@@ -47,7 +47,7 @@ void Matrix::printAllPathsUtil(int u, int d, bool visited[],
     // adjmatrix.close();
 };
 
-void Matrix::printAllPathsUtil(int u, int d, bool visited[],
+/*void Matrix::printAllPathsUtil(int u, int d, bool visited[],
                                int path[], int &path_index, std::ostream &ADJM_)
 {
     // std::cout << " 19 matrix.cpp\n";
@@ -91,10 +91,56 @@ void Matrix::printAllPathsUtil(int u, int d, bool visited[],
     visited[u] = false;
     // std::cout << "47 matrix.cpp\n";
     // adjmatrix.close();
+}*/
+void Matrix::printAllPathsUtil(int u, int d, bool visited[],
+                               int path[], int &path_index)
+{
+    // std::cout << " 19 matrix.cpp\n";
+    //  Mark the current node and store it in path[]
+    //  Se il nodo è visitato, il suo indice va aggiunto all'interno dell'array path, incrementato la posizione per il cammino successivo.
+    visited[u] = true;
+    path[path_index] = u;
+    path_index++;
+
+    // If current vertex is same as destination, then print
+    // current path[]
+
+    //  std::ofstream adjmatrix;
+    // adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
+    if (u == d)
+    {
+        for (int i = 0; i < path_index; i++)
+        {
+
+            int index = path[i];
+
+            std::cout << path[i] << " ";
+        }
+
+        std::cout << -1;
+        std::cout << std::endl;
+    }
+
+    else // If current vertex is not destination
+    {
+        // Recur for all the vertices adjacent to current vertex
+        std::list<int>::iterator i;
+        for (i = adj[u].begin(); i != adj[u].end(); ++i)
+            if (!visited[*i])
+
+                printAllPathsUtil(*i, d, visited, path, path_index);
+    }
+
+    // Remove current vertex from path[] and mark it as unvisited
+    path_index--;
+    visited[u] = false;
+
+    // std::cout << "47 matrix.cpp\n";
+    // adjmatrix.close();
 }
 
 // Prints all paths from 's' to 'd'
-void Matrix::printAllPaths(int s, int d, std::ostream &ADJM)
+/*void Matrix::printAllPaths(int s, int d, std::ostream &ADJM)
 {
 
     // std::cout << "51 matrix.cpp\n";
@@ -111,7 +157,28 @@ void Matrix::printAllPaths(int s, int d, std::ostream &ADJM)
 
     // Call the recursive helper function to print all paths
     printAllPathsUtil(s, d, visited, path, path_index, ADJM);
+}*/
+void Matrix::printAllPaths(int s, int d)
+{
+
+    // std::cout << "51 matrix.cpp\n";
+    // Mark all the vertices as not visited
+    bool *visited = new bool[N]; // In modo tale che capisca quali percorsi ha già tracciato, evitando di mandare in loop il programma.
+
+    // Create an array to store paths
+    int *path = new int[N];
+    int path_index = 0; // Initialize path[] as empty
+
+    // Initialize all vertices as not visited
+    for (int i = 0; i < N; i++)
+    {
+        visited[i] = false; // In quanto è necessario esplorarli uno ad uno.
+    }
+
+    // Call the recursive helper function to print all paths
+    printAllPathsUtil(s, d, visited, path, path_index);
 }
+
 void Matrix::printAllPaths(int s, int d, std::vector<std::vector<int>> &local)
 {
     // std::cout << "51 matrix.cpp\n";
@@ -129,6 +196,21 @@ void Matrix::printAllPaths(int s, int d, std::vector<std::vector<int>> &local)
     // Call the recursive helper function to print all paths
     printAllPathsUtil(s, d, visited, path, path_index, local);
 };
+/*
+void Matrix::printAllPath(int start, int end, std::vector<std::vector<int>> paths)
+{
+    int current = start;
+    bool *visited = new bool[N];
+    int i = 0;
+    std::vector<int> path{};
+    while (current != end)
+    {
+        for (auto const &current : adj[current])
+        {
+            path.push_back(current);
+        }
+    }
+}*/
 
 bool Matrix::isConnectedUtil(int u, int d, bool visited[],
                              int path[], int &path_index, int &depth_)
@@ -201,17 +283,7 @@ void Matrix::findIsolated(int starting_building, std::vector<int> building_to_sc
     int size_i = 0;
     int size_ii = 0;
 
-    /*for (int i = 0; i < N; i++)
-    {
-        if (nodes[i].GetType() == BuildingType::C)
-        {
-            position_first_central = i;
-            break;
-        }
-    }*/
-
     local_linked_building.push_back(starting_building);
-    // std::cout << local_linked_building[0] << "\n";
     // Al primo giro starting_building sarà una centrale.
     currently_linked.push_back(starting_building);
     size_ii++;
@@ -250,38 +322,14 @@ void Matrix::findIsolated(int starting_building, std::vector<int> building_to_sc
                     }
                 }
             }
-            // std::cout << "££££££££££££££££££££££££££££££££££\n";
-
-            /*  for (int p = 0; p < local.size(); p++)
-              {
-                  // std::cout << "Iterazione n." << i << "\n";
-                  std::cout << local[p] << "-"<<"\n";
-              }*/
-            // std::cout << "££££££££££££££££££££££££££££££££££\n";
-
-            //  currently_linked = local; // not so sure 'bout this, potrebbe dare problemi
         }
         currently_linked.clear();
         currently_linked = local;
-
-        // std::cout << "currently_linked.size() 276: " << currently_linked.size() << "\n";
         size_ii = local_linked_building.size();
     }
     auto itlinkedI = local_linked_building.begin();
     auto itlinkedII = local_linked_building.end();
     std::sort(itlinkedI, itlinkedII);
-    /* for (int i = 0; i < linked_building.size(); i++)
-     {
-         std::cout << linked_building[i] << " ";
-     }*/
-
-    /*for (int p = 0; p < local_linked_building.size(); p++)
-    {
-
-        std::cout << local_linked_building[p] << "_"
-                  << "\n";
-    }*/
-    // return local_linked_building;
 }
 void Matrix::PrintNodes() const
 {
@@ -492,6 +540,8 @@ void Matrix::create()
 
                 if (node_i == BuildingType::H)
                 {
+                    std::cout<<"sei una casa n. "<<i<<"\n";
+                   
                     if (node_j == BuildingType::H)
                     {
                         //------------Casa-Casa----------------
@@ -574,8 +624,10 @@ void Matrix::create()
                     }
                 }
                 //------------Smistamento----------------
+                 
                 else if (node_i == BuildingType::S)
                 {
+                    std::cout<<"sei uno smistamento del cazzo n. "<<i<<"\n";
                     //------------Smistamento-Casa----------------
                     /*if (node_j == BuildingType::H)
                     {
@@ -640,16 +692,43 @@ void Matrix::create()
                             adj_matrix[j][i].SetNumber(0);
                         }
                     }
+                    std::cout<<"N. DI COLLEGAMENTI DEL CAZZO, DEL NODO MALEDETTO: "<<nodes[i].GetNofCentralLink();
+                    if (nodes[i].GetNofCentralLink() == 0)
+                    {
 
-                    else if (node_j == BuildingType::C)
-                    { //---------Smistamento-Centrale----------------
-                        // Se viene fuori una centrale, non si ha un collegamento diretto in quanto si deve avere sempre una certa randomicità.
-                        // Per tale motivo si sceglie una centrale tra quelle che si hanno a disposizione, piuttosto che scegliere la j-esima.
+                        //---------Smistamento-Centrale----------------
+                            // Se viene fuori una centrale, non si ha un collegamento diretto in quanto si deve avere sempre una certa randomicità.
+                            // Per tale motivo si sceglie una centrale tra quelle che si hanno a disposizione, piuttosto che scegliere la j-esima.
 
-                        int rn = 0;
-                        if (nodes[i].GetNofCentralLink() == 0)
-                        {
+                            double rn = 0;
+
                             // SCELTA DELLA CENTRALE A CUI COLLEGARE LO SMISTAMENTO
+
+                            double prob = 1 / Centrall.size();
+                            rn = link_dist(gen);
+                            for (int k = 1; k <= Centrall.size(); k++)
+                            {
+
+                                if (rn > k * prob)
+                                {
+
+                                    adj_matrix[i][Centrall[k-1]].SetType(LinkType::B); // Big Link Between Sorting and Central
+                                    adj_matrix[Centrall[k-1]][i].SetType(LinkType::B);
+
+                                    adj_matrix[i][Centrall[k-1]].SetNumber(4);
+                                    adj_matrix[Centrall[k-1]][i].SetNumber(4);
+
+                                    nodes[i].SetLinkedCentral(Centrall[k-1]);
+                                    nodes[Centrall[k-1]].SetLinkedSorting(i);
+
+                                    adj[i].push_back(Centrall[k-1]);
+                                    adj[Centrall[k-1]].push_back(i);
+                                    break;
+                                }
+                            }
+                            std::cout<<"ultimo colleg smistamento "<<*adj[i].end()<<"\n";
+/*
+
                             for (int m = 0; m < Centrall.size();)
                             { // Bisogna assicurarsi che rn assume effettivamente il valore di un k corrispondente ad una centrale.
                                 rn = choice_position_in_nodes(gen);
@@ -670,6 +749,7 @@ void Matrix::create()
                                     }
                                 }
                             }
+                            
                             // COLLEGAMENTO DEI DUE NODI
                             //   Il valore è però rn, che non è detto coincida con j
 
@@ -710,7 +790,8 @@ void Matrix::create()
                                 adj_matrix[i][j].SetNumber(0);
                                 adj_matrix[j][i].SetNumber(0);
                             }
-                        }
+                    }
+                        
                         else
                         {
                             adj_matrix[i][j].SetType(LinkType::N);
@@ -719,7 +800,7 @@ void Matrix::create()
                             adj_matrix[i][j].SetNumber(0);
                             adj_matrix[j][i].SetNumber(0);
                         }
-                    }
+                    */
                     /*   else
                        {
                            throw std::runtime_error{"No Type for this node"};
@@ -729,6 +810,7 @@ void Matrix::create()
 
                 else if (node_i == BuildingType::C)
                 {
+                    std::cout<<"Sei una centrale n. "<<i<<"\n";
                     //---------Centrale-Casa----------------
                     /* if (node_j == BuildingType::H)
                      {
@@ -802,6 +884,7 @@ void Matrix::create()
         counter++;
         j = counter;
     }
+    }
 }
 
 void Matrix::control_for_matrix()
@@ -810,6 +893,7 @@ void Matrix::control_for_matrix()
     std::random_device rd;
     std::default_random_engine gen(rd());
     std::uniform_int_distribution<int> choice_position_in_nodes(0, N - 1);
+    std::uniform_real_distribution<double> link_dist(0.0, 1.0);
 
     //----------------------CONTROLLI----------------------
     for (int p = 0; p < N; p++)
@@ -824,7 +908,9 @@ void Matrix::control_for_matrix()
 
             if ((nodes[p].GetNofCentralLink() == 0))
             {
-                for (int m = 0; m < Centrall.size();)
+                std::cout<<p<<std::endl;
+                throw std::runtime_error{"Smistamento orfano di centrale"};
+                /*for (int m = 0; m < Centrall.size();)
                 {
                     rn = choice_position_in_nodes(gen);
                     if (rn == Centrall[m])
@@ -855,7 +941,7 @@ void Matrix::control_for_matrix()
                 nodes[rn].SetLinkedSorting(p);
 
                 adj[p].push_back(rn);
-                adj[rn].push_back(p);
+                adj[rn].push_back(p);*/
             }
 
             double localLinkH = static_cast<double>(nodes[p].GetNofHouseLink()) / static_cast<double>(House.size());
@@ -1030,57 +1116,58 @@ void Matrix::control_for_matrix()
             // Nel caso vi siano più collegamenti.
             else
             {
-                while(localLinkH <= (3) / (House.size())){
-
-                int rn = 0;
-                for (int m = 0; m < House.size();)
+                while (localLinkH <= (3) / (House.size()))
                 {
-                    rn = choice_position_in_nodes(gen);
 
-                    if ((nodes[rn].GetType() == BuildingType::H) && (nodes[p].AlreadyLinked(rn, 'H')))
+                    int rn = 0;
+                    for (int m = 0; m < House.size();)
                     {
-                        break;
-                    }
-                    else
-                    {
-                        if (m == (House.size() - 1))
+                        rn = choice_position_in_nodes(gen);
+
+                        if ((nodes[rn].GetType() == BuildingType::H) && (nodes[p].AlreadyLinked(rn, 'H')) && (adj[rn].size() > 1))
                         {
-                            m = 0;
+                            break;
                         }
-
                         else
                         {
-                            m++;
+                            if (m == (House.size() - 1))
+                            {
+                                m = 0;
+                            }
+
+                            else
+                            {
+                                m++;
+                            }
                         }
                     }
+
+                    adj_matrix[p][rn].SetType(LinkType::N);
+                    adj_matrix[rn][p].SetType(LinkType::N);
+
+                    adj_matrix[p][rn].SetNumber(0);
+                    adj_matrix[rn][p].SetNumber(0);
+
+                    /* nodes[j].DeleteLinkedCentral(i);
+                     nodes[i].DeleteLinkedHouse(j);*/
+
+                    auto it1_p = adj[p].begin();
+                    auto it2_p = adj[p].end();
+                    auto find_p = std::find(it1_p, it2_p, rn);
+
+                    if (find_p != it2_p)
+                    {
+
+                        adj[p].erase(find_p);
+                    }
+                    auto it1_rn = adj[rn].begin();
+                    auto it2_rn = adj[rn].end();
+                    auto find_rn = std::find(it1_rn, it2_rn, p);
+                    if (find_rn != it2_rn)
+                    {
+                        adj[rn].erase(find_rn);
+                    }
                 }
-
-                adj_matrix[p][rn].SetType(LinkType::N);
-                adj_matrix[rn][p].SetType(LinkType::N);
-
-                adj_matrix[p][rn].SetNumber(0);
-                adj_matrix[rn][p].SetNumber(0);
-
-                /* nodes[j].DeleteLinkedCentral(i);
-                 nodes[i].DeleteLinkedHouse(j);*/
-
-                auto it1_p = adj[p].begin();
-                auto it2_p = adj[p].end();
-                auto find_p = std::find(it1_p, it2_p, rn);
-
-                if (find_p != it2_p)
-                {
-
-                    adj[p].erase(find_p);
-                }
-                auto it1_rn = adj[rn].begin();
-                auto it2_rn = adj[rn].end();
-                auto find_rn = std::find(it1_rn, it2_rn, p);
-                if (find_rn != it2_rn)
-                {
-                    adj[rn].erase(find_rn);
-                }
-            }
             }
 
             /* if (localLinkH >= 0.08)
@@ -1241,11 +1328,11 @@ void Matrix::control_for_matrix2()
         for (int j = 0; j < N; j++)
         {
             Building B_j = nodes[j];
-            if (B_i.GetType() == BuildingType::H && B_j.GetType() == BuildingType::C)
+            if (B_i.GetType() == BuildingType::H && B_j.GetType() == BuildingType::C) // se i è una casa e j una centrale
             {
-                if (adj_matrix[i][j].GetType() != LinkType::N)
+                if (adj_matrix[i][j].GetType() != LinkType::N) // se il link tra loro è non nullo
                 {
-                    adj_matrix[i][j].SetType(LinkType::N);
+                    adj_matrix[i][j].SetType(LinkType::N); // settalo a nullo
                     adj_matrix[j][i].SetType(LinkType::N);
 
                     adj_matrix[i][j].SetNumber(0);
@@ -1257,7 +1344,7 @@ void Matrix::control_for_matrix2()
                     auto it1_i = adj[i].begin();
                     auto it2_i = adj[i].end();
                     auto find_i = std::find(it1_i, it2_i, j);
-                    if (find_i != it2_i)
+                    if (find_i != it2_i) // pezzo per settare a nullo il link in adj
                     {
                         adj[i].erase(find_i);
                     }
@@ -1270,12 +1357,12 @@ void Matrix::control_for_matrix2()
                     }
 
                     int rn = 0;
-                    for (int m = 0; m < Sorting.size();)
+                    for (int m = 0; m < Sorting.size();) // scelgi uno smistamento a caso
                     {
                         rn = choice_position_in_nodes(gen);
                         if (rn == Sorting[m])
                         {
-                            std::cout << "SMISTAMENTO SOSPETTO: " << rn << "\n";
+
                             break;
                         }
                         else
@@ -1404,6 +1491,7 @@ void Matrix::control_path()
     std::random_device rd;
     std::default_random_engine gen(rd());
     std::uniform_int_distribution<int> choice_position_in_nodes(0, N - 1);
+    std::uniform_real_distribution<double> link_dist(0.0, 1.0);
 
     /* std::cout << "Entrato 1053\n";
      std::random_device rd;
@@ -1591,10 +1679,10 @@ void Matrix::control_path()
         std::cout << linked_building[i] << " ";
     }
     std::cout << "\n------------------------\n";
- 
 
     if (linked_building.size() != N)
     {
+
         std::vector<int> non_linked_building{};
         for (int i = 0; i < N; i++)
         {
@@ -1618,8 +1706,10 @@ void Matrix::control_path()
             //  std::cout<<"iterazione n. "<<counter<<non_linked_building.size()<<"\n";
 
             // creare vector non linked buildin e while qui
+            std::cout << "-------------- ciclo: " << counter << "esimo ------------ \n";
 
             counter++;
+
             non_linked_building.clear();
 
             findIsolated(non_linked_building_local[0], non_linked_building_local, non_linked_building); // nonlinked building dopo la prima iterazione diventa il vettore che ha i nodes collegati al primo oggetto che passo alla funzione
@@ -1628,14 +1718,45 @@ void Matrix::control_path()
                                                                                                              std::cout << non_linked_building[k] << " ";
                                                                                                          }
                                                                                                          std::cout << "\n";*/
+            
+          
             if (nodes[non_linked_building_local[0]].GetType() == BuildingType::H)
             {
 
-                int rn = 0;
-                for (int m = 0; m < linked_building.size();)
-                { // Bisogna assicurarsi che rn assume effettivamente il valore di un k corrispondente ad una centrale.
+                //int rn = 0;
+                 double rn = 0;
+
+                            // SCELTA DELLA CENTRALE A CUI COLLEGARE LO SMISTAMENTO
+
+                            double prob = 1 / House.size();
+                            rn = link_dist(gen);
+                            for (int k = 1; k <= House.size(); k++)
+                            {
+
+                                if ((rn > k * prob)&&(House[k-1]== linked_building[k]) && (nodes[House[k-1]].GetType() == BuildingType::H) && !(nodes[non_linked_building_local[0]].AlreadyLinked(House[k-1], 'H')))
+                                {
+                                    
+                                    
+
+                                    adj_matrix[non_linked_building_local[0]][House[k-1]].SetType(LinkType::SH); // Big Link Between Sorting and Central
+                                    adj_matrix[House[k-1]][non_linked_building_local[0]].SetType(LinkType::SH);
+                                    
+
+                                    nodes[non_linked_building_local[0]].SetLinkedHouse(House[k-1]);
+                                    nodes[House[k-1]].SetLinkedHouse(non_linked_building_local[0]);
+
+                                    adj[non_linked_building_local[0]].push_back(House[k-1]);
+                                    adj[House[k-1]].push_back(non_linked_building_local[0]);
+                                    break;
+                                }
+                            }
+                            std::cout<<"ultimo colleg smistamento "<<*(adj[non_linked_building_local[0]].end())<<"\n";
+                
+              /*  for (int m = 0; m < linked_building.size();)
+                {
                     rn = choice_position_in_nodes(gen);
-                    if ((rn == linked_building[m]) && (nodes[m].GetType() == BuildingType::H)&&!(nodes[non_linked_building_local[0]].AlreadyLinked(rn,'H')))
+
+                    if ((rn == linked_building[m]) && (nodes[rn].GetType() == BuildingType::H) && !(nodes[non_linked_building_local[0]].AlreadyLinked(rn, 'H')))
                     {
                         break;
                     }
@@ -1653,6 +1774,8 @@ void Matrix::control_path()
                     }
                 }
 
+                  std::cout<<"dopo findIso\n";
+
                 adj_matrix[non_linked_building_local[0]][rn].SetType(LinkType::SH); // Link Small Between Houses
                 adj_matrix[rn][non_linked_building_local[0]].SetType(LinkType::SH);
 
@@ -1663,16 +1786,26 @@ void Matrix::control_path()
                 nodes[rn].SetLinkedHouse(non_linked_building_local[0]);
                 // Qui si sta avando ad inserire il nodo i nel percorso di j ed il nodo j nel percorso di i.
                 adj[non_linked_building_local[0]].push_back(rn);
+
+                auto begin = adj[non_linked_building_local[0]].begin();
+                auto end = adj[non_linked_building_local[0]].end();
+
+                for (; begin != end; begin++)
+                {
+                    std::cout << *begin << " ";
+                }
+                std::cout << std::endl;
                 adj[rn].push_back(non_linked_building_local[0]);
+                std::cout << "Casa a cui collegare il nodo maledetto: " << rn << "\n";*/
             }
-            /*else if (nodes[non_linked_building_local[0]].GetType() == BuildingType::S)
+            else if (nodes[non_linked_building_local[0]].GetType() == BuildingType::S)
             {
                 throw std::runtime_error{"Isolated sorting"};
             }
             else
             {
                 throw std::runtime_error{"Isolated central"};
-            }*/
+            }
             std::cout << "------------non_linked_building-----------\n";
 
             for (int s = 0; s < non_linked_building.size(); s++)
@@ -1691,12 +1824,18 @@ void Matrix::control_path()
                 {
                     std::cout << "erase: " << *find << "\n";
                     non_linked_building_local.erase(find);
-                    int o = *find;
+                    for (int l = 0; l < Centrall.size(); l++)
+                    {
+                        int y = Centrall[l];
+
+                        std::cout << "path del presunto nuovo nodo linkato: ";
+                        printAllPaths(*find, y);
+                        std::cout << std::endl;
+                    };
 
                     linked_building.push_back(non_linked_building[s]);
                 }
             }
-            std::cout << "-------------- ciclo: " << counter << "esimo ------------ \n";
         }
     }
     auto itI = linked_building.begin();
@@ -1715,15 +1854,13 @@ void Matrix::control_path()
     {
         for (int j = 0; j < N; j++)
         {
-            if (nodes[j].GetType() != BuildingType::S)
+            if (nodes[j].GetType() == BuildingType::H)
             {
 
                 LinkType Type_i = adj_matrix[j][i].GetType();
                 int rn = 0;
                 if (Type_i != LinkType::N)
                 {
-
-                    std::cout << "è passato da 1582\n";
 
                     for (int m = 0; m < Sorting.size();)
                     {
@@ -1774,10 +1911,8 @@ void Matrix::control_path()
                     auto it1_i = adj[i].begin();
                     auto it2_i = adj[i].end();
                     auto find_i = std::find(it1_i, it2_i, j);
-                    std::cout << "è passato da 1637\n";
                     if (find_i != it2_i)
                     {
-                        std::cout << "Trovato i in j\n";
                         adj[i].erase(find_i);
                     }
                     auto it1_j = adj[j].begin();
@@ -1785,7 +1920,7 @@ void Matrix::control_path()
                     auto find_j = std::find(it1_j, it2_j, i);
                     if (find_j != it2_j)
                     {
-                        std::cout << "Trovato j in i\n";
+
                         adj[j].erase(find_j);
                     }
 
@@ -2145,3 +2280,16 @@ void Matrix::evolve()
         // tutto questo dentro un while finchè no si ragguinge l' equilibrio (magari nel main(?))
     }
 }
+void Matrix::PrintList() const
+{
+    for (int i = 0; i < N; i++)
+    {
+        std::cout << "building " << i << "esimo ||";
+        for (auto const &i : adj[i])
+        {
+            std::cout << i << " ";
+        }
+
+        std::cout << "\n";
+    }
+};
