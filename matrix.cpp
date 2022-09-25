@@ -500,7 +500,7 @@ void Matrix::create()
         // std::cout << "277 matrix.cpp\n";
     }
 
-    int j = 0; // j è fuori per poter calcolare solo il triangolo superiore della matrice dato che è simmetrica
+    
     int counter = 0;
 
     if (Sorting.size() > (House.size() / (100 / 15)))
@@ -515,14 +515,18 @@ void Matrix::create()
     //--------------GENERAZIONE MATRICE DI ADIACENZA-----------------------
 
     int p = N;
-
+   
     for (int i = 0; i < p; ++i)
     {
+        int already_visited =0;// conta a che ciclo siamo per poter calcolare solo il triangolo superiore della matrice dato che è simmetrica
+        std::cout<<"riga 521 i= "<<i<<" \n";
 
         BuildingType node_i = nodes[i].GetType();
 
-        for (j; j < p; ++j)
-        {
+        for (int j=0; j < p; ++j)
+        {   
+            std::cout<<"riga 527 j= "<<j<<" \n";
+
             double rnd = link_dist(gen); // generazione variabile uniforme della probabilità che avvenga link
             BuildingType node_j = nodes[j].GetType();
 
@@ -540,10 +544,11 @@ void Matrix::create()
 
                 if (node_i == BuildingType::H)
                 {
-                    std::cout<<"sei una casa n. "<<i<<"\n";
+                    
                    
                     if (node_j == BuildingType::H)
                     {
+                        
                         //------------Casa-Casa----------------
 
                         if (rnd <= (1) / (House.size() * House.size())) // diminuto di 3 ordini di gandezza
@@ -576,6 +581,8 @@ void Matrix::create()
                         //------------Casa-Smistamento----------------
                         if (nodes[i].GetNofSortingLink() == 0)
                         {
+                            std::cout<<"riga 580 \n";
+                            std::cout<<"riga 547 "<<i<<" \n";
                             if (rnd <= (0.01) / (Sorting.size() * Sorting.size()))
                             {
                                 adj_matrix[i][j].SetType(LinkType::SS); // Link  Small Between House and Sorting
@@ -693,6 +700,7 @@ void Matrix::create()
                         }
                     }
                     std::cout<<"N. DI COLLEGAMENTI DEL CAZZO, DEL NODO MALEDETTO: "<<nodes[i].GetNofCentralLink();
+                    std::cout<<"";
                     if (nodes[i].GetNofCentralLink() == 0)
                     {
 

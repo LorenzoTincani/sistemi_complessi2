@@ -23,7 +23,7 @@ int main()
     adjiacency_matrix.create();
     adjiacency_matrix.PrintNodes();
 
-    adjiacency_matrix.control_for_matrix();
+     adjiacency_matrix.control_for_matrix();
     // std::ofstream adjmatrix;
     //  adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
     std::cout << "--------------PATH DOPO CONTROL FOR MATRIX---------------\n";
@@ -261,3 +261,5 @@ int main()
 // che è letteralmete un bordello, mettere aposto le costanti e rivedere se è necessario fare tutti quegli erase e ricollegamenti 
 // In più controllare che un nodo non si colleghi con se stesso.
 // 23.09.2022 a quanto pare anche create è un bordello riguardarla e mettre a posto
+// 25.09.2022 era un problema nei for di create, trovare modo di calcolare solo il triangolo superiore, mettere int j=i nella 
+// condizione del for non funziona.
