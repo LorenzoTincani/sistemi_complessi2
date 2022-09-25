@@ -18,15 +18,15 @@ Nella matrice di adiacenza:
  **************************************************************  */
 int main()
 {
-    int N = 50;
+    int N = 100;
     Matrix adjiacency_matrix{N};
     adjiacency_matrix.create();
     adjiacency_matrix.PrintNodes();
 
     adjiacency_matrix.control_for_matrix();
-    std::ofstream adjmatrix;
-    adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
-    std::cout << "--------------PRIMA---------------\n";
+    // std::ofstream adjmatrix;
+    //  adjmatrix.open("adjmatrix.txt"); // Viene creato un file di nome "adjmatrix.txt"
+    std::cout << "--------------PATH DOPO CONTROL FOR MATRIX---------------\n";
     for (int i = 0; i < N; i++)
     {
         if (adjiacency_matrix(i).GetType() != BuildingType::C)
@@ -36,20 +36,22 @@ int main()
             {
                 if (adjiacency_matrix(j).GetType() == BuildingType::C)
                 {
-                    adjiacency_matrix.printAllPaths(i, j, adjmatrix);
+                    // adjiacency_matrix.printAllPaths(i, j, adjmatrix);
+                    adjiacency_matrix.printAllPaths(i, j);
                 }
             }
         }
     }
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout<<"------------LISTA DOPO CONTROL FOR MATRIX-----------\n";
+
+    adjiacency_matrix.PrintList();
 
     adjiacency_matrix.control_for_matrix2();
-   // adjiacency_matrix.control_path();
-   std::cout<<"\n";
-   std::cout<<"\n";
-   std::cout<<"\n";
-   std::cout<<"\n";
-
-    std::cout << "--------------DOPO---------------\n";
+       std::cout << "--------------PATH DOPO CONTROL FOR MATRIX2---------------\n";
     for (int i = 0; i < N; i++)
     {
         if (adjiacency_matrix(i).GetType() != BuildingType::C)
@@ -59,17 +61,65 @@ int main()
             {
                 if (adjiacency_matrix(j).GetType() == BuildingType::C)
                 {
-                    adjiacency_matrix.printAllPaths(i, j, adjmatrix);
+                    // adjiacency_matrix.printAllPaths(i, j, adjmatrix);
+                    adjiacency_matrix.printAllPaths(i, j);
+                }
+            }
+        }
+    }
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+    
+
+    
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+      std::cout<<"------------LISTA DOPO CONTROL FOR MATRIX2-----------\n";
+
+    adjiacency_matrix.PrintList();
+
+
+    adjiacency_matrix.control_path();
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+
+    std::cout << "--------------PATH DOPO CONTROL FOR PATH---------------\n";
+    for (int i = 0; i < N; i++)
+    {
+        if (adjiacency_matrix(i).GetType() != BuildingType::C)
+        {
+
+            for (int j = 0; j < N; j++)
+            {
+                if (adjiacency_matrix(j).GetType() == BuildingType::C)
+                {
+                    // adjiacency_matrix.printAllPaths(i, j, adjmatrix);
+                    adjiacency_matrix.printAllPaths(i, j);
                 }
             }
         }
     }
 
-    /*std::cout << "---------------------Linked Building FINALE-----------:\n";
-    adjiacency_matrix.PrintLinkedBuilding();
-    adjiacency_matrix.PrintADJmatrix();
-    adjiacency_matrix.transient();
-    adjiacency_matrix.PrintADJLoad();*/
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+    std::cout << "\n";
+      std::cout<<"------------LISTA DOPO CONTROL PATH----------\n";
+ 
+    adjiacency_matrix.PrintList();
+
+    std::cout << "---------------------Linked Building FINALE-----------:\n";
+
+    /* adjiacency_matrix.PrintLinkedBuilding();
+     adjiacency_matrix.PrintADJmatrix();
+     adjiacency_matrix.transient();
+     adjiacency_matrix.PrintADJLoad();*/
 
     // adjiacency_matrix.evolve();
 
@@ -199,4 +249,15 @@ int main()
 // 27.08.2022 problemi problemi problemi, stampa più volte lo stesso path, una casa veniva senza nessun collegamento però con il
 // panino sembra funzionare anche se esplode il numero di path
 // 28.08.2022 fare il controllo in cui si tolgono i link riguardare in generale i controlli e la generazione
-//1.09.2022 Fare il confronto tra file corrente e quello del 20.08
+// 01.09.2022 Fare il confronto tra file corrente e quello del 20.08
+// 16.09.2022 l'array di liste è in ordine e non ci sono doppi collegamenti, quindi è un errore di stampa in print all path.
+// fare una funzione di stampa nuova e vedere se funziona tutto, in quanto questa viene usata anche per creare i path
+// 18.09.2022 l'errore è che alcuni building sono collegati più volte allo stesso oppure a se stessi e sembra
+// che quelli che hanno questo comportamento sono anche quelli che hanno i path sminchiati
+// 19.09.2022 abbiamo riguardato ma non trovato errore. Nuova strategia: trovare l'ultimo posto dove si modificano i link 
+// e correggere perchè anche se l'errore non è li comunque dovrebbe essere corretto li. In più controllare che un nodo non si colleghi con se stesso. 
+// 22.09.2022 scoperto che alcuni smistamenti sono senza centrale (il problema è o in fase di generazione o a causa di qualche 
+// erase), riscritto la parte in create che collega smistamento e centrale la prossima parte problematica è control for matrix
+// che è letteralmete un bordello, mettere aposto le costanti e rivedere se è necessario fare tutti quegli erase e ricollegamenti 
+// In più controllare che un nodo non si colleghi con se stesso.
+// 23.09.2022 a quanto pare anche create è un bordello riguardarla e mettre a posto
